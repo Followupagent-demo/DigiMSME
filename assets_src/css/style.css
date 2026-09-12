@@ -331,6 +331,21 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 .lead-notif.is-handled { border-color: var(--accent-dim); }
 .lead-notif.is-handled .ln-card { box-shadow: 0 0 0 1px rgba(37,211,102,0.2) inset; }
 
+/* ---------- Blog article ---------- */
+.blog-article { max-width: 720px; margin: 0 auto; }
+.blog-article h2 { margin-top: 40px; margin-bottom: 14px; font-size: 1.4rem; }
+.blog-article p { color: var(--fg); font-size: 1rem; line-height: 1.7; margin: 0 0 18px; }
+.blog-citation {
+  margin: 26px 0; padding: 18px 20px; border-radius: 12px;
+  background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--accent);
+}
+.blog-citation p { color: var(--fg); font-size: 0.95rem; margin: 0 0 8px; font-style: italic; }
+.blog-citation a { font-size: 0.82rem; color: var(--accent); font-weight: 600; }
+.blog-card { display: flex; flex-direction: column; gap: 10px; }
+.blog-card .blog-meta { display: flex; gap: 10px; font-size: 0.78rem; color: var(--muted); }
+.blog-card h3 { margin: 0; font-size: 1.1rem; }
+.blog-card p { color: var(--muted); font-size: 0.9rem; margin: 0; }
+
 /* ---------- Leak map ---------- */
 .leak-map { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
 .leak-node { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; flex: 1; min-width: 180px; }

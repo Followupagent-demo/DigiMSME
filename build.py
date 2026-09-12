@@ -10,7 +10,7 @@ import shutil
 from data import (
     BRAND, TAGLINE, NAV, INDUSTRIES, PRICING_PACKS,
     CUSTOM_HAVE, CUSTOM_ADDONS,
-    MODULES, INDUSTRY_MODULES, NEGOTIATION_AGENT,
+    MODULES, INDUSTRY_MODULES, NEGOTIATION_AGENT, BLOG_POSTS,
 )
 
 INDUSTRY_BY_SLUG = {i["slug"]: i for i in INDUSTRIES}
@@ -133,7 +133,6 @@ def foot():
     return f"""<footer class="site-footer">
   <div class="container">
     <div>© {BRAND} — {TAGLINE}</div>
-    <div>Every industry page is labeled <b>Proven</b> (a real pilot has run) or <b>Proposed approach</b> (our diagnosed fix, not yet delivered there).</div>
   </div>
 </footer>
 <script src="/assets/js/config.js"></script>
@@ -371,32 +370,85 @@ def build_home():
         fixed, w_fixed = build(True)
         return {"query": query, "broken": broken, "fixed": fixed, "winner_broken": w_broken, "winner_fixed": w_fixed}
 
+    # One preset per industry we actually target (matches data.py's INDUSTRIES
+    # order) — every visitor sees their own field flash by within ~30s,
+    # not just a handful of generic examples.
     search_presets = [
-        preset("electrician near Baner", "Patel Electric Works",
-            [{"name": "Verma Electricals", "rating": 4.6, "reviews": 210, "distance": "1.2 km", "complete": True},
-             {"name": "QuickFix Electric", "rating": 4.1, "reviews": 58, "distance": "2.1 km", "complete": True},
-             {"name": "Om Sai Electricals", "rating": 3.5, "reviews": 8, "distance": "1.5 km", "complete": False}],
-            {"rating": 3.9, "reviews": 12, "distance": "0.8 km"}),
-        preset("gym near Baner", "Fitzone Gym",
-            [{"name": "PowerHouse Fitness", "rating": 4.7, "reviews": 340, "distance": "1.0 km", "complete": True},
-             {"name": "Iron Paradise", "rating": 4.2, "reviews": 95, "distance": "1.8 km", "complete": True},
-             {"name": "City Gym", "rating": 3.4, "reviews": 15, "distance": "2.2 km", "complete": False}],
-            {"rating": 4.0, "reviews": 20, "distance": "0.6 km"}),
-        preset("event planner near Koregaon Park", "Dream Day Events",
+        preset("garment exporter near Tirupur", "Sri Balaji Exports",  # export-trading
+            [{"name": "Tirupur Fashion Exports", "rating": 4.5, "reviews": 180, "distance": "1.4 km", "complete": True},
+             {"name": "Classic Knitwear Exports", "rating": 4.1, "reviews": 64, "distance": "2.0 km", "complete": True},
+             {"name": "New Era Garments", "rating": 3.6, "reviews": 11, "distance": "1.7 km", "complete": False}],
+            {"rating": 3.8, "reviews": 9, "distance": "0.9 km"}),
+        preset("multispecialty hospital near Hinjewadi", "Hinjewadi Care Hospital",  # hospital
+            [{"name": "Lifeline Multispecialty", "rating": 4.5, "reviews": 420, "distance": "1.1 km", "complete": True},
+             {"name": "Sunrise Care Hospital", "rating": 4.2, "reviews": 180, "distance": "2.3 km", "complete": True},
+             {"name": "Om Hospital", "rating": 3.5, "reviews": 30, "distance": "1.9 km", "complete": False}],
+            {"rating": 3.8, "reviews": 25, "distance": "0.7 km"}),
+        preset("NEET coaching near me", "Vidya NEET Academy",  # coaching-institute
+            [{"name": "Brilliant Career Institute", "rating": 4.6, "reviews": 260, "distance": "1.0 km", "complete": True},
+             {"name": "Pinnacle Coaching Classes", "rating": 4.2, "reviews": 88, "distance": "1.6 km", "complete": True},
+             {"name": "Bright Future Classes", "rating": 3.5, "reviews": 12, "distance": "2.1 km", "complete": False}],
+            {"rating": 3.9, "reviews": 16, "distance": "0.8 km"}),
+        preset("2BHK flats near Baner", "Skyline Residency",  # real-estate-developer
+            [{"name": "Horizon Developers", "rating": 4.4, "reviews": 140, "distance": "1.3 km", "complete": True},
+             {"name": "Greenfield Properties", "rating": 4.0, "reviews": 70, "distance": "1.9 km", "complete": True},
+             {"name": "Om Constructions", "rating": 3.4, "reviews": 10, "distance": "2.2 km", "complete": False}],
+            {"rating": 3.7, "reviews": 13, "distance": "0.6 km"}),
+        preset("auto parts manufacturer near me", "Precision Auto Components",  # b2b-manufacturer
+            [{"name": "Apex Auto Ancillaries", "rating": 4.5, "reviews": 190, "distance": "1.5 km", "complete": True},
+             {"name": "Reliable Engineering Works", "rating": 4.1, "reviews": 76, "distance": "2.0 km", "complete": True},
+             {"name": "New India Auto Parts", "rating": 3.6, "reviews": 14, "distance": "1.8 km", "complete": False}],
+            {"rating": 3.8, "reviews": 11, "distance": "1.0 km"}),
+        preset("CBSE school near me", "Bright Minds CBSE School",  # private-school
+            [{"name": "Green Valley Public School", "rating": 4.6, "reviews": 310, "distance": "1.2 km", "complete": True},
+             {"name": "National Public School", "rating": 4.2, "reviews": 145, "distance": "1.8 km", "complete": True},
+             {"name": "Sunrise Public School", "rating": 3.5, "reviews": 22, "distance": "2.0 km", "complete": False}],
+            {"rating": 3.9, "reviews": 19, "distance": "0.7 km"}),
+        preset("blood test home collection near me", "Wellness Diagnostics",  # diagnostic-lab
+            [{"name": "Prime Diagnostic Center", "rating": 4.5, "reviews": 230, "distance": "0.9 km", "complete": True},
+             {"name": "Accurate Path Labs", "rating": 4.1, "reviews": 90, "distance": "1.5 km", "complete": True},
+             {"name": "City Diagnostic Center", "rating": 3.5, "reviews": 17, "distance": "1.9 km", "complete": False}],
+            {"rating": 3.7, "reviews": 15, "distance": "0.5 km"}),
+        preset("wedding planner near me", "Forever After Events",  # wedding-planner-banquet
             [{"name": "Celebrations Co.", "rating": 4.8, "reviews": 150, "distance": "1.5 km", "complete": True},
              {"name": "Royal Occasions", "rating": 4.3, "reviews": 75, "distance": "2.0 km", "complete": True},
              {"name": "Starlight Events", "rating": 3.6, "reviews": 9, "distance": "1.3 km", "complete": False}],
             {"rating": 3.9, "reviews": 18, "distance": "0.9 km"}),
-        preset("multispecialty hospital near Wakad", "Wakad Care Hospital",
-            [{"name": "Lifeline Multispecialty", "rating": 4.5, "reviews": 420, "distance": "1.1 km", "complete": True},
-             {"name": "Sunrise Hospital", "rating": 4.2, "reviews": 180, "distance": "2.3 km", "complete": True},
-             {"name": "Om Hospital", "rating": 3.5, "reviews": 30, "distance": "1.9 km", "complete": False}],
-            {"rating": 3.8, "reviews": 25, "distance": "0.7 km"}),
-        preset("grocery store near me", "Patil Kirana",
+        preset("gym near Baner", "Fitzone Gym",  # gym-fitness-chain
+            [{"name": "PowerHouse Fitness", "rating": 4.7, "reviews": 340, "distance": "1.0 km", "complete": True},
+             {"name": "Iron Paradise", "rating": 4.2, "reviews": 95, "distance": "1.8 km", "complete": True},
+             {"name": "City Gym", "rating": 3.4, "reviews": 15, "distance": "2.2 km", "complete": False}],
+            {"rating": 4.0, "reviews": 20, "distance": "0.6 km"}),
+        preset("income tax consultant near me", "Mehta Tax Consultants",  # ca-legal-firm
+            [{"name": "Precision Tax Advisors", "rating": 4.6, "reviews": 120, "distance": "1.1 km", "complete": True},
+             {"name": "Trust Tax Consultants", "rating": 4.2, "reviews": 58, "distance": "1.7 km", "complete": True},
+             {"name": "Sharma & Co", "rating": 3.6, "reviews": 9, "distance": "1.4 km", "complete": False}],
+            {"rating": 3.9, "reviews": 12, "distance": "0.8 km"}),
+        preset("interior designer near me", "Casa Interiors",  # interior-designer
+            [{"name": "Urban Design Studio", "rating": 4.7, "reviews": 165, "distance": "1.3 km", "complete": True},
+             {"name": "Elegant Spaces Interiors", "rating": 4.2, "reviews": 82, "distance": "1.9 km", "complete": True},
+             {"name": "Modern Nest Interiors", "rating": 3.5, "reviews": 13, "distance": "2.1 km", "complete": False}],
+            {"rating": 3.8, "reviews": 10, "distance": "0.7 km"}),
+        preset("grocery store near me", "Patil Kirana",  # retail-store
             [{"name": "Sharma General Store", "rating": 4.4, "reviews": 95, "distance": "0.5 km", "complete": True},
              {"name": "Fresh Mart", "rating": 4.1, "reviews": 60, "distance": "1.0 km", "complete": True},
              {"name": "City Grocers", "rating": 3.6, "reviews": 20, "distance": "1.4 km", "complete": False}],
             {"rating": 3.7, "reviews": 14, "distance": "0.3 km"}),
+        preset("car showroom near me", "Deccan Motors",  # automobile-showroom
+            [{"name": "City Auto Gallery", "rating": 4.5, "reviews": 210, "distance": "1.4 km", "complete": True},
+             {"name": "Premier Car World", "rating": 4.1, "reviews": 88, "distance": "2.0 km", "complete": True},
+             {"name": "Highway Auto Hub", "rating": 3.5, "reviews": 16, "distance": "1.8 km", "complete": False}],
+            {"rating": 3.8, "reviews": 14, "distance": "0.9 km"}),
+        preset("tiles showroom near me", "Shree Tiles Gallery",  # building-materials-showroom
+            [{"name": "Elegant Tiles Showroom", "rating": 4.5, "reviews": 175, "distance": "1.2 km", "complete": True},
+             {"name": "Classic Ceramics Store", "rating": 4.1, "reviews": 70, "distance": "1.8 km", "complete": True},
+             {"name": "New Bharat Sanitaryware", "rating": 3.6, "reviews": 12, "distance": "1.6 km", "complete": False}],
+            {"rating": 3.9, "reviews": 11, "distance": "0.6 km"}),
+        preset("electrical wholesale distributor near me", "Ganpati Electricals Wholesale",  # wholesale-distributor
+            [{"name": "Prime Electrical Distributors", "rating": 4.5, "reviews": 155, "distance": "1.3 km", "complete": True},
+             {"name": "City Electric Traders", "rating": 4.1, "reviews": 64, "distance": "1.9 km", "complete": True},
+             {"name": "Metro Electrical Supplies", "rating": 3.5, "reviews": 10, "distance": "1.7 km", "complete": False}],
+            {"rating": 3.8, "reviews": 13, "distance": "0.8 km"}),
     ]
 
     scenes = [
@@ -1009,6 +1061,77 @@ def build_agentic():
         "Can AI actually increase your sales? Non-Agentic and Agentic automations, honestly scoped — no invented prices.", "/agentic-use-cases/") + body)
 
 
+# ---------------------------------------------------------------- BLOGS
+def render_blog_block(block):
+    if block["type"] == "h2":
+        return f"<h2>{esc(block['text'])}</h2>"
+    if block["type"] == "p":
+        return f"<p>{esc(block['text'])}</p>"
+    if block["type"] == "stat":
+        return f"""<div class="blog-citation">
+          <p>{esc(block['stat'])}</p>
+          <a href="{block['url']}" target="_blank" rel="noopener">— {esc(block['source'])} ↗</a>
+        </div>"""
+    return ""
+
+
+def build_blogs_index():
+    cards = ""
+    for post in BLOG_POSTS:
+        cards += f"""<a class="card blog-card" href="/blogs/{post['slug']}.html">
+          <div class="blog-meta"><span>{esc(post['tag'])}</span><span>·</span><span>{esc(post['read_time'])}</span></div>
+          <h3>{esc(post['title'])}</h3>
+          <p>{esc(post['dek'])}</p>
+        </a>"""
+    body = nav("/blogs/") + f"""
+<section class="page-hero">
+  <div class="container">
+    <div class="eyebrow">Blogs</div>
+    <h1>What's actually happening to businesses like yours</h1>
+    <p class="lead">Real reports, real numbers — MSME closures, export share, quick-commerce impact — not filler. {len(BLOG_POSTS)} posts live now; the full 6-per-industry library lands in V2.</p>
+  </div>
+</section>
+<section class="section-pad-sm">
+  <div class="container"><div class="grid grid-2">{cards}</div></div>
+</section>
+""" + foot()
+    write("blogs/index.html", head(f"Blogs — {BRAND}",
+        "Real, sourced reporting on why Indian businesses are losing customers online — MSME closures, export data, quick-commerce impact.", "/blogs/") + body)
+
+
+def build_blog_post_page(post):
+    blocks = "".join(render_blog_block(b) for b in post["body"])
+    related = INDUSTRY_BY_SLUG.get(post["related_industry"]) if post.get("related_industry") else None
+    cta = f"""<div class="row-cta center" style="justify-content:center;">
+      <a class="btn btn-primary" href="/industries/{related['slug']}.html">See the {esc(related['name'])} fix</a>
+      <a class="btn btn-ghost" href="/blogs/">More Blogs</a>
+    </div>""" if related else """<div class="row-cta center" style="justify-content:center;">
+      <a class="btn btn-primary" href="/industries/">Explore Industries</a>
+      <a class="btn btn-ghost" href="/blogs/">More Blogs</a>
+    </div>"""
+    body = nav("/blogs/") + f"""
+<section class="page-hero section-pad-sm">
+  <div class="container blog-article">
+    <div class="blog-meta" style="justify-content:flex-start;">
+      <span class="badge badge-proposed">{esc(post['tag'])}</span>
+      <span>{esc(post['read_time'])}</span>
+    </div>
+    <h1 style="margin-top:14px;">{esc(post['title'])}</h1>
+    <p class="lead">{esc(post['dek'])}</p>
+  </div>
+</section>
+<section class="section-pad-sm">
+  <div class="container blog-article">
+    {blocks}
+  </div>
+</section>
+<section class="section-pad">
+  <div class="container">{cta}</div>
+</section>
+""" + foot()
+    write(f"blogs/{post['slug']}.html", head(f"{post['title']} — {BRAND}", post["dek"], f"/blogs/{post['slug']}.html") + body)
+
+
 # ---------------------------------------------------------------- STUBS (V2)
 def build_coming_soon(path, active, title, blurb, nav_label):
     body = nav(active) + f"""
@@ -1100,9 +1223,9 @@ def main():
     build_pricing()
     inject_pricing_script()
     build_agentic()
-    build_coming_soon("blogs/index.html", "/blogs/", "Blogs are coming in V2",
-        "6 posts per industry — 66 in total — covering growth guides, real case studies, regulator-linked rules posts, and sharp analytical pieces. Landing in V2 alongside Hindi and Marathi translations.",
-        "Blogs")
+    build_blogs_index()
+    for post in BLOG_POSTS:
+        build_blog_post_page(post)
     build_coming_soon("free-tools/index.html", "", "Free Tools are coming in V2",
         "Calculators like landed-cost, EMI, BMI, GST, and quote-margin tools — one set per industry. Landing in V2.",
         "Free Tools")
