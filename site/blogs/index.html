@@ -25,27 +25,37 @@
   <div class="container">
     <div class="eyebrow">Blogs</div>
     <h1>What's actually happening to businesses like yours</h1>
-    <p class="lead">Real reports, real numbers — MSME closures, export share, quick-commerce impact — not filler. 4 posts live now; the full 6-per-industry library lands in V2.</p>
+    <p class="lead">Real reports, real numbers — MSME closures, export share, quick-commerce impact — not filler. 4 posts live now, covering 3 industries.</p>
   </div>
 </section>
 <section class="section-pad-sm">
-  <div class="container"><div class="grid grid-2"><a class="card blog-card" href="/blogs/why-shops-lose-to-blinkit-zepto.html">
+  <div class="container">
+    <div class="demos-toolbar">
+      <input type="text" class="demos-search" id="blogs-search" placeholder="Search blogs… e.g. exports, gym, MSME">
+      <div class="demos-filters" id="blogs-filters"><button class="demos-filter-chip is-active" data-slug="">All</button><button class="demos-filter-chip" data-slug="export-trading">🚢 Export / Trading</button><button class="demos-filter-chip" data-slug="gym-fitness-chain">🏋️ Gym / Fitness Chain</button><button class="demos-filter-chip" data-slug="retail-store">🛒 Retail Store (Kirana / General)</button></div>
+    </div>
+    <div class="grid grid-2" id="blogs-grid"><a class="card blog-card" href="/blogs/why-shops-lose-to-blinkit-zepto.html"
+             data-search="why your favourite local shop is losing to blinkit, zepto &amp; instamart it's not price, and it's not loyalty. it's one specific moment your shop can't win — until it can. retail / kirana" data-industries="retail-store">
           <div class="blog-meta"><span>Retail / Kirana</span><span>·</span><span>5 min read</span></div>
           <h3>Why Your Favourite Local Shop Is Losing to Blinkit, Zepto &amp; Instamart</h3>
           <p>It's not price, and it's not loyalty. It's one specific moment your shop can't win — until it can.</p>
-        </a><a class="card blog-card" href="/blogs/small-exporters-losing-to-bangladesh-vietnam.html">
+        </a><a class="card blog-card" href="/blogs/small-exporters-losing-to-bangladesh-vietnam.html"
+             data-search="the real reason small indian exporters are losing orders to bangladesh and vietnam same quality. similar price. the order still goes elsewhere — and it's rarely about the product. export / trading" data-industries="export-trading">
           <div class="blog-meta"><span>Export / Trading</span><span>·</span><span>5 min read</span></div>
           <h3>The Real Reason Small Indian Exporters Are Losing Orders to Bangladesh and Vietnam</h3>
           <p>Same quality. Similar price. The order still goes elsewhere — and it's rarely about the product.</p>
-        </a><a class="card blog-card" href="/blogs/local-gyms-losing-to-franchise-chains.html">
+        </a><a class="card blog-card" href="/blogs/local-gyms-losing-to-franchise-chains.html"
+             data-search="why local gyms are losing members to franchise chains — without a franchise budget to fight back it isn't the equipment, and it isn't the trainers. it's what happens in the 48 hours after someone says "i'll try a class." gym / fitness chain" data-industries="gym-fitness-chain">
           <div class="blog-meta"><span>Gym / Fitness Chain</span><span>·</span><span>4 min read</span></div>
           <h3>Why Local Gyms Are Losing Members to Franchise Chains — Without a Franchise Budget to Fight Back</h3>
           <p>It isn't the equipment, and it isn't the trainers. It's what happens in the 48 hours after someone says "I'll try a class."</p>
-        </a><a class="card blog-card" href="/blogs/msme-shutdown-crisis-digital-survival.html">
+        </a><a class="card blog-card" href="/blogs/msme-shutdown-crisis-digital-survival.html"
+             data-search="the quiet msme shutdown crisis: what 75,000 closed businesses are actually telling us the closures are accelerating. the gap between what msmes know they need and what they've actually done about it is the real story. msme / all industries" data-industries="">
           <div class="blog-meta"><span>MSME / All Industries</span><span>·</span><span>6 min read</span></div>
           <h3>The Quiet MSME Shutdown Crisis: What 75,000 Closed Businesses Are Actually Telling Us</h3>
           <p>The closures are accelerating. The gap between what MSMEs know they need and what they've actually done about it is the real story.</p>
-        </a></div></div>
+        </a></div>
+  </div>
 </section>
 <footer class="site-footer">
   <div class="container">
@@ -56,6 +66,7 @@
 <script src="/assets/js/gsap-loader.js"></script>
 <script src="/assets/js/cinematic.js"></script>
 <script src="/assets/js/global-ui.js"></script>
+<script src="/assets/js/blogs-filter.js"></script>
 <script src="/assets/js/use-case-switcher.js"></script>
 <script src="/assets/js/home-rotator.js"></script>
 </body>

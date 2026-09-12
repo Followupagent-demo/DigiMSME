@@ -1076,23 +1076,39 @@ def render_blog_block(block):
 
 
 def build_blogs_index():
+    industries_covered = sorted({p["related_industry"] for p in BLOG_POSTS if p.get("related_industry")})
     cards = ""
     for post in BLOG_POSTS:
-        cards += f"""<a class="card blog-card" href="/blogs/{post['slug']}.html">
+        ind_slug = post.get("related_industry") or ""
+        search_text = esc(f"{post['title']} {post['dek']} {post['tag']}".lower())
+        cards += f"""<a class="card blog-card" href="/blogs/{post['slug']}.html"
+             data-search="{search_text}" data-industries="{ind_slug}">
           <div class="blog-meta"><span>{esc(post['tag'])}</span><span>·</span><span>{esc(post['read_time'])}</span></div>
           <h3>{esc(post['title'])}</h3>
           <p>{esc(post['dek'])}</p>
         </a>"""
+
+    filter_chips = '<button class="demos-filter-chip is-active" data-slug="">All</button>'
+    for ind in INDUSTRIES:
+        if ind["slug"] in industries_covered:
+            filter_chips += f'<button class="demos-filter-chip" data-slug="{ind["slug"]}">{ind["icon"]} {ind["name"]}</button>'
+
     body = nav("/blogs/") + f"""
 <section class="page-hero">
   <div class="container">
     <div class="eyebrow">Blogs</div>
     <h1>What's actually happening to businesses like yours</h1>
-    <p class="lead">Real reports, real numbers — MSME closures, export share, quick-commerce impact — not filler. {len(BLOG_POSTS)} posts live now; the full 6-per-industry library lands in V2.</p>
+    <p class="lead">Real reports, real numbers — MSME closures, export share, quick-commerce impact — not filler. {len(BLOG_POSTS)} posts live now, covering {len(industries_covered)} industries.</p>
   </div>
 </section>
 <section class="section-pad-sm">
-  <div class="container"><div class="grid grid-2">{cards}</div></div>
+  <div class="container">
+    <div class="demos-toolbar">
+      <input type="text" class="demos-search" id="blogs-search" placeholder="Search blogs… e.g. exports, gym, MSME">
+      <div class="demos-filters" id="blogs-filters">{filter_chips}</div>
+    </div>
+    <div class="grid grid-2" id="blogs-grid">{cards}</div>
+  </div>
 </section>
 """ + foot()
     write("blogs/index.html", head(f"Blogs — {BRAND}",
@@ -1268,6 +1284,18 @@ def inject_demos_filter_script():
         f.write(html)
 
 
+def inject_blogs_filter_script():
+    path = os.path.join(SITE, "blogs", "index.html")
+    with open(path, "r", encoding="utf-8") as f:
+        html = f.read()
+    html = html.replace(
+        '<script src="/assets/js/global-ui.js"></script>',
+        '<script src="/assets/js/global-ui.js"></script>\n<script src="/assets/js/blogs-filter.js"></script>',
+    )
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(html)
+
+
 def main():
     if os.path.exists(SITE):
         shutil.rmtree(SITE)
@@ -1289,6 +1317,7 @@ def main():
     inject_pricing_script()
     build_agentic()
     build_blogs_index()
+    inject_blogs_filter_script()
     for post in BLOG_POSTS:
         build_blog_post_page(post)
     build_free_tools_index()
