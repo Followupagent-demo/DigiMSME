@@ -138,6 +138,11 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 .scene-copy h2 { margin-bottom: 10px; }
 .scene-copy p { color: var(--muted); max-width: 480px; }
 
+/* Word fragments for the scroll-triggered dissolve transition — only
+   exist once cinematic.js splits text after GSAP loads; plain text
+   otherwise, so the no-JS fallback is untouched. */
+.scene-copy .wd { display: inline-block; will-change: transform, opacity, filter; }
+
 /* chat mock */
 .chat-mock {
   background: #0e1216; border: 1px solid var(--border); border-radius: 18px;

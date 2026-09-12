@@ -545,70 +545,70 @@ def build_home(lang="en"):
     scenes = [
         scene({
             "eyebrow": "नुकसान बिंदु #1 — सर्च" if is_hi else "Loss Point #1 — Search",
-            "title": "मिला, पर नज़रअंदाज़ हो गया" if is_hi else "Found, but skipped",
-            "body": "अधूरी प्रोफाइल: न फोटो, न पोस्ट, न वेबसाइट। पास में सर्च करने वाला ग्राहक बिना दूसरी नज़र डाले आगे बढ़ जाता है।" if is_hi else
-                    "A thin profile: no photos, no posts, no website. A customer searching nearby scrolls straight past it without a second thought.",
+            "title": "मिले, फिर भी नज़रअंदाज़ हो गए" if is_hi else "They found you. Then scrolled right past.",
+            "body": "न फोटो, न पोस्ट, न वेबसाइट लिंक। जिस ग्राहक के पास उसी समय तीन और विकल्प खुले हों, उसके लिए यह छोटा बिज़नेस नहीं — एक जोखिम लगता है, जिसे लेने का उसके पास वक्त नहीं।" if is_hi else
+                    "No photos. No posts. No website link. To a customer with three other options open in the same tab, that's not a small business — it's a risk they don't have time to take a chance on.",
             "accent": "red",
         }, "raw", extra_body=rotating_search_screen(search_presets, use_fixed=False)),
         scene({
-            "eyebrow": "समाधान" if is_hi else "Covered",
-            "title": "वही बिज़नेस। अब यही चुना जाता है।" if is_hi else "Same business. Now it's the one that gets tapped.",
-            "body": "फोटो, पोस्ट, वेबसाइट लिंक, व्हाट्सएप बटन — एक पूरी प्रोफाइल ही तय करती है कि आप सिर्फ़ दिखें या चुने जाएं।" if is_hi else
-                    "Photos, posts, a website link, a WhatsApp button — a complete profile is the difference between being found and being chosen.",
+            "eyebrow": "फिक्स" if is_hi else "Fixed",
+            "title": "वही बिज़नेस। अब यही चुना जाता है।" if is_hi else "Same business. Now it's the one they tap.",
+            "body": "दुकान में कुछ नहीं बदला — न मालिक, न कीमत, न क्वालिटी। बस वो पंद्रह सेकंड बदले, जिनमें कोई तय करता है कि आप असल में बिज़नेस के लिए तैयार हैं। यही पूरा फ़र्क़ है। अब देखिए इसके बाद क्या होता है।" if is_hi else
+                    "Nothing about the shop changed — not the owner, not the price, not the quality. Just the fifteen seconds it takes someone to decide you're actually open for business. That's the whole gap. Here's what happens once someone crosses it.",
             "accent": "green",
         }, "raw", extra_body=rotating_search_screen(search_presets, use_fixed=True)),
 
         scene({
             "eyebrow": "नुकसान बिंदु #2 — पूछताछ" if is_hi else "Loss Point #2 — Enquiry",
-            "title": "पूछताछ का जवाब नहीं मिलता" if is_hi else "The enquiry goes quiet",
-            "body": "एक असली सवाल, जवाब का इंतज़ार करते हुए। तब तक ग्राहक दो और इलेक्ट्रिशियन को मैसेज कर चुका होता है।" if is_hi else
-                    "A real question, waiting. While it waits, the customer is already messaging two other electricians.",
+            "title": "एक असली सवाल। बिना जवाब के छोड़ दिया गया।" if is_hi else "A real question. Left on read.",
+            "body": "रोहन शर्मा ने अभी-अभी पैनल अपग्रेड के बारे में मैसेज किया — एक असली काम, आज ही बुक होने को तैयार। दो घंटे बीत जाते हैं। कोई जवाब नहीं। वह इंतज़ार नहीं करता — वह पहले ही दो और इलेक्ट्रिशियन से वही सवाल पूछ चुका है।" if is_hi else
+                    "Rohan Sharma just messaged asking about a panel upgrade — a real job, ready to book today. Two hours pass. No reply. He's not still waiting. He's already asked two more electricians the exact same question.",
             "chat": chat1,
             "accent": "red",
         }, "raw", extra_body=chat_screen(contact, "2 घंटे पहले देखा गया" if is_hi else "Last seen 2 hours ago", chat1)),
         scene({
-            "eyebrow": "समाधान" if is_hi else "Covered",
-            "title": "तुरंत जवाब, और सही फॉलो-अप" if is_hi else "Instant reply, and the right follow-up",
-            "body": "सिर्फ़ \"धन्यवाद\" नहीं — एक सवाल जो बातचीत को असली कोटेशन की तरफ़ ले जाता है।" if is_hi else
-                    "Not just \"thanks for reaching out\" — a question that moves the conversation toward a real quote.",
+            "eyebrow": "फिक्स" if is_hi else "Fixed",
+            "title": "किसी और से पूछने से पहले ही जवाब मिल गया" if is_hi else "Answered before he can ask anyone else",
+            "body": "सिर्फ़ \"धन्यवाद\" नहीं — एक असली सवाल वापस, जो इसे \"शायद\" से कोटेशन की तरफ़ ले जाता है। रोहन अभी अपना जवाब टाइप कर रहा है। उसने किसी और को मैसेज करने के बारे में सोचा तक नहीं।" if is_hi else
+                    "Not a canned \"thanks for reaching out\" — a real question back, the one that moves this from a maybe to a quote. Rohan's still typing his reply. He hasn't even thought about messaging anyone else.",
             "accent": "green",
         }, "raw", extra_body=chat_screen(contact, "ऑनलाइन" if is_hi else "Online", chat2)),
 
         scene({
-            "eyebrow": "नुकसान बिंदु #3 — बातचीत" if is_hi else "Loss Point #3 — Negotiation",
-            "title": "न कोटेशन, न बातचीत, न डील" if is_hi else "No quote, no negotiation, no deal",
-            "body": "कीमत पूछी, जवाब में सिर्फ़ कंधे उचकाए गए। ग्राहक नंबर का इंतज़ार नहीं करता।" if is_hi else
-                    "Asked for a price, given a shrug. The customer doesn't wait around for a number.",
+            "eyebrow": "नुकसान बिंदु #3 — कोटेशन" if is_hi else "Loss Point #3 — The Quote",
+            "title": "कीमत पूछी। जवाब में कंधे उचकाए गए।" if is_hi else "Asked for a price. Got a shrug.",
+            "body": "\"देखकर बताता हूं\" — ज़्यादातर काम यूं ही चुपचाप खत्म हो जाते हैं। रोहन किसी नंबर का इंतज़ार नहीं करता जो शायद कल आए — उसके दूसरे टैब में पहले से किसी और की कीमत खुली है।" if is_hi else
+                    "\"Let me check and get back to you\" is how most jobs die quietly. Rohan doesn't wait around for a number that might come tomorrow — he's already got someone else's price open in his other tab.",
             "accent": "red",
         }, "raw", extra_body=chat_screen(contact, "टाइप कर रहे हैं…" if is_hi else "Typing…", chat3)),
         scene({
-            "eyebrow": "समाधान" if is_hi else "Covered",
-            "title": "कोटेशन, मैच, और बुकिंग — एक ही बातचीत में" if is_hi else "Quoted, matched, and booked — same conversation",
-            "body": "असली कोटेशन, और अगर कहीं बेहतर ऑफर मिले तो उसे मैच किया जाता है, डील गंवाने की बजाय।" if is_hi else
-                    "A real quote, and when they've got a better offer, it gets matched instead of losing the deal outright.",
+            "eyebrow": "फिक्स" if is_hi else "Fixed",
+            "title": "एक असली नंबर — और डील बचाने की गुंजाइश" if is_hi else "A real number — and room to save the sale",
+            "body": "₹6,200, एक दिन में पूरा। जब रोहन कहीं और की सस्ती कीमत का ज़िक्र करता है, तो उसे तुरंत मैच किया जाता है, साथ में वारंटी भी — व्हाट्सएप पर पांच मिनट की प्राइस-वॉर में गंवाने की बजाय।" if is_hi else
+                    "₹6,200, done in a day. When Rohan mentions a cheaper quote elsewhere, it gets matched on the spot, with a warranty thrown in — not lost to a five-minute price war on WhatsApp.",
             "accent": "green",
         }, "raw", extra_body=chat_screen(contact, "ऑनलाइन" if is_hi else "Online", chat4)),
 
         scene({
             "eyebrow": "नुकसान बिंदु #4 — पेमेंट" if is_hi else "Loss Point #4 — Payment",
-            "title": "\"काम के बाद पेमेंट कर दूंगा\" — फिर नहीं करते" if is_hi else "\"I'll pay after the work\" — and then they don't",
-            "body": "काम पूरा हो गया। पेमेंट नहीं। अब डील बंद होने की बजाय तीन अजीब फॉलो-अप मैसेज भेजने पड़ते हैं।" if is_hi else
-                    "The job's done. The payment isn't. Now it's three awkward follow-up messages instead of a closed deal.",
+            "title": "\"बाद में पेमेंट कर दूंगा\" — फिर नहीं करते" if is_hi else "\"I'll pay after\" — and then he doesn't",
+            "body": "पैनल अपग्रेड हो गया। काम पूरा। जो पूरा नहीं हुआ वो है — बिना तीन अजीब फॉलो-अप मैसेज के, अगले दो हफ्तों में वो पैसा वसूलना जो पहले ही कमाया जा चुका था।" if is_hi else
+                    "The panel's upgraded. The job's done. What's not done is getting paid — without three awkward follow-up texts over the next two weeks, chasing money that was already earned.",
             "accent": "red",
         }, "raw", extra_body=chat_screen(contact, "ऑनलाइन" if is_hi else "Online", chat5)),
         scene({
-            "eyebrow": "समाधान" if is_hi else "Covered",
-            "title": "एक लिंक, और टेक्नीशियन के जाने से पहले पेमेंट" if is_hi else "A link, paid before the technician leaves",
-            "body": "लोग ज़ुबानी वादे से ज़्यादा तेज़ी से पेमेंट लिंक पर भरोसा करते हैं — और दोबारा पूछने की नौबत ही नहीं आती।" if is_hi else
-                    "People commit to a payment link faster than they commit out loud — and it's done before anyone has to ask twice.",
+            "eyebrow": "फिक्स" if is_hi else "Fixed",
+            "title": "वैन के जाने से पहले ही पेमेंट हो गई" if is_hi else "Paid before the van leaves the driveway",
+            "body": "एक पेमेंट लिंक पर टैप ने वो कर दिखाया जो दर्जन भर फॉलो-अप मैसेज नहीं कर पाए। टेक्नीशियन के वापस निकलने से पहले ही रोहन अगली बार भी आने वाला ग्राहक बन चुका होता है।" if is_hi else
+                    "One tap on a payment link does what a dozen follow-up messages couldn't. Rohan's already a repeat customer before the technician is back on the road.",
             "accent": "green",
-        }, "raw", extra_body=payment_screen("Patel Electric Works", "₹5,000", paid=True)),
+        }, "raw", extra_body=payment_screen("Patel Electric Works", "₹6,200", paid=True)),
 
         picker_scene(
-            stage_eyebrow="रिवील" if is_hi else "The Reveal",
-            stage_title="एक सफ़र। हर पॉइंट कवर।" if is_hi else "One journey. Every point covered.",
-            stage_body="चार जगह जहां ग्राहक छूट सकता है — सर्च, पूछताछ, बातचीत, पेमेंट। अपनी इंडस्ट्री चुनें और अपने बिज़नेस के लिए असली उदाहरण देखें।" if is_hi else
-                       "Four places a customer can be lost — search, enquiry, negotiation, payment. Pick your industry to see the exact version of this for your business.",
+            stage_eyebrow="अब आपकी बारी" if is_hi else "Your Turn",
+            stage_title="यह एक कहानी है। 15 इंडस्ट्रीज़ में यही कहानी दोहराई जाती है।" if is_hi else "That's one story. Fifteen industries run the exact same one.",
+            stage_body="सर्च, पूछताछ, कोटेशन, पेमेंट — हर बार नुकसान अलग भेस में आता है, पर मौका हमेशा यही चार पल होते हैं। अपनी इंडस्ट्री चुनें और रोहन की कहानी का अपना वर्जन देखें।" if is_hi else
+                       "Search, enquiry, quote, payment — the leak shows up in a different costume every time, but it's always the same four moments. Pick your industry and watch your version of Rohan's story.",
             lang=lang,
         ),
         payoff_scene(lang),
@@ -618,7 +618,7 @@ def build_home(lang="en"):
   <div class="container">
     <div class="eyebrow">{"AsliKaam क्यों" if is_hi else "Why AsliKaam"}</div>
     <h2>{"एक स्टूडियो, कोई SaaS नहीं" if is_hi else "A studio, not a SaaS"}</h2>
-    <p class="lead">{"कम क्लाइंट्स, पूरा काम शुरू से आख़िर तक — वेबसाइट, गूगल प्रेज़ेंस, व्हाट्सएप-आधारित क्लाइंट हैंडलिंग — हम ख़ुद बनाते और चलाते हैं। हम आपकी मौजूदा वेबसाइट और मार्केटिंग खर्च से पहले से बह रहे पैसे का इस्तेमाल करते हैं, नई डिमांड बनाने की बजाय।" if is_hi else "Few clients, real work delivered end-to-end — website, Google presence, WhatsApp-driven client handling — built and personally run by us. We tap the money already flowing through your existing website and marketing spend, instead of inventing new demand."}</p>
+    <p class="lead">{"कम क्लाइंट्स, पूरा काम शुरू से आख़िर तक — वेबसाइट, गूगल प्रेज़ेंस, व्हाट्सएप-आधारित क्लाइंट हैंडलिंग — हम ख़ुद बनाते और चलाते हैं, किसी डैशबोर्ड के हवाले नहीं करते। हम आपको नया ट्रैफिक नहीं बेच रहे। हम उस ट्रैफिक में हो रहे नुकसान को बंद कर रहे हैं, जिसके लिए आप पहले से पैसे ख़र्च कर रहे हैं।" if is_hi else "A handful of clients at a time, real work delivered end to end — website, Google presence, WhatsApp-run client handling — built and personally run by us, not handed off to a dashboard. We're not selling you new traffic. We're closing the leak in the traffic you're already paying for."}</p>
     <div class="row-cta">
       <a class="btn btn-primary" href="{"/hi/industries/" if is_hi else "/industries/"}">{"अपनी इंडस्ट्री खोजें" if is_hi else "Find your industry"}</a>
       <a class="btn btn-ghost" href="/agentic-use-cases/">{"क्या AI वाकई बिक्री बढ़ा सकता है?" if is_hi else "Can AI actually increase sales?"}</a>
