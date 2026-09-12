@@ -7,6 +7,7 @@ TAGLINE = "Digital Partner of MSMEs Automation"
 TAGLINE_HI = "MSMEs के ऑटोमेशन के लिए डिजिटल पार्टनर"
 WHATSAPP_NUMBER = "911234567890"  # TODO: replace with the real WhatsApp Business number before launch
 PHONE_NUMBER = "+91 12345 67890"  # TODO: replace with the real business line before launch
+SITE_URL = "https://asli-kaam.pages.dev"  # TODO: replace with the real production domain before launch — used for sitemap.xml, robots.txt, and JSON-LD (absolute URLs are required for these, unlike the rest of the site which uses relative links)
 
 NAV = [
     ("Home", "/"),
