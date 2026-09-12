@@ -10,7 +10,7 @@ import shutil
 from data import (
     BRAND, TAGLINE, NAV, INDUSTRIES, PRICING_PACKS,
     CUSTOM_HAVE, CUSTOM_ADDONS,
-    MODULES, INDUSTRY_MODULES, NEGOTIATION_AGENT, BLOG_POSTS,
+    MODULES, INDUSTRY_MODULES, NEGOTIATION_AGENT, BLOG_POSTS, FREE_TOOLS,
 )
 
 INDUSTRY_BY_SLUG = {i["slug"]: i for i in INDUSTRIES}
@@ -712,7 +712,7 @@ def build_demos_index():
              data-search="{search_text}" data-industries="{ind['slug']}">
           <span class="icon" style="font-size:28px;">{ind['icon']}</span>
           <h3>{ind['name']}</h3>
-          <p>{esc(ind['leak_label'])}</p>
+          <p>{esc(ind['use_case'])}</p>
           <div class="starts-at">Watch the fix →</div>
         </a>"""
     for mod in MODULES:
@@ -1132,6 +1132,71 @@ def build_blog_post_page(post):
     write(f"blogs/{post['slug']}.html", head(f"{post['title']} — {BRAND}", post["dek"], f"/blogs/{post['slug']}.html") + body)
 
 
+# ---------------------------------------------------------------- FREE TOOLS
+def build_free_tools_index():
+    cards = ""
+    for tool in FREE_TOOLS:
+        ind = INDUSTRY_BY_SLUG.get(tool["industry"])
+        tag = ind["name"] if ind else ""
+        cards += f"""<a class="card tool-card" href="/free-tools/{tool['slug']}.html">
+          <div class="blog-meta"><span>{esc(tag)}</span></div>
+          <h3>{esc(tool['title'])}</h3>
+          <p style="color:var(--muted); font-size:0.9rem;">{esc(tool['tagline'])}</p>
+        </a>"""
+    body = nav("/free-tools/") + f"""
+<section class="page-hero">
+  <div class="container">
+    <div class="eyebrow">Free Tools</div>
+    <h1>{len(FREE_TOOLS)} calculators, one per industry</h1>
+    <p class="lead">Real, working numbers — no signup, no email gate. Built to be useful on their own, and to show the exact kind of math each industry's automation actually runs on.</p>
+  </div>
+</section>
+<section class="section-pad-sm">
+  <div class="container"><div class="grid grid-3">{cards}</div></div>
+</section>
+""" + foot()
+    write("free-tools/index.html", head(f"Free Tools — {BRAND}",
+        f"{len(FREE_TOOLS)} free calculators for Indian MSMEs — EMI, income tax, landed cost, quote margin, and more.", "/free-tools/") + body)
+
+
+def build_free_tool_page(tool):
+    ind = INDUSTRY_BY_SLUG.get(tool["industry"])
+    fields_html = ""
+    for f in tool["fields"]:
+        fields_html += f"""<div class="tool-field">
+          <label for="f-{f['id']}">{esc(f['label'])}</label>
+          <input type="number" id="f-{f['id']}" data-id="{f['id']}" value="{f['default']}" step="{f['step']}">
+        </div>"""
+    related_link = f'<a class="btn btn-ghost" href="/industries/{ind["slug"]}.html">See the {esc(ind["name"])} fix</a>' if ind else ""
+    body = nav("/free-tools/") + f"""
+<section class="page-hero section-pad-sm">
+  <div class="container">
+    <div class="eyebrow">Free Tool{f' / {esc(ind["name"])}' if ind else ''}</div>
+    <h1>{esc(tool['title'])}</h1>
+    <p class="lead">{esc(tool['tagline'])}</p>
+  </div>
+</section>
+<section class="section-pad-sm">
+  <div class="container">
+    <div class="tool-layout">
+      <form id="tool-form" class="tool-form">{fields_html}</form>
+      <div class="tool-result">
+        <h4>Result</h4>
+        <div id="tool-result-body"></div>
+      </div>
+    </div>
+    <div class="row-cta">
+      {related_link}
+      <a class="btn btn-primary" href="/free-tools/">More Free Tools</a>
+    </div>
+  </div>
+</section>
+<script>{tool['compute_js']}</script>
+<script src="/assets/js/free-tools-runtime.js"></script>
+""" + foot()
+    write(f"free-tools/{tool['slug']}.html", head(f"{tool['title']} — {BRAND}", tool["tagline"], f"/free-tools/{tool['slug']}.html") + body)
+
+
 # ---------------------------------------------------------------- STUBS (V2)
 def build_coming_soon(path, active, title, blurb, nav_label):
     body = nav(active) + f"""
@@ -1226,9 +1291,9 @@ def main():
     build_blogs_index()
     for post in BLOG_POSTS:
         build_blog_post_page(post)
-    build_coming_soon("free-tools/index.html", "", "Free Tools are coming in V2",
-        "Calculators like landed-cost, EMI, BMI, GST, and quote-margin tools — one set per industry. Landing in V2.",
-        "Free Tools")
+    build_free_tools_index()
+    for tool in FREE_TOOLS:
+        build_free_tool_page(tool)
     build_404()
     build_headers_and_redirects()
 

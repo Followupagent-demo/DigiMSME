@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bulk Order Margin Calculator — AsliKaam</title>
+<meta name="description" content="Real margin on a reorder, before it ships.">
+<link rel="canonical" href="/free-tools/bulk-order-margin-calculator.html">
+<meta property="og:title" content="Bulk Order Margin Calculator — AsliKaam">
+<meta property="og:description" content="Real margin on a reorder, before it ships.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="/"><span class="dot"></span>AsliKaam</a>
+    <ul class="nav-links"><li><a href="/">Home</a></li><li><a href="/industries/">Industries</a></li><li><a href="/blogs/">Blogs</a></li><li><a href="/demos/">Demos</a></li><li><a href="/agentic-use-cases/">Agentic Use Cases</a></li><li><a href="/free-tools/" aria-current="page">Free Tools</a></li><li><a href="/pricing/">Pricing</a></li></ul>
+    <a class="nav-cta" href="https://wa.me/911234567890?text=Hi!%20I'd%20like%20to%20know%20more%20about%20AsliKaam." target="_blank" rel="noopener">WhatsApp Us</a>
+  </div>
+</nav>
+
+<section class="page-hero section-pad-sm">
+  <div class="container">
+    <div class="eyebrow">Free Tool / Wholesale Distributor</div>
+    <h1>Bulk Order Margin Calculator</h1>
+    <p class="lead">Real margin on a reorder, before it ships.</p>
+  </div>
+</section>
+<section class="section-pad-sm">
+  <div class="container">
+    <div class="tool-layout">
+      <form id="tool-form" class="tool-form"><div class="tool-field">
+          <label for="f-cost">Unit Cost (₹)</label>
+          <input type="number" id="f-cost" data-id="cost" value="85" step="5">
+        </div><div class="tool-field">
+          <label for="f-sell">Unit Selling Price (₹)</label>
+          <input type="number" id="f-sell" data-id="sell" value="110" step="5">
+        </div><div class="tool-field">
+          <label for="f-qty">Order Quantity</label>
+          <input type="number" id="f-qty" data-id="qty" value="800" step="10">
+        </div></form>
+      <div class="tool-result">
+        <h4>Result</h4>
+        <div id="tool-result-body"></div>
+      </div>
+    </div>
+    <div class="row-cta">
+      <a class="btn btn-ghost" href="/industries/wholesale-distributor.html">See the Wholesale Distributor fix</a>
+      <a class="btn btn-primary" href="/free-tools/">More Free Tools</a>
+    </div>
+  </div>
+</section>
+<script>function computeResult(v) {
+  var marginUnit = v.sell - v.cost;
+  var marginPct = v.sell > 0 ? (marginUnit / v.sell * 100).toFixed(1) : '0';
+  var totalMargin = marginUnit * v.qty;
+  return '<div class="tr-row"><span>Margin / Unit</span><b>₹' + marginUnit.toFixed(2) + ' (' + marginPct + '%)</b></div>'
+       + '<div class="tr-row tr-total"><span>Total Margin on Order</span><b>₹' + Math.round(totalMargin).toLocaleString('en-IN') + '</b></div>';
+}</script>
+<script src="/assets/js/free-tools-runtime.js"></script>
+<footer class="site-footer">
+  <div class="container">
+    <div>© AsliKaam — Digital Partner of MSMEs Automation</div>
+  </div>
+</footer>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/gsap-loader.js"></script>
+<script src="/assets/js/cinematic.js"></script>
+<script src="/assets/js/global-ui.js"></script>
+<script src="/assets/js/use-case-switcher.js"></script>
+<script src="/assets/js/home-rotator.js"></script>
+</body>
+</html>

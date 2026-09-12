@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admission-to-Enrollment Conversion Calculator — AsliKaam</title>
+<meta name="description" content="See exactly where admission-week enquiries are actually leaking.">
+<link rel="canonical" href="/free-tools/admission-conversion-calculator.html">
+<meta property="og:title" content="Admission-to-Enrollment Conversion Calculator — AsliKaam">
+<meta property="og:description" content="See exactly where admission-week enquiries are actually leaking.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="/"><span class="dot"></span>AsliKaam</a>
+    <ul class="nav-links"><li><a href="/">Home</a></li><li><a href="/industries/">Industries</a></li><li><a href="/blogs/">Blogs</a></li><li><a href="/demos/">Demos</a></li><li><a href="/agentic-use-cases/">Agentic Use Cases</a></li><li><a href="/free-tools/" aria-current="page">Free Tools</a></li><li><a href="/pricing/">Pricing</a></li></ul>
+    <a class="nav-cta" href="https://wa.me/911234567890?text=Hi!%20I'd%20like%20to%20know%20more%20about%20AsliKaam." target="_blank" rel="noopener">WhatsApp Us</a>
+  </div>
+</nav>
+
+<section class="page-hero section-pad-sm">
+  <div class="container">
+    <div class="eyebrow">Free Tool / Private School</div>
+    <h1>Admission-to-Enrollment Conversion Calculator</h1>
+    <p class="lead">See exactly where admission-week enquiries are actually leaking.</p>
+  </div>
+</section>
+<section class="section-pad-sm">
+  <div class="container">
+    <div class="tool-layout">
+      <form id="tool-form" class="tool-form"><div class="tool-field">
+          <label for="f-enquiries">Enquiries Received</label>
+          <input type="number" id="f-enquiries" data-id="enquiries" value="120" step="1">
+        </div><div class="tool-field">
+          <label for="f-tests">Admission Tests Booked</label>
+          <input type="number" id="f-tests" data-id="tests" value="70" step="1">
+        </div><div class="tool-field">
+          <label for="f-admits">Admissions Confirmed</label>
+          <input type="number" id="f-admits" data-id="admits" value="45" step="1">
+        </div><div class="tool-field">
+          <label for="f-fee">Avg Annual Fee (₹)</label>
+          <input type="number" id="f-fee" data-id="fee" value="90000" step="1000">
+        </div></form>
+      <div class="tool-result">
+        <h4>Result</h4>
+        <div id="tool-result-body"></div>
+      </div>
+    </div>
+    <div class="row-cta">
+      <a class="btn btn-ghost" href="/industries/private-school.html">See the Private School fix</a>
+      <a class="btn btn-primary" href="/free-tools/">More Free Tools</a>
+    </div>
+  </div>
+</section>
+<script>function computeResult(v) {
+  var toTest = v.enquiries > 0 ? (v.tests / v.enquiries * 100).toFixed(1) : '0';
+  var toAdmit = v.tests > 0 ? (v.admits / v.tests * 100).toFixed(1) : '0';
+  var overall = v.enquiries > 0 ? (v.admits / v.enquiries * 100).toFixed(1) : '0';
+  var revenue = v.admits * v.fee;
+  return '<div class="tr-row"><span>Enquiry → Test Booked</span><b>' + toTest + '%</b></div>'
+       + '<div class="tr-row"><span>Test → Admission</span><b>' + toAdmit + '%</b></div>'
+       + '<div class="tr-row"><span>Overall Conversion</span><b>' + overall + '%</b></div>'
+       + '<div class="tr-row tr-total"><span>Revenue Booked</span><b>₹' + revenue.toLocaleString('en-IN') + '</b></div>';
+}</script>
+<script src="/assets/js/free-tools-runtime.js"></script>
+<footer class="site-footer">
+  <div class="container">
+    <div>© AsliKaam — Digital Partner of MSMEs Automation</div>
+  </div>
+</footer>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/gsap-loader.js"></script>
+<script src="/assets/js/cinematic.js"></script>
+<script src="/assets/js/global-ui.js"></script>
+<script src="/assets/js/use-case-switcher.js"></script>
+<script src="/assets/js/home-rotator.js"></script>
+</body>
+</html>

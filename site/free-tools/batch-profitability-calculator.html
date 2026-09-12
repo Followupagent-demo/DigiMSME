@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Batch Profitability Calculator — AsliKaam</title>
+<meta name="description" content="Know the real margin on a batch before you price the next one.">
+<link rel="canonical" href="/free-tools/batch-profitability-calculator.html">
+<meta property="og:title" content="Batch Profitability Calculator — AsliKaam">
+<meta property="og:description" content="Know the real margin on a batch before you price the next one.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="/"><span class="dot"></span>AsliKaam</a>
+    <ul class="nav-links"><li><a href="/">Home</a></li><li><a href="/industries/">Industries</a></li><li><a href="/blogs/">Blogs</a></li><li><a href="/demos/">Demos</a></li><li><a href="/agentic-use-cases/">Agentic Use Cases</a></li><li><a href="/free-tools/" aria-current="page">Free Tools</a></li><li><a href="/pricing/">Pricing</a></li></ul>
+    <a class="nav-cta" href="https://wa.me/911234567890?text=Hi!%20I'd%20like%20to%20know%20more%20about%20AsliKaam." target="_blank" rel="noopener">WhatsApp Us</a>
+  </div>
+</nav>
+
+<section class="page-hero section-pad-sm">
+  <div class="container">
+    <div class="eyebrow">Free Tool / Coaching Institute</div>
+    <h1>Batch Profitability Calculator</h1>
+    <p class="lead">Know the real margin on a batch before you price the next one.</p>
+  </div>
+</section>
+<section class="section-pad-sm">
+  <div class="container">
+    <div class="tool-layout">
+      <form id="tool-form" class="tool-form"><div class="tool-field">
+          <label for="f-students">Students in Batch</label>
+          <input type="number" id="f-students" data-id="students" value="30" step="1">
+        </div><div class="tool-field">
+          <label for="f-fee">Fee per Student (₹)</label>
+          <input type="number" id="f-fee" data-id="fee" value="12000" step="500">
+        </div><div class="tool-field">
+          <label for="f-faculty">Faculty Cost (₹)</label>
+          <input type="number" id="f-faculty" data-id="faculty" value="60000" step="1000">
+        </div><div class="tool-field">
+          <label for="f-overhead">Other Overhead (₹)</label>
+          <input type="number" id="f-overhead" data-id="overhead" value="20000" step="1000">
+        </div></form>
+      <div class="tool-result">
+        <h4>Result</h4>
+        <div id="tool-result-body"></div>
+      </div>
+    </div>
+    <div class="row-cta">
+      <a class="btn btn-ghost" href="/industries/coaching-institute.html">See the Coaching Institute fix</a>
+      <a class="btn btn-primary" href="/free-tools/">More Free Tools</a>
+    </div>
+  </div>
+</section>
+<script>function computeResult(v) {
+  var revenue = v.students * v.fee;
+  var cost = v.faculty + v.overhead;
+  var profit = revenue - cost;
+  var margin = revenue > 0 ? (profit / revenue * 100).toFixed(1) : '0';
+  return '<div class="tr-row"><span>Total Revenue</span><b>₹' + revenue.toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-row"><span>Total Cost</span><b>₹' + cost.toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-row tr-total"><span>Profit (' + margin + '% margin)</span><b>₹' + profit.toLocaleString('en-IN') + '</b></div>';
+}</script>
+<script src="/assets/js/free-tools-runtime.js"></script>
+<footer class="site-footer">
+  <div class="container">
+    <div>© AsliKaam — Digital Partner of MSMEs Automation</div>
+  </div>
+</footer>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/gsap-loader.js"></script>
+<script src="/assets/js/cinematic.js"></script>
+<script src="/assets/js/global-ui.js"></script>
+<script src="/assets/js/use-case-switcher.js"></script>
+<script src="/assets/js/home-rotator.js"></script>
+</body>
+</html>

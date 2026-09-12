@@ -13,6 +13,7 @@ NAV = [
     ("Blogs", "/blogs/"),
     ("Demos", "/demos/"),
     ("Agentic Use Cases", "/agentic-use-cases/"),
+    ("Free Tools", "/free-tools/"),
     ("Pricing", "/pricing/"),
 ]
 
@@ -1360,5 +1361,315 @@ BLOG_POSTS = [
             {"type": "h2", "text": "The businesses in the closure numbers, and the ones that will still be open in five years"},
             {"type": "p", "text": "The difference rarely comes down to which business built the more sophisticated digital operation. It comes down to which one closed its one specific leak — the missed WhatsApp reply, the invisible Google listing, the follow-up that never happened — while everything else about how they ran the business stayed exactly the same. That's a narrower, cheaper, and far more survivable fix than \"go digital\" makes it sound."},
         ],
+    },
+]
+
+# ------------------------------------------------------------------
+# FREE_TOOLS — real, working client-side calculators, one per industry.
+# "fields" define the input form; "compute_js" is a plain JS function
+# body (NOT an f-string — keep it that way in build.py, its braces are
+# real JS syntax) that reads values and returns a result-panel HTML string.
+# ------------------------------------------------------------------
+FREE_TOOLS = [
+    {
+        "slug": "landed-cost-calculator",
+        "title": "Landed Cost Calculator",
+        "tagline": "FOB, freight, insurance, and duty — the real cost per shipment, not just the FOB price.",
+        "industry": "export-trading",
+        "fields": [
+            {"id": "fob", "label": "FOB Value (₹)", "default": 500000, "step": 1000},
+            {"id": "freight", "label": "Freight (₹)", "default": 40000, "step": 1000},
+            {"id": "insurance", "label": "Insurance (₹)", "default": 5000, "step": 500},
+            {"id": "duty", "label": "Customs Duty (%)", "default": 7.5, "step": 0.5},
+            {"id": "other", "label": "Other Charges (₹)", "default": 8000, "step": 500},
+        ],
+        "compute_js": """function computeResult(v) {
+  var cif = v.fob + v.freight + v.insurance;
+  var dutyAmt = cif * (v.duty / 100);
+  var landed = cif + dutyAmt + v.other;
+  var markup = ((landed - v.fob) / v.fob * 100).toFixed(1);
+  return '<div class="tr-row"><span>CIF Value</span><b>₹' + Math.round(cif).toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-row"><span>Duty (' + v.duty + '%)</span><b>₹' + Math.round(dutyAmt).toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-row tr-total"><span>Total Landed Cost</span><b>₹' + Math.round(landed).toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-note">' + markup + '% above FOB — quote from this number, not the FOB price.</div>';
+}""",
+    },
+    {
+        "slug": "missed-appointment-loss-calculator",
+        "title": "Missed-Appointment Revenue Loss Calculator",
+        "tagline": "See what no-shows are actually costing a branch every month.",
+        "industry": "hospital",
+        "fields": [
+            {"id": "perDay", "label": "Appointments Booked / Day", "default": 40, "step": 1},
+            {"id": "noShow", "label": "No-Show Rate (%)", "default": 18, "step": 1},
+            {"id": "revenue", "label": "Avg Revenue / Appointment (₹)", "default": 600, "step": 50},
+            {"id": "days", "label": "Working Days / Month", "default": 26, "step": 1},
+        ],
+        "compute_js": """function computeResult(v) {
+  var missedPerDay = v.perDay * (v.noShow / 100);
+  var monthlyLoss = missedPerDay * v.revenue * v.days;
+  return '<div class="tr-row"><span>Missed appointments / day</span><b>' + missedPerDay.toFixed(1) + '</b></div>'
+       + '<div class="tr-row tr-total"><span>Revenue lost / month</span><b>₹' + Math.round(monthlyLoss).toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-note">An automatic reminder the day before a slot is the cheapest fix for this number.</div>';
+}""",
+    },
+    {
+        "slug": "batch-profitability-calculator",
+        "title": "Batch Profitability Calculator",
+        "tagline": "Know the real margin on a batch before you price the next one.",
+        "industry": "coaching-institute",
+        "fields": [
+            {"id": "students", "label": "Students in Batch", "default": 30, "step": 1},
+            {"id": "fee", "label": "Fee per Student (₹)", "default": 12000, "step": 500},
+            {"id": "faculty", "label": "Faculty Cost (₹)", "default": 60000, "step": 1000},
+            {"id": "overhead", "label": "Other Overhead (₹)", "default": 20000, "step": 1000},
+        ],
+        "compute_js": """function computeResult(v) {
+  var revenue = v.students * v.fee;
+  var cost = v.faculty + v.overhead;
+  var profit = revenue - cost;
+  var margin = revenue > 0 ? (profit / revenue * 100).toFixed(1) : '0';
+  return '<div class="tr-row"><span>Total Revenue</span><b>₹' + revenue.toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-row"><span>Total Cost</span><b>₹' + cost.toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-row tr-total"><span>Profit (' + margin + '% margin)</span><b>₹' + profit.toLocaleString('en-IN') + '</b></div>';
+}""",
+    },
+    {
+        "slug": "home-loan-emi-calculator",
+        "title": "Home Loan EMI Calculator",
+        "tagline": "The monthly number a buyer actually cares about.",
+        "industry": "real-estate-developer",
+        "fields": [
+            {"id": "principal", "label": "Loan Amount (₹)", "default": 4000000, "step": 50000},
+            {"id": "rate", "label": "Interest Rate (% p.a.)", "default": 8.5, "step": 0.1},
+            {"id": "years", "label": "Tenure (years)", "default": 20, "step": 1},
+        ],
+        "compute_js": """function computeResult(v) {
+  var r = v.rate / 12 / 100;
+  var n = v.years * 12;
+  var emi = r === 0 ? v.principal / n : (v.principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  var totalPay = emi * n;
+  var totalInterest = totalPay - v.principal;
+  return '<div class="tr-row tr-total"><span>Monthly EMI</span><b>₹' + Math.round(emi).toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-row"><span>Total Interest</span><b>₹' + Math.round(totalInterest).toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-row"><span>Total Payment</span><b>₹' + Math.round(totalPay).toLocaleString('en-IN') + '</b></div>';
+}""",
+    },
+    {
+        "slug": "quote-margin-calculator",
+        "title": "Quote Margin Calculator",
+        "tagline": "Check the real margin on an RFQ before it goes out.",
+        "industry": "b2b-manufacturer",
+        "fields": [
+            {"id": "cost", "label": "Cost Price / Unit (₹)", "default": 180, "step": 5},
+            {"id": "price", "label": "Quoted Price / Unit (₹)", "default": 240, "step": 5},
+            {"id": "qty", "label": "Order Quantity", "default": 5000, "step": 100},
+        ],
+        "compute_js": """function computeResult(v) {
+  var marginUnit = v.price - v.cost;
+  var marginPct = v.price > 0 ? (marginUnit / v.price * 100).toFixed(1) : '0';
+  var totalProfit = marginUnit * v.qty;
+  return '<div class="tr-row"><span>Margin / Unit</span><b>₹' + marginUnit.toFixed(2) + '</b></div>'
+       + '<div class="tr-row"><span>Margin %</span><b>' + marginPct + '%</b></div>'
+       + '<div class="tr-row tr-total"><span>Total Profit on Order</span><b>₹' + Math.round(totalProfit).toLocaleString('en-IN') + '</b></div>';
+}""",
+    },
+    {
+        "slug": "admission-conversion-calculator",
+        "title": "Admission-to-Enrollment Conversion Calculator",
+        "tagline": "See exactly where admission-week enquiries are actually leaking.",
+        "industry": "private-school",
+        "fields": [
+            {"id": "enquiries", "label": "Enquiries Received", "default": 120, "step": 1},
+            {"id": "tests", "label": "Admission Tests Booked", "default": 70, "step": 1},
+            {"id": "admits", "label": "Admissions Confirmed", "default": 45, "step": 1},
+            {"id": "fee", "label": "Avg Annual Fee (₹)", "default": 90000, "step": 1000},
+        ],
+        "compute_js": """function computeResult(v) {
+  var toTest = v.enquiries > 0 ? (v.tests / v.enquiries * 100).toFixed(1) : '0';
+  var toAdmit = v.tests > 0 ? (v.admits / v.tests * 100).toFixed(1) : '0';
+  var overall = v.enquiries > 0 ? (v.admits / v.enquiries * 100).toFixed(1) : '0';
+  var revenue = v.admits * v.fee;
+  return '<div class="tr-row"><span>Enquiry → Test Booked</span><b>' + toTest + '%</b></div>'
+       + '<div class="tr-row"><span>Test → Admission</span><b>' + toAdmit + '%</b></div>'
+       + '<div class="tr-row"><span>Overall Conversion</span><b>' + overall + '%</b></div>'
+       + '<div class="tr-row tr-total"><span>Revenue Booked</span><b>₹' + revenue.toLocaleString('en-IN') + '</b></div>';
+}""",
+    },
+    {
+        "slug": "home-collection-savings-calculator",
+        "title": "Home-Collection Time & Cost Savings Calculator",
+        "tagline": "What home collection actually saves a patient, per month.",
+        "industry": "diagnostic-lab",
+        "fields": [
+            {"id": "labTime", "label": "Time to Visit Lab (mins)", "default": 45, "step": 5},
+            {"id": "homeTime", "label": "Time for Home Collection (mins)", "default": 10, "step": 5},
+            {"id": "travelCost", "label": "Travel Cost to Lab (₹)", "default": 100, "step": 10},
+            {"id": "testsMonth", "label": "Tests / Month (household)", "default": 2, "step": 1},
+        ],
+        "compute_js": """function computeResult(v) {
+  var timeSaved = (v.labTime - v.homeTime) * v.testsMonth;
+  var costSaved = v.travelCost * v.testsMonth;
+  return '<div class="tr-row"><span>Time Saved / Month</span><b>' + timeSaved + ' mins</b></div>'
+       + '<div class="tr-row tr-total"><span>Cost Saved / Month</span><b>₹' + costSaved.toLocaleString('en-IN') + '</b></div>';
+}""",
+    },
+    {
+        "slug": "wedding-budget-calculator",
+        "title": "Wedding Budget Calculator",
+        "tagline": "A realistic total before the vendor conversations start.",
+        "industry": "wedding-planner-banquet",
+        "fields": [
+            {"id": "guests", "label": "Guest Count", "default": 300, "step": 10},
+            {"id": "plate", "label": "Per-Plate Cost (₹)", "default": 1200, "step": 50},
+            {"id": "venue", "label": "Venue Cost (₹)", "default": 300000, "step": 5000},
+            {"id": "decor", "label": "Decor Budget (₹)", "default": 150000, "step": 5000},
+            {"id": "photo", "label": "Photography (₹)", "default": 80000, "step": 5000},
+        ],
+        "compute_js": """function computeResult(v) {
+  var catering = v.guests * v.plate;
+  var subtotal = catering + v.venue + v.decor + v.photo;
+  var misc = subtotal * 0.1;
+  var total = subtotal + misc;
+  return '<div class="tr-row"><span>Catering</span><b>₹' + catering.toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-row"><span>Venue + Decor + Photography</span><b>₹' + (v.venue + v.decor + v.photo).toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-row"><span>Misc & Contingency (10%)</span><b>₹' + Math.round(misc).toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-row tr-total"><span>Estimated Total</span><b>₹' + Math.round(total).toLocaleString('en-IN') + '</b></div>';
+}""",
+    },
+    {
+        "slug": "bmi-tdee-calculator",
+        "title": "BMI & Calorie (TDEE) Calculator",
+        "tagline": "The two numbers every trial member asks about first.",
+        "industry": "gym-fitness-chain",
+        "fields": [
+            {"id": "weight", "label": "Weight (kg)", "default": 70, "step": 1},
+            {"id": "height", "label": "Height (cm)", "default": 170, "step": 1},
+            {"id": "age", "label": "Age", "default": 28, "step": 1},
+            {"id": "activity", "label": "Activity Multiplier (1.2–1.9)", "default": 1.375, "step": 0.025},
+        ],
+        "compute_js": """function computeResult(v) {
+  var heightM = v.height / 100;
+  var bmi = v.weight / (heightM * heightM);
+  var category = bmi < 18.5 ? 'Underweight' : bmi < 25 ? 'Normal' : bmi < 30 ? 'Overweight' : 'Obese';
+  var bmr = 10 * v.weight + 6.25 * v.height - 5 * v.age + 5;
+  var tdee = bmr * v.activity;
+  return '<div class="tr-row"><span>BMI</span><b>' + bmi.toFixed(1) + ' — ' + category + '</b></div>'
+       + '<div class="tr-row tr-total"><span>Daily Calories (TDEE)</span><b>' + Math.round(tdee).toLocaleString('en-IN') + ' kcal</b></div>';
+}""",
+    },
+    {
+        "slug": "income-tax-calculator",
+        "title": "Income Tax Calculator (New Regime, Illustrative)",
+        "tagline": "A quick estimate — always confirm current slabs on incometax.gov.in.",
+        "industry": "ca-legal-firm",
+        "fields": [
+            {"id": "income", "label": "Annual Taxable Income (₹)", "default": 1200000, "step": 10000},
+        ],
+        "compute_js": """function computeResult(v) {
+  var slabs = [[300000,0],[700000,0.05],[1000000,0.10],[1200000,0.15],[1500000,0.20],[Infinity,0.30]];
+  var tax = 0, prev = 0;
+  for (var i = 0; i < slabs.length; i++) {
+    var upper = Math.min(v.income, slabs[i][0]);
+    if (upper > prev) tax += (upper - prev) * slabs[i][1];
+    prev = slabs[i][0];
+    if (v.income <= slabs[i][0]) break;
+  }
+  if (v.income <= 700000) tax = 0; // Section 87A rebate, simplified
+  var cess = tax * 0.04;
+  var total = tax + cess;
+  return '<div class="tr-row"><span>Tax (before cess)</span><b>₹' + Math.round(tax).toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-row"><span>Health & Education Cess (4%)</span><b>₹' + Math.round(cess).toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-row tr-total"><span>Estimated Total Tax</span><b>₹' + Math.round(total).toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-note">Illustrative only, simplified new-regime slabs — a CA can confirm your exact liability and deductions.</div>';
+}""",
+    },
+    {
+        "slug": "renovation-cost-estimator",
+        "title": "Renovation Cost Estimator",
+        "tagline": "A ballpark before the first site visit.",
+        "industry": "interior-designer",
+        "fields": [
+            {"id": "area", "label": "Area (sq ft)", "default": 1000, "step": 50},
+            {"id": "rate", "label": "Package Rate (₹/sq ft)", "default": 1800, "step": 100},
+        ],
+        "compute_js": """function computeResult(v) {
+  var low = v.area * v.rate * 0.9;
+  var high = v.area * v.rate * 1.15;
+  return '<div class="tr-row tr-total"><span>Estimated Range</span><b>₹' + Math.round(low).toLocaleString('en-IN') + ' – ₹' + Math.round(high).toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-note">Final cost depends on material grade and site condition — this is a planning-stage range.</div>';
+}""",
+    },
+    {
+        "slug": "revenue-leakage-calculator",
+        "title": "Revenue Leakage Calculator",
+        "tagline": "What's actually walking to Blinkit and Zepto every month.",
+        "industry": "retail-store",
+        "fields": [
+            {"id": "missed", "label": "\"Can't Visit\" Enquiries / Day", "default": 4, "step": 1},
+            {"id": "orderValue", "label": "Avg Order Value (₹)", "default": 400, "step": 50},
+            {"id": "days", "label": "Days / Month", "default": 30, "step": 1},
+        ],
+        "compute_js": """function computeResult(v) {
+  var monthlyLeak = v.missed * v.orderValue * v.days;
+  return '<div class="tr-row tr-total"><span>Revenue Leaking / Month</span><b>₹' + monthlyLeak.toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-note">That\\'s what a WhatsApp catalog tied to real stock is built to keep in-store.</div>';
+}""",
+    },
+    {
+        "slug": "car-loan-emi-calculator",
+        "title": "Car Loan EMI Calculator",
+        "tagline": "The monthly number that closes or kills a test-drive lead.",
+        "industry": "automobile-showroom",
+        "fields": [
+            {"id": "price", "label": "On-Road Price (₹)", "default": 900000, "step": 10000},
+            {"id": "down", "label": "Down Payment (₹)", "default": 150000, "step": 10000},
+            {"id": "rate", "label": "Interest Rate (% p.a.)", "default": 9.5, "step": 0.1},
+            {"id": "years", "label": "Tenure (years)", "default": 5, "step": 1},
+        ],
+        "compute_js": """function computeResult(v) {
+  var principal = v.price - v.down;
+  var r = v.rate / 12 / 100;
+  var n = v.years * 12;
+  var emi = r === 0 ? principal / n : (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  return '<div class="tr-row"><span>Loan Amount</span><b>₹' + principal.toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-row tr-total"><span>Monthly EMI</span><b>₹' + Math.round(emi).toLocaleString('en-IN') + '</b></div>';
+}""",
+    },
+    {
+        "slug": "tile-quantity-calculator",
+        "title": "Tile Quantity Calculator",
+        "tagline": "How many boxes to actually quote for a room.",
+        "industry": "building-materials-showroom",
+        "fields": [
+            {"id": "length", "label": "Room Length (ft)", "default": 12, "step": 0.5},
+            {"id": "width", "label": "Room Width (ft)", "default": 10, "step": 0.5},
+            {"id": "tileSize", "label": "Tile Size (sq ft/tile)", "default": 4, "step": 0.5},
+            {"id": "wastage", "label": "Wastage (%)", "default": 10, "step": 1},
+        ],
+        "compute_js": """function computeResult(v) {
+  var area = v.length * v.width;
+  var tilesNeeded = Math.ceil((area * (1 + v.wastage / 100)) / v.tileSize);
+  return '<div class="tr-row"><span>Room Area</span><b>' + area.toFixed(0) + ' sq ft</b></div>'
+       + '<div class="tr-row tr-total"><span>Tiles Needed (incl. wastage)</span><b>' + tilesNeeded + ' tiles</b></div>';
+}""",
+    },
+    {
+        "slug": "bulk-order-margin-calculator",
+        "title": "Bulk Order Margin Calculator",
+        "tagline": "Real margin on a reorder, before it ships.",
+        "industry": "wholesale-distributor",
+        "fields": [
+            {"id": "cost", "label": "Unit Cost (₹)", "default": 85, "step": 5},
+            {"id": "sell", "label": "Unit Selling Price (₹)", "default": 110, "step": 5},
+            {"id": "qty", "label": "Order Quantity", "default": 800, "step": 10},
+        ],
+        "compute_js": """function computeResult(v) {
+  var marginUnit = v.sell - v.cost;
+  var marginPct = v.sell > 0 ? (marginUnit / v.sell * 100).toFixed(1) : '0';
+  var totalMargin = marginUnit * v.qty;
+  return '<div class="tr-row"><span>Margin / Unit</span><b>₹' + marginUnit.toFixed(2) + ' (' + marginPct + '%)</b></div>'
+       + '<div class="tr-row tr-total"><span>Total Margin on Order</span><b>₹' + Math.round(totalMargin).toLocaleString('en-IN') + '</b></div>';
+}""",
     },
 ]

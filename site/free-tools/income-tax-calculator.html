@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Income Tax Calculator (New Regime, Illustrative) — AsliKaam</title>
+<meta name="description" content="A quick estimate — always confirm current slabs on incometax.gov.in.">
+<link rel="canonical" href="/free-tools/income-tax-calculator.html">
+<meta property="og:title" content="Income Tax Calculator (New Regime, Illustrative) — AsliKaam">
+<meta property="og:description" content="A quick estimate — always confirm current slabs on incometax.gov.in.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="/"><span class="dot"></span>AsliKaam</a>
+    <ul class="nav-links"><li><a href="/">Home</a></li><li><a href="/industries/">Industries</a></li><li><a href="/blogs/">Blogs</a></li><li><a href="/demos/">Demos</a></li><li><a href="/agentic-use-cases/">Agentic Use Cases</a></li><li><a href="/free-tools/" aria-current="page">Free Tools</a></li><li><a href="/pricing/">Pricing</a></li></ul>
+    <a class="nav-cta" href="https://wa.me/911234567890?text=Hi!%20I'd%20like%20to%20know%20more%20about%20AsliKaam." target="_blank" rel="noopener">WhatsApp Us</a>
+  </div>
+</nav>
+
+<section class="page-hero section-pad-sm">
+  <div class="container">
+    <div class="eyebrow">Free Tool / CA / Legal Firm</div>
+    <h1>Income Tax Calculator (New Regime, Illustrative)</h1>
+    <p class="lead">A quick estimate — always confirm current slabs on incometax.gov.in.</p>
+  </div>
+</section>
+<section class="section-pad-sm">
+  <div class="container">
+    <div class="tool-layout">
+      <form id="tool-form" class="tool-form"><div class="tool-field">
+          <label for="f-income">Annual Taxable Income (₹)</label>
+          <input type="number" id="f-income" data-id="income" value="1200000" step="10000">
+        </div></form>
+      <div class="tool-result">
+        <h4>Result</h4>
+        <div id="tool-result-body"></div>
+      </div>
+    </div>
+    <div class="row-cta">
+      <a class="btn btn-ghost" href="/industries/ca-legal-firm.html">See the CA / Legal Firm fix</a>
+      <a class="btn btn-primary" href="/free-tools/">More Free Tools</a>
+    </div>
+  </div>
+</section>
+<script>function computeResult(v) {
+  var slabs = [[300000,0],[700000,0.05],[1000000,0.10],[1200000,0.15],[1500000,0.20],[Infinity,0.30]];
+  var tax = 0, prev = 0;
+  for (var i = 0; i < slabs.length; i++) {
+    var upper = Math.min(v.income, slabs[i][0]);
+    if (upper > prev) tax += (upper - prev) * slabs[i][1];
+    prev = slabs[i][0];
+    if (v.income <= slabs[i][0]) break;
+  }
+  if (v.income <= 700000) tax = 0; // Section 87A rebate, simplified
+  var cess = tax * 0.04;
+  var total = tax + cess;
+  return '<div class="tr-row"><span>Tax (before cess)</span><b>₹' + Math.round(tax).toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-row"><span>Health & Education Cess (4%)</span><b>₹' + Math.round(cess).toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-row tr-total"><span>Estimated Total Tax</span><b>₹' + Math.round(total).toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-note">Illustrative only, simplified new-regime slabs — a CA can confirm your exact liability and deductions.</div>';
+}</script>
+<script src="/assets/js/free-tools-runtime.js"></script>
+<footer class="site-footer">
+  <div class="container">
+    <div>© AsliKaam — Digital Partner of MSMEs Automation</div>
+  </div>
+</footer>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/gsap-loader.js"></script>
+<script src="/assets/js/cinematic.js"></script>
+<script src="/assets/js/global-ui.js"></script>
+<script src="/assets/js/use-case-switcher.js"></script>
+<script src="/assets/js/home-rotator.js"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Landed Cost Calculator — AsliKaam</title>
+<meta name="description" content="FOB, freight, insurance, and duty — the real cost per shipment, not just the FOB price.">
+<link rel="canonical" href="/free-tools/landed-cost-calculator.html">
+<meta property="og:title" content="Landed Cost Calculator — AsliKaam">
+<meta property="og:description" content="FOB, freight, insurance, and duty — the real cost per shipment, not just the FOB price.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="/"><span class="dot"></span>AsliKaam</a>
+    <ul class="nav-links"><li><a href="/">Home</a></li><li><a href="/industries/">Industries</a></li><li><a href="/blogs/">Blogs</a></li><li><a href="/demos/">Demos</a></li><li><a href="/agentic-use-cases/">Agentic Use Cases</a></li><li><a href="/free-tools/" aria-current="page">Free Tools</a></li><li><a href="/pricing/">Pricing</a></li></ul>
+    <a class="nav-cta" href="https://wa.me/911234567890?text=Hi!%20I'd%20like%20to%20know%20more%20about%20AsliKaam." target="_blank" rel="noopener">WhatsApp Us</a>
+  </div>
+</nav>
+
+<section class="page-hero section-pad-sm">
+  <div class="container">
+    <div class="eyebrow">Free Tool / Export / Trading</div>
+    <h1>Landed Cost Calculator</h1>
+    <p class="lead">FOB, freight, insurance, and duty — the real cost per shipment, not just the FOB price.</p>
+  </div>
+</section>
+<section class="section-pad-sm">
+  <div class="container">
+    <div class="tool-layout">
+      <form id="tool-form" class="tool-form"><div class="tool-field">
+          <label for="f-fob">FOB Value (₹)</label>
+          <input type="number" id="f-fob" data-id="fob" value="500000" step="1000">
+        </div><div class="tool-field">
+          <label for="f-freight">Freight (₹)</label>
+          <input type="number" id="f-freight" data-id="freight" value="40000" step="1000">
+        </div><div class="tool-field">
+          <label for="f-insurance">Insurance (₹)</label>
+          <input type="number" id="f-insurance" data-id="insurance" value="5000" step="500">
+        </div><div class="tool-field">
+          <label for="f-duty">Customs Duty (%)</label>
+          <input type="number" id="f-duty" data-id="duty" value="7.5" step="0.5">
+        </div><div class="tool-field">
+          <label for="f-other">Other Charges (₹)</label>
+          <input type="number" id="f-other" data-id="other" value="8000" step="500">
+        </div></form>
+      <div class="tool-result">
+        <h4>Result</h4>
+        <div id="tool-result-body"></div>
+      </div>
+    </div>
+    <div class="row-cta">
+      <a class="btn btn-ghost" href="/industries/export-trading.html">See the Export / Trading fix</a>
+      <a class="btn btn-primary" href="/free-tools/">More Free Tools</a>
+    </div>
+  </div>
+</section>
+<script>function computeResult(v) {
+  var cif = v.fob + v.freight + v.insurance;
+  var dutyAmt = cif * (v.duty / 100);
+  var landed = cif + dutyAmt + v.other;
+  var markup = ((landed - v.fob) / v.fob * 100).toFixed(1);
+  return '<div class="tr-row"><span>CIF Value</span><b>₹' + Math.round(cif).toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-row"><span>Duty (' + v.duty + '%)</span><b>₹' + Math.round(dutyAmt).toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-row tr-total"><span>Total Landed Cost</span><b>₹' + Math.round(landed).toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-note">' + markup + '% above FOB — quote from this number, not the FOB price.</div>';
+}</script>
+<script src="/assets/js/free-tools-runtime.js"></script>
+<footer class="site-footer">
+  <div class="container">
+    <div>© AsliKaam — Digital Partner of MSMEs Automation</div>
+  </div>
+</footer>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/gsap-loader.js"></script>
+<script src="/assets/js/cinematic.js"></script>
+<script src="/assets/js/global-ui.js"></script>
+<script src="/assets/js/use-case-switcher.js"></script>
+<script src="/assets/js/home-rotator.js"></script>
+</body>
+</html>

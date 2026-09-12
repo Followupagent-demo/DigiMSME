@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home Loan EMI Calculator — AsliKaam</title>
+<meta name="description" content="The monthly number a buyer actually cares about.">
+<link rel="canonical" href="/free-tools/home-loan-emi-calculator.html">
+<meta property="og:title" content="Home Loan EMI Calculator — AsliKaam">
+<meta property="og:description" content="The monthly number a buyer actually cares about.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="/"><span class="dot"></span>AsliKaam</a>
+    <ul class="nav-links"><li><a href="/">Home</a></li><li><a href="/industries/">Industries</a></li><li><a href="/blogs/">Blogs</a></li><li><a href="/demos/">Demos</a></li><li><a href="/agentic-use-cases/">Agentic Use Cases</a></li><li><a href="/free-tools/" aria-current="page">Free Tools</a></li><li><a href="/pricing/">Pricing</a></li></ul>
+    <a class="nav-cta" href="https://wa.me/911234567890?text=Hi!%20I'd%20like%20to%20know%20more%20about%20AsliKaam." target="_blank" rel="noopener">WhatsApp Us</a>
+  </div>
+</nav>
+
+<section class="page-hero section-pad-sm">
+  <div class="container">
+    <div class="eyebrow">Free Tool / Real Estate Developer</div>
+    <h1>Home Loan EMI Calculator</h1>
+    <p class="lead">The monthly number a buyer actually cares about.</p>
+  </div>
+</section>
+<section class="section-pad-sm">
+  <div class="container">
+    <div class="tool-layout">
+      <form id="tool-form" class="tool-form"><div class="tool-field">
+          <label for="f-principal">Loan Amount (₹)</label>
+          <input type="number" id="f-principal" data-id="principal" value="4000000" step="50000">
+        </div><div class="tool-field">
+          <label for="f-rate">Interest Rate (% p.a.)</label>
+          <input type="number" id="f-rate" data-id="rate" value="8.5" step="0.1">
+        </div><div class="tool-field">
+          <label for="f-years">Tenure (years)</label>
+          <input type="number" id="f-years" data-id="years" value="20" step="1">
+        </div></form>
+      <div class="tool-result">
+        <h4>Result</h4>
+        <div id="tool-result-body"></div>
+      </div>
+    </div>
+    <div class="row-cta">
+      <a class="btn btn-ghost" href="/industries/real-estate-developer.html">See the Real Estate Developer fix</a>
+      <a class="btn btn-primary" href="/free-tools/">More Free Tools</a>
+    </div>
+  </div>
+</section>
+<script>function computeResult(v) {
+  var r = v.rate / 12 / 100;
+  var n = v.years * 12;
+  var emi = r === 0 ? v.principal / n : (v.principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  var totalPay = emi * n;
+  var totalInterest = totalPay - v.principal;
+  return '<div class="tr-row tr-total"><span>Monthly EMI</span><b>₹' + Math.round(emi).toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-row"><span>Total Interest</span><b>₹' + Math.round(totalInterest).toLocaleString('en-IN') + '</b></div>'
+       + '<div class="tr-row"><span>Total Payment</span><b>₹' + Math.round(totalPay).toLocaleString('en-IN') + '</b></div>';
+}</script>
+<script src="/assets/js/free-tools-runtime.js"></script>
+<footer class="site-footer">
+  <div class="container">
+    <div>© AsliKaam — Digital Partner of MSMEs Automation</div>
+  </div>
+</footer>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/gsap-loader.js"></script>
+<script src="/assets/js/cinematic.js"></script>
+<script src="/assets/js/global-ui.js"></script>
+<script src="/assets/js/use-case-switcher.js"></script>
+<script src="/assets/js/home-rotator.js"></script>
+</body>
+</html>
