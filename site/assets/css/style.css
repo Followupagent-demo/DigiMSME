@@ -1,6 +1,7 @@
 /* AsliKaam — V1 design system. Brand-neutral dark theme, system fonts only (no external font requests). */
 
 :root {
+  color-scheme: dark;
   --bg: #0b0d10;
   --bg-alt: #12161b;
   --card: #161b21;
