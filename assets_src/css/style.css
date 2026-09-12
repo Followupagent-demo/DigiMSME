@@ -53,6 +53,12 @@ section { position: relative; }
   padding: 9px 16px; border-radius: 999px;
 }
 .nav-toggle { display: none; background: none; border: 1px solid var(--border); color: var(--fg); border-radius: 8px; padding: 6px 10px; }
+.lang-switch {
+  font-size: 0.82rem; font-weight: 700; color: var(--muted);
+  border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px;
+  transition: color .15s, border-color .15s;
+}
+.lang-switch:hover { color: var(--fg); border-color: var(--accent); }
 
 @media (max-width: 860px) {
   .nav-links { display: none; }
@@ -345,6 +351,15 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 .blog-card { display: flex; flex-direction: column; gap: 10px; }
 .blog-card .blog-meta { display: flex; gap: 10px; font-size: 0.78rem; color: var(--muted); }
 .blog-card h3 { margin: 0; font-size: 1.1rem; }
+
+/* ---------- Data tables (blog + free-tools content) ---------- */
+.table-wrap { margin: 26px 0; overflow-x: auto; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.data-table caption { text-align: left; font-size: 0.85rem; color: var(--muted); margin-bottom: 10px; caption-side: top; }
+.data-table th, .data-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
+.data-table th { color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.03em; }
+.data-table td a { color: var(--accent); font-weight: 600; }
+.data-table tbody tr:hover { background: var(--card); }
 .blog-card p { color: var(--muted); font-size: 0.9rem; margin: 0; }
 
 /* ---------- Free Tools calculator ---------- */
@@ -358,6 +373,7 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
   font-family: inherit;
 }
 .tool-field input:focus { outline: none; border-color: var(--accent); }
+.tool-calc-btn { margin-top: 6px; width: 100%; }
 .tool-result {
   background: var(--card); border: 1px solid var(--accent-dim); border-radius: 14px;
   padding: 24px; position: sticky; top: calc(var(--nav-h) + 20px);

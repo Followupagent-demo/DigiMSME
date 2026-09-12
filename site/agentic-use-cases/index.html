@@ -17,6 +17,7 @@
   <div class="container">
     <a class="brand" href="/"><span class="dot"></span>AsliKaam</a>
     <ul class="nav-links"><li><a href="/">Home</a></li><li><a href="/industries/">Industries</a></li><li><a href="/blogs/">Blogs</a></li><li><a href="/demos/">Demos</a></li><li><a href="/agentic-use-cases/" aria-current="page">Agentic Use Cases</a></li><li><a href="/free-tools/">Free Tools</a></li><li><a href="/pricing/">Pricing</a></li></ul>
+    <a class="lang-switch" href="/hi/">हिंदी</a>
     <a class="nav-cta" href="https://wa.me/911234567890?text=Hi!%20I'd%20like%20to%20know%20more%20about%20AsliKaam." target="_blank" rel="noopener">WhatsApp Us</a>
   </div>
 </nav>
@@ -46,6 +47,16 @@
 </section>
 
 <section class="section-pad-sm">
+  <div class="container">
+    <div class="demos-filters" id="agentic-filters">
+      <button class="demos-filter-chip is-active" data-kind="all">All Automations</button>
+      <button class="demos-filter-chip" data-kind="non-agentic">⚙️ Non-Agentic</button>
+      <button class="demos-filter-chip" data-kind="agentic">🤖 Agentic</button>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad-sm agentic-kind-section" data-kind="non-agentic">
   <div class="container">
     <div class="eyebrow">⚙️ Non-Agentic Automations</div>
     <h2>Simple, reliable, rule-based</h2>
@@ -106,7 +117,7 @@
           </div>
         </div><div class="card industry-card">
           <span class="badge badge-proposed">Proposed approach</span>
-          <h3 style="margin-top:10px;">Abandoned-Inquiry Win-Back Agent</h3>
+          <h3 style="margin-top:10px;">Abandoned-Inquiry Win-Back Nudge</h3>
           <p>Re-engages a promising inquiry automatically after a few days of silence, with a fresh nudge instead of writing it off.</p>
           <p style="font-size:0.78rem; color:var(--muted); margin:0;">Works well for: Real Estate Developer, Interior Designer, Wedding Planner / Banquet, Coaching Institute +1 more</p>
           <div class="starts-at effort-tag">⚙️ Non-Agentic Automation</div>
@@ -115,7 +126,7 @@
           </div>
         </div><div class="card industry-card">
           <span class="badge badge-proposed">Proposed approach</span>
-          <h3 style="margin-top:10px;">Missed-Call Instant Win-Back Agent</h3>
+          <h3 style="margin-top:10px;">Missed-Call Instant Win-Back</h3>
           <p>The moment a call is missed, an automatic WhatsApp picks the conversation back up — before the caller tries someone else.</p>
           <p style="font-size:0.78rem; color:var(--muted); margin:0;">Works well for: Hospital (multi-branch), Diagnostic Lab, CA / Legal Firm, Automobile Showroom +2 more</p>
           <div class="starts-at effort-tag">⚙️ Non-Agentic Automation</div>
@@ -124,7 +135,7 @@
           </div>
         </div><div class="card industry-card">
           <span class="badge badge-proposed">Proposed approach</span>
-          <h3 style="margin-top:10px;">Competitor Price-Watch Alert Agent</h3>
+          <h3 style="margin-top:10px;">Competitor Price-Watch Alert</h3>
           <p>Checks competitors' public listings and prices periodically, and alerts the owner the moment something changes.</p>
           <p style="font-size:0.78rem; color:var(--muted); margin:0;">Works well for: Retail Store (Kirana / General), Wholesale Distributor, Automobile Showroom, Building Materials / Tiles Showroom +1 more</p>
           <div class="starts-at effort-tag">⚙️ Non-Agentic Automation</div>
@@ -135,7 +146,7 @@
   </div>
 </section>
 
-<section class="section-pad-sm">
+<section class="section-pad-sm agentic-kind-section" data-kind="agentic">
   <div class="container">
     <div class="eyebrow">🤖 Agentic Automations</div>
     <h2>Where it actually needs to think</h2>
@@ -217,6 +228,7 @@
 <script src="/assets/js/gsap-loader.js"></script>
 <script src="/assets/js/cinematic.js"></script>
 <script src="/assets/js/global-ui.js"></script>
+<script src="/assets/js/agentic-filter.js"></script>
 <script src="/assets/js/use-case-switcher.js"></script>
 <script src="/assets/js/home-rotator.js"></script>
 </body>

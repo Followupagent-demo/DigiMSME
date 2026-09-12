@@ -20,5 +20,9 @@
   }
 
   form.addEventListener("input", run);
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    run();
+  });
   run();
 })();

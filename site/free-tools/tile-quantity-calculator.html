@@ -17,6 +17,7 @@
   <div class="container">
     <a class="brand" href="/"><span class="dot"></span>AsliKaam</a>
     <ul class="nav-links"><li><a href="/">Home</a></li><li><a href="/industries/">Industries</a></li><li><a href="/blogs/">Blogs</a></li><li><a href="/demos/">Demos</a></li><li><a href="/agentic-use-cases/">Agentic Use Cases</a></li><li><a href="/free-tools/" aria-current="page">Free Tools</a></li><li><a href="/pricing/">Pricing</a></li></ul>
+    <a class="lang-switch" href="/hi/">हिंदी</a>
     <a class="nav-cta" href="https://wa.me/911234567890?text=Hi!%20I'd%20like%20to%20know%20more%20about%20AsliKaam." target="_blank" rel="noopener">WhatsApp Us</a>
   </div>
 </nav>
@@ -43,7 +44,9 @@
         </div><div class="tool-field">
           <label for="f-wastage">Wastage (%)</label>
           <input type="number" id="f-wastage" data-id="wastage" value="10" step="1">
-        </div></form>
+        </div>
+        <button type="submit" class="btn btn-primary tool-calc-btn">Calculate</button>
+      </form>
       <div class="tool-result">
         <h4>Result</h4>
         <div id="tool-result-body"></div>
@@ -55,6 +58,7 @@
     </div>
   </div>
 </section>
+
 <script>function computeResult(v) {
   var area = v.length * v.width;
   var tilesNeeded = Math.ceil((area * (1 + v.wastage / 100)) / v.tileSize);

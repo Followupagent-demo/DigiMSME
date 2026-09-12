@@ -8,7 +8,7 @@ import json
 import os
 import shutil
 from data import (
-    BRAND, TAGLINE, NAV, INDUSTRIES, PRICING_PACKS,
+    BRAND, TAGLINE, TAGLINE_HI, NAV, NAV_HI, INDUSTRIES, PRICING_PACKS,
     CUSTOM_HAVE, CUSTOM_ADDONS,
     MODULES, INDUSTRY_MODULES, NEGOTIATION_AGENT, BLOG_POSTS, FREE_TOOLS,
 )
@@ -110,16 +110,25 @@ def write(path, html):
         f.write(html)
 
 
-def head(title, description, canonical="/"):
+def head(title, description, canonical="/", lang="en", alternates=None):
+    """alternates: optional {"en": "/path/", "hi": "/hi/path/"} — when given,
+    emits hreflang tags (including x-default) linking the language versions
+    of the same page together, so search engines treat them as translations
+    of one page rather than duplicate content."""
+    hreflang_tags = ""
+    if alternates:
+        for hl, href in alternates.items():
+            hreflang_tags += f'<link rel="alternate" hreflang="{hl}" href="{href}">\n'
+        hreflang_tags += f'<link rel="alternate" hreflang="x-default" href="{alternates.get("en", canonical)}">\n'
     return f"""<!doctype html>
-<html lang="en">
+<html lang="{lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(description)}">
 <link rel="canonical" href="{canonical}">
-<meta property="og:title" content="{esc(title)}">
+{hreflang_tags}<meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(description)}">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:,">
@@ -129,10 +138,11 @@ def head(title, description, canonical="/"):
 """
 
 
-def foot():
+def foot(lang="en"):
+    tagline = TAGLINE_HI if lang == "hi" else TAGLINE
     return f"""<footer class="site-footer">
   <div class="container">
-    <div>© {BRAND} — {TAGLINE}</div>
+    <div>© {BRAND} — {tagline}</div>
   </div>
 </footer>
 <script src="/assets/js/config.js"></script>
@@ -146,23 +156,50 @@ def foot():
 """
 
 
-def nav(active):
+# Paths that currently have a real Hindi translation — used to decide where
+# the nav language switcher can link to vs. falling back to the Hindi home.
+HI_AVAILABLE_PATHS = {"/": "/hi/", "/industries/": "/hi/industries/"}
+EN_FROM_HI_PATH = {v: k for k, v in HI_AVAILABLE_PATHS.items()}
+
+
+def nav(active, lang="en"):
+    nav_items = NAV_HI if lang == "hi" else NAV
     links = ""
-    for label, href in NAV:
-        current = ' aria-current="page"' if href == active else ""
-        links += f'<li><a href="{href}"{current}>{label}</a></li>'
-    wa_href = "https://wa.me/911234567890?text=Hi!%20I'd%20like%20to%20know%20more%20about%20AsliKaam."
+    for label, href in nav_items:
+        # Only the pages we've actually translated get an /hi/ URL — every
+        # other nav item still points at its (untranslated) English page,
+        # matching how full-site coverage is rolling out incrementally.
+        target = HI_AVAILABLE_PATHS.get(href, href) if lang == "hi" else href
+        current = ' aria-current="page"' if target == active else ""
+        links += f'<li><a href="{target}"{current}>{label}</a></li>'
+    wa_text = "Hi!%20I'd%20like%20to%20know%20more%20about%20AsliKaam." if lang == "en" \
+        else "Namaste!%20Mujhe%20AsliKaam%20ke%20baare%20mein%20jaankari%20chahiye."
+    wa_href = f"https://wa.me/911234567890?text={wa_text}"
+    wa_cta = "व्हाट्सएप करें" if lang == "hi" else "WhatsApp Us"
+
+    if lang == "hi":
+        switch_href = EN_FROM_HI_PATH.get(active, "/")
+        switch_label = "EN"
+    else:
+        switch_href = HI_AVAILABLE_PATHS.get(active, "/hi/")
+        switch_label = "हिंदी"
+
     return f"""<nav class="site-nav">
   <div class="container">
-    <a class="brand" href="/"><span class="dot"></span>{BRAND}</a>
+    <a class="brand" href="{"/hi/" if lang == "hi" else "/"}"><span class="dot"></span>{BRAND}</a>
     <ul class="nav-links">{links}</ul>
-    <a class="nav-cta" href="{wa_href}" target="_blank" rel="noopener">WhatsApp Us</a>
+    <a class="lang-switch" href="{switch_href}">{switch_label}</a>
+    <a class="nav-cta" href="{wa_href}" target="_blank" rel="noopener">{wa_cta}</a>
   </div>
 </nav>
 """
 
 
-def badge(kind):
+def badge(kind, lang="en"):
+    if lang == "hi":
+        if kind == "proven":
+            return '<span class="badge badge-proven">सिद्ध</span>'
+        return '<span class="badge badge-proposed">प्रस्तावित तरीका</span>'
     if kind == "proven":
         return '<span class="badge badge-proven">Proven</span>'
     return '<span class="badge badge-proposed">Proposed approach</span>'
@@ -304,11 +341,12 @@ def scene(stage, kind, extra_body="", contact=None, status="Online"):
     </div>"""
 
 
-def picker_scene(stage_eyebrow="The Reveal", stage_title="See your own leak, live", stage_body="Pick your industry — the demo adapts to your exact mechanism."):
+def picker_scene(stage_eyebrow="The Reveal", stage_title="See your own leak, live", stage_body="Pick your industry — the demo adapts to your exact mechanism.", lang="en"):
     chips = ""
     for ind in INDUSTRIES:
+        name = ind["name_hi"] if lang == "hi" else ind["name"]
         chips += f"""<a class="picker-chip" href="/demos/{ind['slug']}.html">
-          <span class="icon">{ind['icon']}</span>{ind['name']}
+          <span class="icon">{ind['icon']}</span>{esc(name)}
         </a>"""
     return f"""<div class="scene" data-accent="reveal">
       <div class="container">
@@ -322,16 +360,17 @@ def picker_scene(stage_eyebrow="The Reveal", stage_title="See your own leak, liv
     </div>"""
 
 
-def payoff_scene():
+def payoff_scene(lang="en"):
+    is_hi = lang == "hi"
     return f"""<div class="scene" data-accent="payoff">
       <div class="container">
         <div class="scene-copy center" style="margin:0 auto;">
-          <span class="eyebrow">The Payoff</span>
-          <h2>One fix. Then it compounds.</h2>
-          <p style="margin:0 auto 24px;">See the exact mechanism for your industry, then talk to us on WhatsApp.</p>
+          <span class="eyebrow">{"नतीजा" if is_hi else "The Payoff"}</span>
+          <h2>{"एक फिक्स। फिर यह बढ़ता ही जाता है।" if is_hi else "One fix. Then it compounds."}</h2>
+          <p style="margin:0 auto 24px;">{"अपनी इंडस्ट्री का असली मैकेनिज़्म देखें, फिर हमसे व्हाट्सएप पर बात करें।" if is_hi else "See the exact mechanism for your industry, then talk to us on WhatsApp."}</p>
           <div class="row-cta center" style="justify-content:center;">
-            <a class="btn btn-primary" href="/industries/">Explore Industries</a>
-            <a class="btn btn-ghost" href="/pricing/">See Pricing</a>
+            <a class="btn btn-primary" href="{"/hi/industries/" if is_hi else "/industries/"}">{"इंडस्ट्रीज़ देखें" if is_hi else "Explore Industries"}</a>
+            <a class="btn btn-ghost" href="/pricing/">{"प्राइसिंग देखें" if is_hi else "See Pricing"}</a>
           </div>
         </div>
       </div>
@@ -351,12 +390,13 @@ def cinematic_wrap(scenes_html, n_scenes, extra_class=""):
 
 
 # ---------------------------------------------------------------- HOME
-def build_home():
+def build_home(lang="en"):
     """The full customer journey, framed as four numbered Loss Points —
     search, enquiry, negotiation, payment — each shown broken (red) then
     covered (green) with a real screen, not a narrated placeholder.
     The point: a business can lose the same customer at any one of these
     four steps to a competitor who covers the whole journey."""
+    is_hi = lang == "hi"
     def preset(query, biz, others, biz_row):
         """others: 3 competitor dicts. biz_row: the featured business's
         rating/reviews/distance — it appears incomplete in 'broken' and
@@ -451,114 +491,160 @@ def build_home():
             {"rating": 3.8, "reviews": 13, "distance": "0.8 km"}),
     ]
 
+    contact = "रोहन शर्मा" if is_hi else "Rohan Sharma"
+    if is_hi:
+        chat1 = [("in", "नमस्ते, क्या आप इलेक्ट्रिकल पैनल अपग्रेड करते हैं?"), ("meta", "देखा गया · कोई जवाब नहीं · 2 घंटे")]
+        chat2 = [("in", "नमस्ते, क्या आप इलेक्ट्रिकल पैनल अपग्रेड करते हैं?"),
+                 ("out", "जी हां! आपके पैनल की मौजूदा कैपेसिटी बता सकते हैं?"),
+                 ("in", "5kW पैनल है, 8kW तक अपग्रेड करना है।")]
+        chat3 = [("in", "तो कीमत क्या होगी?"), ("meta", "कोई स्पष्ट जवाब नहीं मिला"), ("in", "ठीक है, कहीं और देखता हूं।")]
+        chat4 = [("out", "8kW अपग्रेड: ₹6,200 सब कुछ शामिल, एक दिन में पूरा।"),
+                 ("in", "कहीं और ₹5,000 का कोटेशन मिला, मैच कर सकते हैं?"),
+                 ("out", "₹5,000 मैच करेंगे — साथ में 1 साल की वारंटी। बुक करें?"),
+                 ("in", "हां, बुक कर दीजिए।")]
+        chat5 = [("in", "काम के बाद कैश में पेमेंट कर दूंगा।"), ("meta", "काम पूरा · पेमेंट \"भूल गए\" · 3 फॉलो-अप ज़रूरी")]
+    else:
+        chat1 = [("in", "Hi, do you do electrical panel upgrades?"), ("meta", "Seen · no reply · 2 hours")]
+        chat2 = [("in", "Hi, do you do electrical panel upgrades?"),
+                 ("out", "Yes! Could you share your panel's current capacity?"),
+                 ("in", "It's a 5kW panel, want to upgrade to 8kW.")]
+        chat3 = [("in", "So what's the cost?"), ("meta", "No clear answer given"), ("in", "Ok, let me check elsewhere.")]
+        chat4 = [("out", "Upgrade to 8kW: ₹6,200 all-inclusive, done in a day."),
+                 ("in", "Got a quote for ₹5,000 elsewhere, can you match?"),
+                 ("out", "We'll match ₹5,000 — plus a 1-year warranty. Book it?"),
+                 ("in", "Yes, book it.")]
+        chat5 = [("in", "I'll just pay you in cash after the work."),
+                 ("meta", "Work done · payment \"forgotten\" · 3 follow-ups needed")]
+
     scenes = [
         scene({
-            "eyebrow": "Loss Point #1 — Search", "title": "Found, but skipped",
-            "body": "A thin profile: no photos, no posts, no website. A customer searching nearby scrolls straight past it without a second thought.",
+            "eyebrow": "नुकसान बिंदु #1 — सर्च" if is_hi else "Loss Point #1 — Search",
+            "title": "मिला, पर नज़रअंदाज़ हो गया" if is_hi else "Found, but skipped",
+            "body": "अधूरी प्रोफाइल: न फोटो, न पोस्ट, न वेबसाइट। पास में सर्च करने वाला ग्राहक बिना दूसरी नज़र डाले आगे बढ़ जाता है।" if is_hi else
+                    "A thin profile: no photos, no posts, no website. A customer searching nearby scrolls straight past it without a second thought.",
             "accent": "red",
         }, "raw", extra_body=rotating_search_screen(search_presets, use_fixed=False)),
         scene({
-            "eyebrow": "Covered", "title": "Same business. Now it's the one that gets tapped.",
-            "body": "Photos, posts, a website link, a WhatsApp button — a complete profile is the difference between being found and being chosen.",
+            "eyebrow": "समाधान" if is_hi else "Covered",
+            "title": "वही बिज़नेस। अब यही चुना जाता है।" if is_hi else "Same business. Now it's the one that gets tapped.",
+            "body": "फोटो, पोस्ट, वेबसाइट लिंक, व्हाट्सएप बटन — एक पूरी प्रोफाइल ही तय करती है कि आप सिर्फ़ दिखें या चुने जाएं।" if is_hi else
+                    "Photos, posts, a website link, a WhatsApp button — a complete profile is the difference between being found and being chosen.",
             "accent": "green",
         }, "raw", extra_body=rotating_search_screen(search_presets, use_fixed=True)),
 
         scene({
-            "eyebrow": "Loss Point #2 — Enquiry", "title": "The enquiry goes quiet",
-            "body": "A real question, waiting. While it waits, the customer is already messaging two other electricians.",
-            "chat": [
-                ("in", "Hi, do you do electrical panel upgrades?"),
-                ("meta", "Seen · no reply · 2 hours"),
-            ],
+            "eyebrow": "नुकसान बिंदु #2 — पूछताछ" if is_hi else "Loss Point #2 — Enquiry",
+            "title": "पूछताछ का जवाब नहीं मिलता" if is_hi else "The enquiry goes quiet",
+            "body": "एक असली सवाल, जवाब का इंतज़ार करते हुए। तब तक ग्राहक दो और इलेक्ट्रिशियन को मैसेज कर चुका होता है।" if is_hi else
+                    "A real question, waiting. While it waits, the customer is already messaging two other electricians.",
+            "chat": chat1,
             "accent": "red",
-        }, "raw", extra_body=chat_screen("Rohan Sharma", "Last seen 2 hours ago", [
-            ("in", "Hi, do you do electrical panel upgrades?"),
-            ("meta", "Seen · no reply · 2 hours"),
-        ])),
+        }, "raw", extra_body=chat_screen(contact, "2 घंटे पहले देखा गया" if is_hi else "Last seen 2 hours ago", chat1)),
         scene({
-            "eyebrow": "Covered", "title": "Instant reply, and the right follow-up",
-            "body": "Not just \"thanks for reaching out\" — a question that moves the conversation toward a real quote.",
+            "eyebrow": "समाधान" if is_hi else "Covered",
+            "title": "तुरंत जवाब, और सही फॉलो-अप" if is_hi else "Instant reply, and the right follow-up",
+            "body": "सिर्फ़ \"धन्यवाद\" नहीं — एक सवाल जो बातचीत को असली कोटेशन की तरफ़ ले जाता है।" if is_hi else
+                    "Not just \"thanks for reaching out\" — a question that moves the conversation toward a real quote.",
             "accent": "green",
-        }, "raw", extra_body=chat_screen("Rohan Sharma", "Online", [
-            ("in", "Hi, do you do electrical panel upgrades?"),
-            ("out", "Yes! Could you share your panel's current capacity?"),
-            ("in", "It's a 5kW panel, want to upgrade to 8kW."),
-        ])),
+        }, "raw", extra_body=chat_screen(contact, "ऑनलाइन" if is_hi else "Online", chat2)),
 
         scene({
-            "eyebrow": "Loss Point #3 — Negotiation", "title": "No quote, no negotiation, no deal",
-            "body": "Asked for a price, given a shrug. The customer doesn't wait around for a number.",
+            "eyebrow": "नुकसान बिंदु #3 — बातचीत" if is_hi else "Loss Point #3 — Negotiation",
+            "title": "न कोटेशन, न बातचीत, न डील" if is_hi else "No quote, no negotiation, no deal",
+            "body": "कीमत पूछी, जवाब में सिर्फ़ कंधे उचकाए गए। ग्राहक नंबर का इंतज़ार नहीं करता।" if is_hi else
+                    "Asked for a price, given a shrug. The customer doesn't wait around for a number.",
             "accent": "red",
-        }, "raw", extra_body=chat_screen("Rohan Sharma", "Typing…", [
-            ("in", "So what's the cost?"),
-            ("meta", "No clear answer given"),
-            ("in", "Ok, let me check elsewhere."),
-        ])),
+        }, "raw", extra_body=chat_screen(contact, "टाइप कर रहे हैं…" if is_hi else "Typing…", chat3)),
         scene({
-            "eyebrow": "Covered", "title": "Quoted, matched, and booked — same conversation",
-            "body": "A real quote, and when they've got a better offer, it gets matched instead of losing the deal outright.",
+            "eyebrow": "समाधान" if is_hi else "Covered",
+            "title": "कोटेशन, मैच, और बुकिंग — एक ही बातचीत में" if is_hi else "Quoted, matched, and booked — same conversation",
+            "body": "असली कोटेशन, और अगर कहीं बेहतर ऑफर मिले तो उसे मैच किया जाता है, डील गंवाने की बजाय।" if is_hi else
+                    "A real quote, and when they've got a better offer, it gets matched instead of losing the deal outright.",
             "accent": "green",
-        }, "raw", extra_body=chat_screen("Rohan Sharma", "Online", [
-            ("out", "Upgrade to 8kW: ₹6,200 all-inclusive, done in a day."),
-            ("in", "Got a quote for ₹5,000 elsewhere, can you match?"),
-            ("out", "We'll match ₹5,000 — plus a 1-year warranty. Book it?"),
-            ("in", "Yes, book it."),
-        ])),
+        }, "raw", extra_body=chat_screen(contact, "ऑनलाइन" if is_hi else "Online", chat4)),
 
         scene({
-            "eyebrow": "Loss Point #4 — Payment", "title": "\"I'll pay after the work\" — and then they don't",
-            "body": "The job's done. The payment isn't. Now it's three awkward follow-up messages instead of a closed deal.",
+            "eyebrow": "नुकसान बिंदु #4 — पेमेंट" if is_hi else "Loss Point #4 — Payment",
+            "title": "\"काम के बाद पेमेंट कर दूंगा\" — फिर नहीं करते" if is_hi else "\"I'll pay after the work\" — and then they don't",
+            "body": "काम पूरा हो गया। पेमेंट नहीं। अब डील बंद होने की बजाय तीन अजीब फॉलो-अप मैसेज भेजने पड़ते हैं।" if is_hi else
+                    "The job's done. The payment isn't. Now it's three awkward follow-up messages instead of a closed deal.",
             "accent": "red",
-        }, "raw", extra_body=chat_screen("Rohan Sharma", "Online", [
-            ("in", "I'll just pay you in cash after the work."),
-            ("meta", "Work done · payment \"forgotten\" · 3 follow-ups needed"),
-        ])),
+        }, "raw", extra_body=chat_screen(contact, "ऑनलाइन" if is_hi else "Online", chat5)),
         scene({
-            "eyebrow": "Covered", "title": "A link, paid before the technician leaves",
-            "body": "People commit to a payment link faster than they commit out loud — and it's done before anyone has to ask twice.",
+            "eyebrow": "समाधान" if is_hi else "Covered",
+            "title": "एक लिंक, और टेक्नीशियन के जाने से पहले पेमेंट" if is_hi else "A link, paid before the technician leaves",
+            "body": "लोग ज़ुबानी वादे से ज़्यादा तेज़ी से पेमेंट लिंक पर भरोसा करते हैं — और दोबारा पूछने की नौबत ही नहीं आती।" if is_hi else
+                    "People commit to a payment link faster than they commit out loud — and it's done before anyone has to ask twice.",
             "accent": "green",
         }, "raw", extra_body=payment_screen("Patel Electric Works", "₹5,000", paid=True)),
 
         picker_scene(
-            stage_title="One journey. Every point covered.",
-            stage_body="Four places a customer can be lost — search, enquiry, negotiation, payment. Pick your industry to see the exact version of this for your business.",
+            stage_eyebrow="रिवील" if is_hi else "The Reveal",
+            stage_title="एक सफ़र। हर पॉइंट कवर।" if is_hi else "One journey. Every point covered.",
+            stage_body="चार जगह जहां ग्राहक छूट सकता है — सर्च, पूछताछ, बातचीत, पेमेंट। अपनी इंडस्ट्री चुनें और अपने बिज़नेस के लिए असली उदाहरण देखें।" if is_hi else
+                       "Four places a customer can be lost — search, enquiry, negotiation, payment. Pick your industry to see the exact version of this for your business.",
+            lang=lang,
         ),
-        payoff_scene(),
+        payoff_scene(lang),
     ]
-    body = nav("/") + cinematic_wrap(scenes, len(scenes)) + f"""
+    body = nav("/hi/" if is_hi else "/", lang) + cinematic_wrap(scenes, len(scenes)) + f"""
 <section class="section-pad">
   <div class="container">
-    <div class="eyebrow">Why AsliKaam</div>
-    <h2>A studio, not a SaaS</h2>
-    <p class="lead">Few clients, real work delivered end-to-end — website, Google presence, WhatsApp-driven client handling — built and personally run by us. We tap the money already flowing through your existing website and marketing spend, instead of inventing new demand.</p>
+    <div class="eyebrow">{"AsliKaam क्यों" if is_hi else "Why AsliKaam"}</div>
+    <h2>{"एक स्टूडियो, कोई SaaS नहीं" if is_hi else "A studio, not a SaaS"}</h2>
+    <p class="lead">{"कम क्लाइंट्स, पूरा काम शुरू से आख़िर तक — वेबसाइट, गूगल प्रेज़ेंस, व्हाट्सएप-आधारित क्लाइंट हैंडलिंग — हम ख़ुद बनाते और चलाते हैं। हम आपकी मौजूदा वेबसाइट और मार्केटिंग खर्च से पहले से बह रहे पैसे का इस्तेमाल करते हैं, नई डिमांड बनाने की बजाय।" if is_hi else "Few clients, real work delivered end-to-end — website, Google presence, WhatsApp-driven client handling — built and personally run by us. We tap the money already flowing through your existing website and marketing spend, instead of inventing new demand."}</p>
     <div class="row-cta">
-      <a class="btn btn-primary" href="/industries/">Find your industry</a>
-      <a class="btn btn-ghost" href="/agentic-use-cases/">Can AI actually increase sales?</a>
+      <a class="btn btn-primary" href="{"/hi/industries/" if is_hi else "/industries/"}">{"अपनी इंडस्ट्री खोजें" if is_hi else "Find your industry"}</a>
+      <a class="btn btn-ghost" href="/agentic-use-cases/">{"क्या AI वाकई बिक्री बढ़ा सकता है?" if is_hi else "Can AI actually increase sales?"}</a>
     </div>
   </div>
 </section>
-""" + foot()
-    write("index.html", head(f"{BRAND} — {TAGLINE}",
-        "AsliKaam is the digital partner for MSMEs: website, Google presence, and WhatsApp-driven client handling, built end-to-end.") + body)
+""" + foot(lang)
+    if is_hi:
+        title, desc = f"{BRAND} — {TAGLINE_HI}", "AsliKaam MSMEs का डिजिटल पार्टनर है: वेबसाइट, गूगल प्रेज़ेंस, और व्हाट्सएप-आधारित क्लाइंट हैंडलिंग, शुरू से आख़िर तक बनाई गई।"
+    else:
+        title, desc = f"{BRAND} — {TAGLINE}", "AsliKaam is the digital partner for MSMEs: website, Google presence, and WhatsApp-driven client handling, built end-to-end."
+    canonical = "/hi/" if is_hi else "/"
+    write("hi/index.html" if is_hi else "index.html",
+        head(title, desc, canonical, lang, {"en": "/", "hi": "/hi/"}) + body)
 
 
 # ---------------------------------------------------------------- INDUSTRIES
-def build_industries_index():
+def build_industries_index(lang="en"):
+    is_hi = lang == "hi"
+    prefix = "hi/" if is_hi else ""
+    detail_prefix = "/industries/"  # detail pages aren't translated yet — link to the English version
+    canonical = "/hi/industries/" if is_hi else "/industries/"
+    alternates = {"en": "/industries/", "hi": "/hi/industries/"}
+
     cards = ""
     for ind in INDUSTRIES:
-        cards += f"""<a class="card industry-card" href="/industries/{ind['slug']}.html">
+        name = ind["name_hi"] if is_hi else ind["name"]
+        use_case = ind["use_case_hi"] if is_hi else ind["use_case"]
+        explore = "देखें →" if is_hi else "Explore →"
+        cards += f"""<a class="card industry-card" href="{detail_prefix}{ind['slug']}.html">
           <span class="icon" style="font-size:28px;">{ind['icon']}</span>
-          {badge(ind['badge'])}
-          <h3>{ind['name']}</h3>
-          <p>{esc(ind['use_case'])}</p>
-          <div class="starts-at">Explore →</div>
+          {badge(ind['badge'], lang)}
+          <h3>{esc(name)}</h3>
+          <p>{esc(use_case)}</p>
+          <div class="starts-at">{explore}</div>
         </a>"""
-    body = nav("/industries/") + f"""
+
+    if is_hi:
+        eyebrow, lead = "इंडस्ट्रीज़", f"हर पेज ईमानदारी से लेबल किया गया है: {badge('proven', 'hi')} का मतलब असली पायलट चल चुका है। {badge('proposed', 'hi')} का मतलब यह हमारा डायग्नोज़ किया गया फिक्स है, अभी तक वहां लागू नहीं हुआ।"
+        h1 = f"{len(INDUSTRIES)} बिज़नेस। {len(INDUSTRIES)} बिल्कुल सटीक ख़ामियां।"
+        title, desc = f"इंडस्ट्रीज़ — {BRAND}", "15 MSME वर्टिकल्स, हर एक की सटीक लीड-लीक मैप की गई और उसे बंद करने वाला फिक्स।"
+    else:
+        eyebrow, lead = "Industries", f"Every page is labeled honestly: {badge('proven')} means a real pilot has run. {badge('proposed')} means it's our diagnosed fix, not yet delivered there."
+        h1 = f"{len(INDUSTRIES)} businesses. {len(INDUSTRIES)} exact leaks."
+        title, desc = f"Industries — {BRAND}", "Fifteen MSME verticals, each with its exact lead-leak mapped and the fix that closes it."
+
+    body = nav(canonical, lang) + f"""
 <section class="page-hero">
   <div class="container">
-    <div class="eyebrow">Industries</div>
-    <h1>{len(INDUSTRIES)} businesses. {len(INDUSTRIES)} exact leaks.</h1>
-    <p class="lead">Every page is labeled honestly: {badge('proven')} means a real pilot has run. {badge('proposed')} means it's our diagnosed fix, not yet delivered there.</p>
+    <div class="eyebrow">{eyebrow}</div>
+    <h1>{h1}</h1>
+    <p class="lead">{lead}</p>
   </div>
 </section>
 <section class="section-pad-sm">
@@ -566,9 +652,8 @@ def build_industries_index():
     <div class="grid grid-3">{cards}</div>
   </div>
 </section>
-""" + foot()
-    write("industries/index.html", head(f"Industries — {BRAND}",
-        "Eleven MSME verticals, each with its exact lead-leak mapped and the fix that closes it.", "/industries/") + body)
+""" + foot(lang)
+    write(f"{prefix}industries/index.html", head(title, desc, canonical, lang, alternates) + body)
 
 
 def use_case_panel(key, pain, fix, visible=False, badge_kind=None, contact=None):
@@ -1030,6 +1115,16 @@ def build_agentic():
 
 <section class="section-pad-sm">
   <div class="container">
+    <div class="demos-filters" id="agentic-filters">
+      <button class="demos-filter-chip is-active" data-kind="all">All Automations</button>
+      <button class="demos-filter-chip" data-kind="non-agentic">⚙️ Non-Agentic</button>
+      <button class="demos-filter-chip" data-kind="agentic">🤖 Agentic</button>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad-sm agentic-kind-section" data-kind="non-agentic">
+  <div class="container">
     <div class="eyebrow">⚙️ Non-Agentic Automations</div>
     <h2>Simple, reliable, rule-based</h2>
     <p class="lead">No AI judgment involved — a trigger fires, a template goes out. Deterministic and easy to trust, adapted from proven patterns rather than built from scratch.</p>
@@ -1037,7 +1132,7 @@ def build_agentic():
   </div>
 </section>
 
-<section class="section-pad-sm">
+<section class="section-pad-sm agentic-kind-section" data-kind="agentic">
   <div class="container">
     <div class="eyebrow">🤖 Agentic Automations</div>
     <h2>Where it actually needs to think</h2>
@@ -1061,7 +1156,27 @@ def build_agentic():
         "Can AI actually increase your sales? Non-Agentic and Agentic automations, honestly scoped — no invented prices.", "/agentic-use-cases/") + body)
 
 
+def inject_agentic_filter_script():
+    path = os.path.join(SITE, "agentic-use-cases", "index.html")
+    with open(path, "r", encoding="utf-8") as f:
+        html = f.read()
+    html = html.replace(
+        '<script src="/assets/js/global-ui.js"></script>',
+        '<script src="/assets/js/global-ui.js"></script>\n<script src="/assets/js/agentic-filter.js"></script>',
+    )
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(html)
+
+
 # ---------------------------------------------------------------- BLOGS
+def render_table_cell(cell):
+    if isinstance(cell, dict):
+        if cell.get("url"):
+            return f'<td><a href="{cell["url"]}" target="_blank" rel="noopener">{esc(cell["text"])}</a></td>'
+        return f'<td>{esc(cell["text"])}</td>'
+    return f'<td>{esc(str(cell))}</td>'
+
+
 def render_blog_block(block):
     if block["type"] == "h2":
         return f"<h2>{esc(block['text'])}</h2>"
@@ -1071,6 +1186,18 @@ def render_blog_block(block):
         return f"""<div class="blog-citation">
           <p>{esc(block['stat'])}</p>
           <a href="{block['url']}" target="_blank" rel="noopener">— {esc(block['source'])} ↗</a>
+        </div>"""
+    if block["type"] == "table":
+        header_html = "".join(f"<th>{esc(h)}</th>" for h in block["headers"])
+        rows_html = "".join(f"<tr>{''.join(render_table_cell(c) for c in row)}</tr>" for row in block["rows"])
+        caption_html = f"<caption>{esc(block['caption'])}</caption>" if block.get("caption") else ""
+        note_html = f'<p class="tr-note" style="margin-top:8px;">{esc(block["note"])}</p>' if block.get("note") else ""
+        return f"""<div class="table-wrap">
+          <table class="data-table">{caption_html}
+            <thead><tr>{header_html}</tr></thead>
+            <tbody>{rows_html}</tbody>
+          </table>
+          {note_html}
         </div>"""
     return ""
 
@@ -1097,8 +1224,8 @@ def build_blogs_index():
 <section class="page-hero">
   <div class="container">
     <div class="eyebrow">Blogs</div>
-    <h1>What's actually happening to businesses like yours</h1>
-    <p class="lead">Real reports, real numbers — MSME closures, export share, quick-commerce impact — not filler. {len(BLOG_POSTS)} posts live now, covering {len(industries_covered)} industries.</p>
+    <h1>The customer you lost last month didn't leave. You just never got the message.</h1>
+    <p class="lead">{len(BLOG_POSTS)} sourced deep-dives across {len(industries_covered)} industries — every stat cited, every fix specific to how that business actually loses money today.</p>
   </div>
 </section>
 <section class="section-pad-sm">
@@ -1184,6 +1311,12 @@ def build_free_tool_page(tool):
           <input type="number" id="f-{f['id']}" data-id="{f['id']}" value="{f['default']}" step="{f['step']}">
         </div>"""
     related_link = f'<a class="btn btn-ghost" href="/industries/{ind["slug"]}.html">See the {esc(ind["name"])} fix</a>' if ind else ""
+    content_blocks = "".join(render_blog_block(b) for b in tool.get("content", []))
+    content_section = f"""<section class="section-pad-sm">
+  <div class="container blog-article">
+    {content_blocks}
+  </div>
+</section>""" if content_blocks else ""
     body = nav("/free-tools/") + f"""
 <section class="page-hero section-pad-sm">
   <div class="container">
@@ -1195,7 +1328,9 @@ def build_free_tool_page(tool):
 <section class="section-pad-sm">
   <div class="container">
     <div class="tool-layout">
-      <form id="tool-form" class="tool-form">{fields_html}</form>
+      <form id="tool-form" class="tool-form">{fields_html}
+        <button type="submit" class="btn btn-primary tool-calc-btn">Calculate</button>
+      </form>
       <div class="tool-result">
         <h4>Result</h4>
         <div id="tool-result-body"></div>
@@ -1207,6 +1342,7 @@ def build_free_tool_page(tool):
     </div>
   </div>
 </section>
+{content_section}
 <script>{tool['compute_js']}</script>
 <script src="/assets/js/free-tools-runtime.js"></script>
 """ + foot()
@@ -1303,7 +1439,9 @@ def main():
     shutil.copytree(ASSETS_SRC, os.path.join(SITE, "assets"))
 
     build_home()
+    build_home(lang="hi")
     build_industries_index()
+    build_industries_index(lang="hi")
     for ind in INDUSTRIES:
         build_industry_page(ind)
     build_demos_index()
@@ -1316,6 +1454,7 @@ def main():
     build_pricing()
     inject_pricing_script()
     build_agentic()
+    inject_agentic_filter_script()
     build_blogs_index()
     inject_blogs_filter_script()
     for post in BLOG_POSTS:

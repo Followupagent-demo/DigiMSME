@@ -4,6 +4,7 @@
 
 BRAND = "AsliKaam"
 TAGLINE = "Digital Partner of MSMEs Automation"
+TAGLINE_HI = "MSMEs के ऑटोमेशन के लिए डिजिटल पार्टनर"
 WHATSAPP_NUMBER = "911234567890"  # TODO: replace with the real WhatsApp Business number before launch
 PHONE_NUMBER = "+91 12345 67890"  # TODO: replace with the real business line before launch
 
@@ -17,6 +18,20 @@ NAV = [
     ("Pricing", "/pricing/"),
 ]
 
+# Hindi nav labels — same href list/order as NAV. Only Home and Industries
+# currently have a real /hi/ page (see HI_AVAILABLE_PATHS in build.py); the
+# rest still point at their English page until translated, so the label is
+# Hindi but the destination isn't yet — full-site coverage lands incrementally.
+NAV_HI = [
+    ("होम", "/"),
+    ("इंडस्ट्रीज़", "/industries/"),
+    ("ब्लॉग", "/blogs/"),
+    ("डेमो", "/demos/"),
+    ("एजेंटिक यूज़ केस", "/agentic-use-cases/"),
+    ("फ्री टूल्स", "/free-tools/"),
+    ("प्राइसिंग", "/pricing/"),
+]
+
 INDUSTRIES = [
     {
         "slug": "export-trading",
@@ -24,6 +39,8 @@ INDUSTRIES = [
         "icon": "🚢",
         "badge": "proposed",
         "use_case": "A buyer messages for price and sample. No reply for 2 days. They move on to the next supplier in the search results.",
+        "name_hi": "एक्सपोर्ट / ट्रेडिंग",
+        "use_case_hi": "एक खरीदार कीमत और सैंपल के लिए मैसेज करता है। 2 दिन तक कोई जवाब नहीं मिलता। वह सर्च रिज़ल्ट में अगले सप्लायर के पास चला जाता है।",
         "solution": "Catalog + WhatsApp RFQ routing, same-day quote",
         "solution_bullets": [
             "Product catalog with landed-cost-ready specs, always live",
@@ -75,6 +92,8 @@ INDUSTRIES = [
         "icon": "🏥",
         "badge": "proposed",
         "use_case": "A new branch opens. Zero walk-ins. It's invisible on Google Search and Maps.",
+        "name_hi": "हॉस्पिटल (मल्टी-ब्रांच)",
+        "use_case_hi": "एक नई ब्रांच खुलती है। कोई वॉक-इन नहीं। गूगल सर्च और मैप्स पर यह दिखती ही नहीं।",
         "solution": "Per-branch GBP + doctor pages + WhatsApp appointments",
         "solution_bullets": [
             "A dedicated Google Business Profile for every branch, not just HQ",
@@ -125,6 +144,8 @@ INDUSTRIES = [
         "icon": "🎓",
         "badge": "proposed",
         "use_case": "You're a genuinely good teacher — but no branch in other cities, no software team. A student outside town wants your recorded batch, can't find a way to pay, and enrolls with a teacher who already sells online.",
+        "name_hi": "कोचिंग इंस्टीट्यूट",
+        "use_case_hi": "आप वाकई एक अच्छे टीचर हैं — पर दूसरे शहरों में कोई ब्रांच नहीं, कोई सॉफ्टवेयर टीम नहीं। शहर के बाहर का एक स्टूडेंट आपका रिकॉर्डेड बैच चाहता है, पेमेंट का तरीका नहीं मिलता, और वह उस टीचर के पास एनरोल कर लेता है जो पहले से ऑनलाइन बेच रहा है।",
         "solution": "Course sales page + payment + auto access",
         "solution_bullets": [
             "A course sales page that explains the batch and its outcomes",
@@ -170,6 +191,8 @@ INDUSTRIES = [
         "icon": "🏢",
         "badge": "proposed",
         "use_case": "A portal lead comes in. Follow-up happens 3 days later. By then the lead has gone cold.",
+        "name_hi": "रियल एस्टेट डेवलपर",
+        "use_case_hi": "पोर्टल से एक लीड आती है। फॉलो-अप 3 दिन बाद होता है। तब तक लीड ठंडी पड़ चुकी होती है।",
         "solution": "Microsite + WhatsApp capture + auto brochure/visit booking",
         "solution_bullets": [
             "A project microsite that captures intent the moment someone lands",
@@ -215,6 +238,8 @@ INDUSTRIES = [
         "icon": "🏭",
         "badge": "proposed",
         "use_case": "An RFQ finally gets quoted — 4 days late. The order is already gone.",
+        "name_hi": "B2B मैन्युफैक्चरर",
+        "use_case_hi": "RFQ का आख़िरकार कोटेशन मिलता है — 4 दिन देर से। तब तक ऑर्डर जा चुका होता है।",
         "solution": "Catalog + inquiry-to-WhatsApp + fast quote templates",
         "solution_bullets": [
             "A live catalog buyers can browse and reference in their RFQ",
@@ -260,6 +285,8 @@ INDUSTRIES = [
         "icon": "🏫",
         "badge": "proposed",
         "use_case": "Admission week. The phone line is jammed. Enrollments are lost to the school that answered.",
+        "name_hi": "प्राइवेट स्कूल",
+        "use_case_hi": "एडमिशन वीक। फ़ोन लाइन व्यस्त। एनरोलमेंट उस स्कूल के पास चला जाता है जिसने कॉल का जवाब दिया।",
         "solution": "Admission capture + WhatsApp auto-response + GBP",
         "solution_bullets": [
             "An admission-enquiry form that never goes to a busy line",
@@ -306,6 +333,8 @@ INDUSTRIES = [
         "icon": "🧪",
         "badge": "proposed",
         "use_case": "Home-collection booking has too much friction. The rival lab down the road wins the sample.",
+        "name_hi": "डायग्नोस्टिक लैब",
+        "use_case_hi": "होम-कलेक्शन बुकिंग में बहुत झंझट है। रास्ते की दूसरी लैब सैंपल जीत ले जाती है।",
         "solution": "Per-branch GBP + WhatsApp booking + digital reports",
         "solution_bullets": [
             "Google presence for every branch so nearby patients find you first",
@@ -352,6 +381,8 @@ INDUSTRIES = [
         "icon": "✨",
         "badge": "proposed",
         "use_case": "A high-value Instagram DM about a wedding date arrives — and gets buried under everything else. Never answered.",
+        "name_hi": "वेडिंग प्लानर / बैंक्वेट",
+        "use_case_hi": "शादी की तारीख़ को लेकर एक बड़ा इंस्टाग्राम DM आता है — और बाकी सबके नीचे दब जाता है। कभी जवाब नहीं मिलता।",
         "solution": "Proof-of-work site + WhatsApp date/quote flow",
         "solution_bullets": [
             "A portfolio site that shows real work, not just a feed",
@@ -397,6 +428,8 @@ INDUSTRIES = [
         "icon": "🏋️",
         "badge": "proposed",
         "use_case": "Trial DMs flood in after a promo. No follow-up happens. Almost none convert to memberships.",
+        "name_hi": "जिम / फिटनेस चेन",
+        "use_case_hi": "प्रोमो के बाद ट्रायल के लिए ढेरों DM आते हैं। कोई फॉलो-अप नहीं होता। लगभग कोई भी मेंबरशिप में नहीं बदलता।",
         "solution": "WhatsApp trial-booking flow + GBP",
         "solution_bullets": [
             "A WhatsApp flow that books the trial slot instantly",
@@ -447,6 +480,8 @@ INDUSTRIES = [
         "icon": "⚖️",
         "badge": "proposed",
         "use_case": "No real online presence. The firm loses the client to whoever actually shows up in search.",
+        "name_hi": "CA / लीगल फर्म",
+        "use_case_hi": "कोई असली ऑनलाइन मौजूदगी नहीं। फर्म उस क्लाइंट को खो देती है जो सर्च में असल में दिखता है।",
         "solution": "Credibility site + WhatsApp consult booking",
         "solution_bullets": [
             "A credibility-first site: expertise, track record, clear services",
@@ -497,6 +532,8 @@ INDUSTRIES = [
         "icon": "🎨",
         "badge": "proposed",
         "use_case": "The reel gets thousands of views. None of them turn into an actual consult booking.",
+        "name_hi": "इंटीरियर डिज़ाइनर",
+        "use_case_hi": "रील पर हज़ारों व्यूज़ आते हैं। पर कोई भी असली कंसल्ट बुकिंग में नहीं बदलता।",
         "solution": "Case-study portfolio + WhatsApp consult booking",
         "solution_bullets": [
             "A case-study portfolio that proves the work behind the reels",
@@ -541,6 +578,8 @@ INDUSTRIES = [
         "icon": "🛒",
         "badge": "proposed",
         "use_case": "A regular customer can't make it to the store today. There's no way to order from home tied to what's actually in stock — so they open Blinkit instead, and the store never even knows it lost the sale.",
+        "name_hi": "रिटेल स्टोर (किराना / जनरल)",
+        "use_case_hi": "एक रेगुलर ग्राहक आज दुकान तक नहीं आ सकता। घर से असली स्टॉक के हिसाब से ऑर्डर करने का कोई तरीका नहीं है — तो वह इसकी बजाय Blinkit खोल लेता है, और दुकान को पता भी नहीं चलता कि उसने बिक्री गंवा दी।",
         "solution": "WhatsApp catalog + ordering, tied to real inventory",
         "solution_bullets": [
             "A live WhatsApp catalog tied to actual stock — no promising what's not on the shelf",
@@ -591,6 +630,8 @@ INDUSTRIES = [
         "icon": "🚗",
         "badge": "proposed",
         "use_case": "A walk-in asks about a test drive on Instagram. By the time someone replies, they've already booked one at the showroom down the road.",
+        "name_hi": "ऑटोमोबाइल शोरूम",
+        "use_case_hi": "एक संभावित ग्राहक इंस्टाग्राम पर टेस्ट ड्राइव के बारे में पूछता है। जवाब मिलने तक, वह रास्ते के शोरूम में पहले ही बुक कर चुका होता है।",
         "solution": "WhatsApp test-drive booking + service reminders",
         "solution_bullets": [
             "Test-drive slots booked straight from any inquiry, no back-and-forth",
@@ -636,6 +677,8 @@ INDUSTRIES = [
         "icon": "🧱",
         "badge": "proposed",
         "use_case": "A site visit needs tile samples and a quick quote. The showroom takes days to send either, so the contractor buys from whoever answers first.",
+        "name_hi": "बिल्डिंग मटेरियल / टाइल्स शोरूम",
+        "use_case_hi": "साइट विज़िट के लिए टाइल सैंपल और तुरंत कोटेशन चाहिए। शोरूम दोनों भेजने में दिन लगा देता है, तो कॉन्ट्रैक्टर उससे ख़रीदता है जो पहले जवाब दे।",
         "solution": "WhatsApp catalog + sample request + fast quote",
         "solution_bullets": [
             "A browsable catalog so contractors can shortlist before they even call",
@@ -681,6 +724,8 @@ INDUSTRIES = [
         "icon": "📦",
         "badge": "proposed",
         "use_case": "A retailer wants to reorder stock. There's no easy channel to do it, so they call a competing distributor who makes it simpler.",
+        "name_hi": "होलसेल डिस्ट्रीब्यूटर",
+        "use_case_hi": "एक रिटेलर स्टॉक दोबारा ऑर्डर करना चाहता है। ऐसा करने का कोई आसान तरीका नहीं है, तो वह एक प्रतिद्वंद्वी डिस्ट्रीब्यूटर को कॉल करता है जो इसे आसान बना देता है।",
         "solution": "WhatsApp reorder catalog + repeat-purchase reminders",
         "solution_bullets": [
             "Retailers reorder by browsing a live catalog on WhatsApp, no phone tag",
@@ -1006,7 +1051,7 @@ MODULES = [
     {
         "id": "win-back",
         "agentic": False,
-        "name": "Abandoned-Inquiry Win-Back Agent",
+        "name": "Abandoned-Inquiry Win-Back Nudge",
         "effort": "advanced",
         "badge": "proposed",
         "blurb": "Re-engages a promising inquiry automatically after a few days of silence, with a fresh nudge instead of writing it off.",
@@ -1060,7 +1105,7 @@ MODULES = [
     {
         "id": "missed-call-winback",
         "agentic": False,
-        "name": "Missed-Call Instant Win-Back Agent",
+        "name": "Missed-Call Instant Win-Back",
         "effort": "quick",
         "badge": "proposed",
         "blurb": "The moment a call is missed, an automatic WhatsApp picks the conversation back up — before the caller tries someone else.",
@@ -1116,7 +1161,7 @@ MODULES = [
     {
         "id": "competitor-price-watch",
         "agentic": False,
-        "name": "Competitor Price-Watch Alert Agent",
+        "name": "Competitor Price-Watch Alert",
         "effort": "advanced",
         "badge": "proposed",
         "blurb": "Checks competitors' public listings and prices periodically, and alerts the owner the moment something changes.",
