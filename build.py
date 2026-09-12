@@ -1290,8 +1290,8 @@ def build_free_tools_index():
 <section class="page-hero">
   <div class="container">
     <div class="eyebrow">Free Tools</div>
-    <h1>{len(FREE_TOOLS)} calculators, one per industry</h1>
-    <p class="lead">Real, working numbers — no signup, no email gate. Built to be useful on their own, and to show the exact kind of math each industry's automation actually runs on.</p>
+    <h1>Free calculators for Indian MSMEs — real numbers, no signup</h1>
+    <p class="lead">EMI, tax, margin, and industry-specific loss calculators — free to use, with the real sources and context behind every number.</p>
   </div>
 </section>
 <section class="section-pad-sm">
