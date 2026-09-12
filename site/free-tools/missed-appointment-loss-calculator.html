@@ -72,7 +72,14 @@
     </div>
   </div>
 </section>
-
+<section class="section-pad-sm">
+  <div class="container blog-article">
+    <h2>No-shows aren't a rounding error — they're a recurring revenue leak</h2><p>Every missed slot is lost revenue that already had a cost attached to it — the doctor's time, the front-desk booking effort, and the opportunity cost of a patient who could have filled that slot instead. A no-show isn't "nothing happened"; it's a slot that generated zero revenue but was fully staffed for.</p><div class="blog-citation">
+          <p>A 2023 rapid systematic review in the Journal of the American Medical Informatics Association found the global average outpatient no-show rate runs around 23%, ranging from roughly 13% in Oceania to as high as 43% in parts of Africa, with Asia among the higher-rate regions in the pooled studies.</p>
+          <a href="https://academic.oup.com/jamia/article/30/3/559/6889491" target="_blank" rel="noopener">— Journal of the American Medical Informatics Association (Oxford Academic), 2023 ↗</a>
+        </div><p>A single, India-specific published no-show rate proving one exact number for Indian hospitals wasn't findable in peer-reviewed literature at the time of writing — so we're not going to pretend one exists. What the global research does show consistently is that no-show rates in the high-teens to mid-20s percent range are common across outpatient settings worldwide, which puts this calculator's default 18% well within the range multiple independent studies report — not an outlier assumption.</p><p>The same systematic review's core finding is worth repeating: predictive, reminder-based interventions are the most consistently effective lever for reducing no-shows — which is exactly why an automatic WhatsApp reminder the day before a slot is the standard, low-cost fix, not a nice-to-have.</p>
+  </div>
+</section>
 <script>function computeResult(v) {
   var missedPerDay = v.perDay * (v.noShow / 100);
   var monthlyLoss = missedPerDay * v.revenue * v.days;

@@ -1602,6 +1602,158 @@ BLOG_POSTS = [
             {"type": "p", "text": "A simple way for retailers to reorder the moment they're low, without waiting for the next scheduled beat visit; visibility into which SKUs and retailers are due for a reorder, so follow-up doesn't rely on memory; and a fast, predictable response when a retailer does reach out, since the ones who switch distributors usually do it quietly, only after being made to wait once too often. None of it requires undercutting margins. It requires being the easiest distributor to reorder from before a retailer even considers checking who else might answer faster."},
         ],
     },
+    {
+        "slug": "grow-gym-business-2027",
+        "title": "7 Ways to Grow Your Gym Business in 2027 (That Aren't \"Buy More Machines\")",
+        "dek": "The fastest-growing part of India's fitness market isn't bigger gyms — it's smaller, sharper ones. Here's where the real growth is headed.",
+        "tag": "Gym / Fitness Chain",
+        "read_time": "5 min read",
+        "related_industry": "gym-fitness-chain",
+        "body": [
+            {"type": "p", "text": "Budget season rolls around and the instinct is the same every year: add a few more machines, repaint the walls, maybe run a January discount. It's what most local gyms have always done to plan for growth — and increasingly, it's not where the growth in India's fitness market actually is."},
+            {"type": "stat", "stat": "India's fitness industry is projected to more than double from an estimated ₹16,200 crore in 2024 to ₹37,700 crore by 2030, growing at a 15% CAGR.", "source": "Deloitte & Health and Fitness Association of India, India Fitness Market Report 2025", "url": "https://www.healthandfitness.org/wp-content/uploads/India-Fitness-Market-2025_FINAL_Print.pdf"},
+            {"type": "h2", "text": "The growth isn't in more members. It's in a different kind of class."},
+            {"type": "p", "text": "Value gyms — the standard membership-and-machines model most local gyms run — still make up the bulk of the industry: 56% of revenue, 78% of members, 80% of facilities. But that segment is also the slowest-growing one. The category expanding fastest is the opposite of \"more of the same\": small-format, instructor-led classes — HIIT, strength circuits, yoga, mobility work for older members — built around a specific outcome rather than open gym access."},
+            {"type": "stat", "stat": "Boutique fitness formats are growing at close to a 19% CAGR through 2030, nearly a third faster than the 14% CAGR projected for standard value gyms — even though boutique studios still hold only about 7% of total market revenue today.", "source": "Deloitte & Health and Fitness Association of India, India Fitness Market Report 2025", "url": "https://www.healthandfitness.org/wp-content/uploads/India-Fitness-Market-2025_FINAL_Print.pdf"},
+            {"type": "h2", "text": "What this actually means for a gym planning 2027, not a chain planning an IPO"},
+            {"type": "p", "text": "None of this requires becoming a boutique studio or ripping out equipment that's already paid for. It means carving out one or two specific, bookable formats inside the gym that already exists — a 6am strength circuit, a women-only hour, a 55+ mobility class — instead of selling the same open membership to everyone who walks in. It means using the hours a gym is usually quietest, mid-morning to mid-afternoon, for exactly that kind of small-batch class rather than leaving the floor half-used. And it means treating a nearby office park or mid-size company as a real lead source: corporate wellness tie-ups are one of the more reliable ways an independent gym can add members in bulk without spending on ads, and most companies budgeting for employee wellness don't need their own in-house gym to do it."},
+            {"type": "h2", "text": "The gyms that will look different in 2027 already started this year"},
+            {"type": "p", "text": "None of this is about outspending a franchise on equipment — that fight is already lost. It's about picking one underused format, one nearby partnership, and one clearly bookable slot, and making sure all three show up where someone is actually searching for a gym near them right now. That's a smaller, cheaper bet than a renovation, and it compounds a lot faster than another round of new machines."},
+        ],
+    },
+    {
+        "slug": "grow-coaching-institute-2027",
+        "title": "How to Grow Your Coaching Institute in 2027 Without Renting a Bigger Classroom",
+        "dek": "The ceiling on most coaching institutes isn't demand — it's how many students can physically sit in one room. Hybrid batches and adjacent skill courses are where growth is actually headed.",
+        "tag": "Coaching Institute",
+        "read_time": "5 min read",
+        "related_industry": "coaching-institute",
+        "body": [
+            {"type": "p", "text": "Every batch fills up around the same size every year — not because interest has plateaued, but because a classroom only holds so many chairs. For most coaching institutes, that physical ceiling has quietly become the real limit on growth, long before quality or reputation ever becomes the constraint."},
+            {"type": "stat", "stat": "India's online coaching market is projected to grow from USD 510.1 million in 2025 to USD 1,998.4 million by 2034 — a 15.89% CAGR, roughly 50% faster than the 10.29% CAGR projected for the coaching industry overall.", "source": "IMARC Group, India Online Coaching Market Report", "url": "https://www.imarcgroup.com/india-online-coaching-market"},
+            {"type": "h2", "text": "Hybrid isn't a pandemic leftover anymore — it's policy-backed infrastructure"},
+            {"type": "p", "text": "A recorded or livestreamed batch used to be a hard sell to parents who wanted their child physically supervised. That resistance has eased considerably, partly because the government has spent years normalizing digital learning at a policy level. The National Education Policy (NEP) 2020 mandates structural technology integration across schooling, backed by public digital infrastructure like PM eVidya, SWAYAM and DIKSHA — the same digital-first framing that once made online batches feel like a compromise now makes them feel like where education is already headed anyway."},
+            {"type": "h2", "text": "The second lever: what a coaching institute teaches, not just where"},
+            {"type": "p", "text": "Exam-prep coaching isn't the only thing growing in this market. Professional and skill-based courses — spoken English, basic computer literacy, IT certifications — sit inside the same broader coaching industry and often use the exact infrastructure an exam-prep institute already has: faculty, a classroom, a WhatsApp broadcast list of past and current students. Running a short skill course in the months between major exam cycles, when the classroom would otherwise sit half-empty, is a low-risk way to add a second revenue line without hiring a second campus."},
+            {"type": "h2", "text": "What actually moves an institute forward in 2027"},
+            {"type": "p", "text": "Not a new building. A recorded or live-streamed version of a batch that's already running, priced to reach students outside the immediate catchment area; a clear, upfront explanation to parents of exactly how the hybrid format works, since the objection is usually about trust, not technology; and one adjacent short course that uses the same faculty and space in the institute's quietest months. None of it touches how well the core batch is taught. It decides how many students that teaching actually reaches."},
+        ],
+    },
+    {
+        "slug": "what-sells-most-during-diwali-india",
+        "title": "What Actually Sells the Most During Diwali in India",
+        "dek": "Every shop owner has a hunch about what moves during Diwali. Here's what the real trade data says — category by category.",
+        "tag": "Seasonal / Festive",
+        "read_time": "4 min read",
+        "related_industry": None,
+        "body": [
+            {"type": "p", "text": "Ask ten shop owners what sells during Diwali and most will say \"everything\" — which is close to true, but not useful for actually planning stock, staff or a marketing push. The trade body that tracks this nationwide has a far more specific answer."},
+            {"type": "stat", "stat": "Diwali 2025 trade across India hit a record ₹6.05 lakh crore (₹5.40 lakh crore in goods, ₹65,000 crore in services), up sharply from ₹4.25 lakh crore the year before. Grocery & FMCG led at 12% of trade, followed by gold & jewellery at 10%, electronics & electricals at 8%, and ready-made garments and gift items at 7% each.", "source": "Confederation of All India Traders (CAIT), Diwali 2025 trade survey", "url": "https://cait.in/record-breaking-diwali-sales-of-%E2%82%B95-40-lakh-crore-in-goods-65-thousand-crores-in-services-reflect-indias-economic-strength-and-swadeshi-spirit/"},
+            {"type": "h2", "text": "Grocery isn't a side note — it's the single biggest category"},
+            {"type": "p", "text": "The single largest slice of Diwali trade isn't gold or electronics, the categories that dominate ad spend and headlines. It's everyday grocery and FMCG — sweets, dry fruits, cooking essentials, packaged snacks — bought in bulk for gifting and home entertaining, in volumes far beyond a normal week. For a kirana store or general grocery shop, Diwali isn't primarily an electronics or gold-jewellery event to compete on; it's the single biggest stock-and-staffing week of the entire year in the category it already owns."},
+            {"type": "h2", "text": "Online buying skews toward a narrower, faster-moving set of categories"},
+            {"type": "p", "text": "The category mix shifts again once you isolate what's bought online rather than in-store. In the days right before Diwali, Health & Beauty was the fastest-moving online category — gifting kits, skincare sets and hairstyling products — even as fashion and home décor also led online spend."},
+            {"type": "stat", "stat": "93% of Indian shoppers bought online during the 2025 festive season, with fashion, home décor and health & beauty the leading categories — and Health & Beauty alone saw a 63% spike in the run-up to Diwali (October 7–12), driven by gifting kits, skincare and hairstyling products.", "source": "Criteo, via BW Marketing World", "url": "https://www.bwmarketingworld.com/article/diwali-2025-drives-14-surge-in-online-retail-sales-report-576873"},
+            {"type": "h2", "text": "What this means for planning next Diwali, not just reacting to this one"},
+            {"type": "p", "text": "The pattern is consistent enough to plan around a year out: grocery and FMCG for the volume, gold and garments for the ticket size, gifting-adjacent categories (dry fruits, sweets hampers, decor, personal care sets) for the margin, and a narrower online-specific spike in beauty and fashion gifting in the final week. A shop that stocks and staffs against that actual mix — rather than a general \"Diwali rush\" guess — starts the season with inventory in the categories that are genuinely moving."},
+        ],
+    },
+    {
+        "slug": "what-sells-during-dussehra-durga-puja",
+        "title": "What Sells During Dussehra and Durga Puja — And Why the Data Gets Thinner Here",
+        "dek": "Diwali has one clean nationwide number behind it. Dussehra and Durga Puja are bigger in some places than Diwali itself — but the hard data is far more regional.",
+        "tag": "Seasonal / Festive",
+        "read_time": "4 min read",
+        "related_industry": None,
+        "body": [
+            {"type": "p", "text": "In large parts of eastern India, Durga Puja isn't the warm-up act before Diwali — it's the main event, the one week a shop plans its entire year around. Nationally, the picture is less tidy, and it's worth being upfront about that rather than pretending there's one clean number for a festival that plays out so differently region to region."},
+            {"type": "stat", "stat": "West Bengal's Durga Puja economy is estimated at around ₹65,000 crore for 2025, with Kolkata alone contributing nearly 70% of that total. Organised retailers reported jewellery sales up 25%, footwear up 20%, apparel up 22%, and food & beverage up 18% year-on-year, while Kolkata's major malls together clocked around ₹900 crore in business, an 8–10% rise over the previous year.", "source": "The Federal, on West Bengal's Durga Puja economy", "url": "https://thefederal.com/category/states/east/west-bengal/bengal-durga-puja-economy-hits-record-rs-65000-crore-amid-rains-gst-pause-209971"},
+            {"type": "h2", "text": "Where the data is strong: Bengal's retail categories"},
+            {"type": "p", "text": "Inside that regional number, the pattern is specific: new clothes for the family, the traditional core of Puja shopping, lead the apparel and footwear growth; jewellery sees a distinct bump tied to the festival's gifting and auspicious-purchase customs; and food & beverage spend rises as households and pandal committees both spend heavily on catering and eating out during the five main days."},
+            {"type": "h2", "text": "Nationally, Dussehra is an \"auspicious purchase\" day more than a retail category story"},
+            {"type": "p", "text": "Outside Bengal, Dussehra (Vijayadashami) is culturally significant as an auspicious day to buy vehicles, tools, gold and big-ticket items — rather than a festival tied to one dominant category the way Diwali is. That tradition does show up in hard numbers, just not ones specific to Dussehra alone, since it usually lands inside the broader Navratri festive window that retailers and auto dealers report together."},
+            {"type": "stat", "stat": "Retail vehicle sales rose 34% year-on-year during the 2025 Navratri period, with two-wheelers up 36% and passenger vehicles up 34.8% — dealerships nationally reported record footfalls and deliveries during the window that includes Dussehra.", "source": "Business Standard, citing FADA (Federation of Automobile Dealers Associations)", "url": "https://www.business-standard.com/industry/auto/retail-vehicle-sales-rise-september-2025-navratri-record-high-fada-125100700271_1.html"},
+            {"type": "h2", "text": "The honest takeaway"},
+            {"type": "p", "text": "There's no single national Dussehra sales figure worth quoting as gospel, because the festival isn't one event — it's a Bengal-scale retail season in the east and an auspicious-purchase day for vehicles, gold and tools everywhere else. For a business in Kolkata or elsewhere in Bengal, the categories to stock hard around are clothing, footwear, jewellery and food service. For a vehicle dealer, gold showroom or hardware business anywhere else in India, Dussehra is worth treating as a smaller sibling of the Navratri-to-Diwali stretch — real, auspicious-day-driven demand, just folded into a bigger festive window rather than standing alone in the data."},
+        ],
+    },
+    {
+        "slug": "amazon-flipkart-festive-sales-impact-on-local-shops",
+        "title": "What Amazon's and Flipkart's Festival Sales Actually Do to Your Local Shop",
+        "dek": "Two mega sales, a few weeks apart, pull in more customer visits than most countries have people. Here's what the numbers say actually happens to offline retail around them.",
+        "tag": "Seasonal / Festive",
+        "read_time": "5 min read",
+        "related_industry": "retail-store",
+        "body": [
+            {"type": "p", "text": "Every September, the same anxious question does the rounds among shop owners: is this the year Amazon's and Flipkart's festival sales finally hollow out local retail for good? The two platforms now report numbers large enough to make that fear feel reasonable. What actually happened to offline trade in the same weeks is a lot less dramatic than that number suggests."},
+            {"type": "stat", "stat": "Amazon's Great Indian Festival 2025 recorded 276 crore (2.76 billion) customer visits, with more than 70% coming from Tier 2 and Tier 3 cities, and enabled over ₹1,000 crore in customer savings through bank offers, GST benefits and cashback.", "source": "About Amazon India, official results", "url": "https://www.aboutamazon.in/news/retail/amazon-great-indian-festival-2025-highlights-results"},
+            {"type": "h2", "text": "Flipkart's numbers, run in the same window, are just as large"},
+            {"type": "p", "text": "Flipkart's Big Billion Days ran the same September–October stretch, off a marketplace of more than 500 million registered users and over 1.4 million sellers — with transacting sellers up 25% in the six months before the sale, disproportionately new entrants from Tier 2/3 towns like Agra, Indore, Rajkot and Surat. Both platforms have deliberately timed their biggest sale of the year to the same festive weeks, concentrating an enormous share of India's annual online retail demand into roughly a month."},
+            {"type": "h2", "text": "The trade body representing local retailers has been fighting this exact tension for years"},
+            {"type": "p", "text": "This isn't a new complaint. The Confederation of All India Traders, which says it represents around 7 crore (70 million) traders nationally, has for years accused both platforms of predatory discounting during these festival sales — deep, below-cost price cuts it argues violate India's foreign investment rules for e-commerce marketplaces. That fight continued into the 2025 sale cycle, with fresh complaints over cancelled orders, delayed refunds, and misleading discount pricing during both companies' 2025 festivals."},
+            {"type": "h2", "text": "But offline retail's own festive numbers, in the same weeks, tell a different story"},
+            {"type": "p", "text": "Traditional retail stores accounted for 85% of overall festive trade in 2025, and CAIT's own survey put total festive trade at ₹6.05 lakh crore, up 25% year-on-year, driven by close to 90 million small traders and local manufacturers, with 72% of traders reporting higher sales than the year before. Both realities are true at once: two online platforms posting record visit numbers, and offline retail posting its best festive season on record, in the same weeks."},
+            {"type": "h2", "text": "What this actually means for a local shop"},
+            {"type": "p", "text": "The overlap that genuinely hurts is narrow and specific — big-ticket electronics, premium fashion and appliances, the exact categories where these platforms' discounts are steepest and delivery speed matters most. Everyday categories — grocery, festive food, personal gifting, anything bought on trust or needed same-day — aren't where these sales actually compete with a local shop, and the trade data backs that up. The useful response isn't panic about the whole season; it's making sure a shop's own festive push leans hardest into exactly the categories these platforms are structurally worst at."},
+        ],
+    },
+    {
+        "slug": "festive-season-readiness-checklist-small-retailers",
+        "title": "The Festive Season Readiness Checklist for Small Indian Retailers",
+        "dek": "Six to eight weeks decide a disproportionate share of the year. Most of what goes wrong in that window isn't about demand — it's about not being ready for it.",
+        "tag": "Seasonal / Festive",
+        "read_time": "5 min read",
+        "related_industry": "retail-store",
+        "body": [
+            {"type": "p", "text": "By the time Navratri actually starts, it's already too late to fix the things that decide whether the festive season is a good one or a chaotic one — the stock that should've been ordered a month ago, the billing software still running last year's tax rates, the extra hand that should've been hired in August. The businesses with a genuinely strong festive season are rarely the ones with the best last-minute hustle. They're the ones that finished the boring prep work early."},
+            {"type": "stat", "stat": "For apparel retailers, the combined festive-and-wedding season can account for around 35% of annual sales — meaning a handful of autumn-winter weeks disproportionately decide the entire year's numbers for many retail categories.", "source": "CRISIL Ratings, cited in festive retail coverage", "url": "https://www.thecore.in/economy/india-festive-season-retail-2026-inflation-fmcg-demand-outlook-870405"},
+            {"type": "h2", "text": "Stock and cash: order and price before the rush, not during it"},
+            {"type": "p", "text": "Reorder fast-moving festive lines well before the peak weeks, based on last year's actual sell-through rather than a round-number guess — running out mid-Diwali loses the sale to whichever shop still has stock. Since the September 2025 GST 2.0 rate changes, this also means double-checking that billing software actually reflects the current four-slab structure; plenty of small retailers were still billing at old rates weeks after the new ones took effect, which creates real compliance risk right in the busiest season to be dealing with it."},
+            {"type": "h2", "text": "Staffing and cash flow: the crunch is real and predictable"},
+            {"type": "p", "text": "Festive weeks bring a genuine volume spike that a shop's normal staffing usually can't absorb without visible strain — slower billing, unanswered questions, customers who leave rather than wait. Bringing on temporary help for the two or three peak weeks, decided in advance rather than reactively, is one of the highest-return calls a small retailer makes each year. On the cash side, festive spending patterns mean more credit and khata requests during the exact weeks a shop also has more stock to pay suppliers for — worth planning a cash buffer for deliberately, rather than discovering the gap mid-season."},
+            {"type": "h2", "text": "Visibility and follow-through: be findable, then don't let the customer disappear"},
+            {"type": "p", "text": "A shop's Google listing and WhatsApp presence matter more in festive weeks than any other time of year, simply because more first-time and occasional customers are searching and comparing than usual. And the season doesn't end at the last sale: a simple thank-you or repeat-offer message to festive-season customers, sent in the quieter weeks that follow, is what turns a one-time Diwali sale into a customer who comes back in February. Most of what separates a good festive season from a great one isn't a bigger discount. It's not being caught unprepared for demand that, every single year, was entirely predictable."},
+        ],
+    },
+    {
+        "slug": "grow-automobile-showroom-business-2027-ev",
+        "title": "How Automobile Showrooms Can Grow Through India's EV Shift in 2027",
+        "dek": "EVs aren't a future category dealerships can plan for later. They're already showing up on the sales floor — and the showrooms treating them as a side hobby are the ones about to fall behind.",
+        "tag": "Automobile Showroom",
+        "read_time": "5 min read",
+        "related_industry": "automobile-showroom",
+        "body": [
+            {"type": "p", "text": "A customer walks in asking about an electric scooter's real-world range and charging time, and the salesperson who usually handles two-wheeler enquiries doesn't have a confident answer. It's a small moment, easy to shrug off once — except it's happening at more and more showrooms, more and more often, and the honest answer is that the shift it signals isn't going to slow down."},
+            {"type": "stat", "stat": "India registered around 25.5 lakh electric vehicles across all categories in FY 2025-26, continuing a run of consecutive years of strong year-on-year growth in EV adoption.", "source": "EVreporter", "url": "https://evreporter.com/india-sold-2550865-electric-vehicles-across-categories-in-fy-2025-26/"},
+            {"type": "h2", "text": "This is overwhelmingly a two-wheeler story first"},
+            {"type": "p", "text": "For most showrooms outside the metro car market, the EV opportunity isn't really about electric cars yet — it's about two-wheelers, which already make up around two-thirds of all EV sales in the country and are growing fastest of any segment. That matters because it puts the EV shift within reach of exactly the kind of small and mid-size dealership that couldn't easily compete on electric cars, but can absolutely compete on electric scooters and bikes."},
+            {"type": "stat", "stat": "India's official policy target is for EVs to reach 30% of private car sales, 70% of commercial vehicle sales, 40% of bus sales, and 80% of two- and three-wheeler sales by 2030 — meaning two-wheelers are the segment where the government itself expects the fastest transition.", "source": "IBEF (India Brand Equity Foundation)", "url": "https://www.ibef.org/industry/electric-vehicle"},
+            {"type": "h2", "text": "What actually helps a showroom grow through this, not just survive it"},
+            {"type": "p", "text": "It starts with treating EV enquiries as seriously as ICE ones: at least one staff member who can confidently walk a customer through real-world range, charging time and the state and central subsidy paperwork most first-time EV buyers find confusing. It extends to a genuinely useful local partnership — tying up with a nearby electrician or charging-point installer to offer a simple home-charging setup alongside the sale, something very few small showrooms currently bother to do. And it means recognizing EV owners need a different kind of post-sale relationship: battery health check-ins and charging troubleshooting instead of the usual service-due reminders, sent on WhatsApp the same way a showroom already reminds petrol customers about their next service."},
+            {"type": "h2", "text": "The showrooms leading in 2027 are being built right now"},
+            {"type": "p", "text": "None of this requires a large upfront bet on EV inventory alone. It requires not treating the EV customer walking in today as a niche enquiry to handle awkwardly, but as the first wave of a segment that, by the government's own targets, is meant to be the fastest-growing part of the entire market by the end of the decade."},
+        ],
+    },
+    {
+        "slug": "indian-festival-sale-calendar-for-small-business-2027",
+        "title": "The Indian Festival Calendar Every Small Business Should Plan 2027 Around",
+        "dek": "Akshaya Tritiya, Raksha Bandhan, Navratri, Diwali, wedding season — each one moves real money, on a predictable schedule. Here's what the numbers behind each one actually look like.",
+        "tag": "Seasonal / Festive",
+        "read_time": "6 min read",
+        "related_industry": None,
+        "body": [
+            {"type": "p", "text": "Most small businesses plan their year around one big date — usually Diwali — and treat everything else as a bonus if it happens to land well. The trade data tells a different story: several other dates on the calendar move genuinely serious money, on a schedule that's exactly as predictable as Diwali's, which makes them just as plannable."},
+            {"type": "stat", "stat": "Akshaya Tritiya 2026 generated an estimated ₹20,000 crore in gold and silver trade nationally, according to CAIT — up from around ₹16,000 crore the year before, even as gold and silver prices hit record highs.", "source": "IANS", "url": "https://ianslive.in/akshaya-tritiya-likely-to-generate-business-worth-rs-20000-crore-in-gold-and-silver--20260419092247"},
+            {"type": "h2", "text": "Spring to monsoon: gold, then gifting"},
+            {"type": "p", "text": "Akshaya Tritiya, usually falling in April or May, is a single-category event almost entirely about gold and silver — not a broad retail day, but a genuinely enormous one for any jewellery or precious-metals business, worth planning stock, staff and marketing around specifically. Raksha Bandhan, typically in August, is a different shape entirely: broader than just rakhis, pulling in sweets, gifts, apparel, electronics and dry fruits alongside the core rakhi trade."},
+            {"type": "stat", "stat": "Raksha Bandhan 2026 trade was projected to cross ₹30,000 crore nationally, with the rakhi segment alone accounting for around ₹25,000 crore of that.", "source": "The Print, citing CAIT", "url": "https://theprint.in/india/rakhi-trade-expands-with-new-themes-viksit-bharat-nari-vandan-could-cross-rs-30000-cr-says-cait/3024467/"},
+            {"type": "h2", "text": "Navratri to Diwali: the six-week stretch that decides the year"},
+            {"type": "p", "text": "This is the one every business already half-plans around, but usually as a single blur rather than two distinct moments. Navratri and Dussehra bring an auspicious-purchase spike, particularly strong for vehicles, gold and tools — retail vehicle sales rose 34% year-on-year in Navratri 2025, per FADA data. Diwali itself, a few weeks later, is the single largest retail event of the year by a wide margin."},
+            {"type": "stat", "stat": "Diwali 2025 trade hit ₹6.05 lakh crore nationally, up 25% year-on-year, led by grocery and FMCG, gold and jewellery, electronics, and garments — in that order.", "source": "Confederation of All India Traders (CAIT)", "url": "https://cait.in/record-breaking-diwali-sales-of-%E2%82%B95-40-lakh-crore-in-goods-65-thousand-crores-in-services-reflect-indias-economic-strength-and-swadeshi-spirit/"},
+            {"type": "h2", "text": "Wedding season: the quiet giant, and what it means for 2027"},
+            {"type": "p", "text": "Running from early November through mid-December, wedding season doesn't get talked about as a retail event the way Diwali does — but by CAIT's own estimates it moves more money: India's 2025 wedding season was projected to generate ₹6.5 lakh crore in business from an estimated 46 lakh weddings, larger than the entire Diwali trade figure for the same year. A jewellery business has two real peaks a year, not one — Akshaya Tritiya and Dhanteras/Diwali. A gifting, apparel or electronics business has at least three: Raksha Bandhan, the Navratri-Diwali stretch, and wedding season. And any business connected to weddings — caterers, decorators, jewellers, garment shops, banquet halls — is looking at a bigger single revenue event in November-December than most businesses see at Diwali. The businesses that plan a full calendar, not just one headline festival, are the ones that stop treating every one of these weeks as a surprise."},
+        ],
+    },
 ]
 
 # ------------------------------------------------------------------
@@ -1633,6 +1785,48 @@ FREE_TOOLS = [
        + '<div class="tr-row tr-total"><span>Total Landed Cost</span><b>₹' + Math.round(landed).toLocaleString('en-IN') + '</b></div>'
        + '<div class="tr-note">' + markup + '% above FOB — quote from this number, not the FOB price.</div>';
 }""",
+        "content": [{'type': 'h2', 'text': "Landed cost isn't just FOB + duty — the rate depends on your HS code"},
+ {'type': 'p',
+  'text': 'Basic Customs Duty (BCD) in India is set per HS (Harmonized System) code, not as one '
+          'flat number — which is why two exporters shipping similar-looking goods can land at '
+          'very different total costs. The Union Budget 2025-26 simplified the BCD structure to '
+          'just 8 slabs (including zero), collapsing dozens of legacy rates, but the actual rate '
+          'for any specific product still has to be checked against its HS code on ICEGATE before '
+          "it's quoted to a buyer."},
+ {'type': 'table',
+  'caption': 'Illustrative Basic Customs Duty ranges by category (post Union Budget 2025-26 '
+             'rationalisation)',
+  'headers': ['Category', 'Typical BCD range', 'Note'],
+  'rows': [['Industrial machinery and capital goods',
+            '0% – 7.5%',
+            'Many lines fully exempted to support domestic manufacturing'],
+           ['Consumer electronics (e.g. display panels)',
+            '5% – 20%',
+            'Duty on Interactive Flat Panel Displays raised to 20% in Budget 2025-26 to correct an '
+            'inverted duty structure'],
+           ['Textiles and technical textile fabrics',
+            '10% – 20%',
+            'Knitted fabric BCD revised to 20% or ₹115/kg, whichever is higher'],
+           ['Chemicals',
+            'Wide range, some lines up to 70%+',
+            'Specific lines (e.g. lab chemicals) were cut from 150% to 70% in Budget 2025-26 — '
+            'highly HS-code specific']],
+  'note': 'These are illustrative category ranges, not quotable rates — always confirm the exact '
+          "duty for your product's specific HS code on ICEGATE (icegate.gov.in) before pricing a "
+          'shipment.'},
+ {'type': 'stat',
+  'stat': 'Union Budget 2025-26 removed 7 more customs tariff rates for industrial goods, bringing '
+          'the total number of Basic Customs Duty slabs down to 8 (including zero) — while keeping '
+          'the effective duty burden on most goods roughly unchanged.',
+  'source': 'Press Information Bureau, Government of India',
+  'url': 'https://pib.gov.in/PressReleseDetailm.aspx?PRID=2098364'},
+ {'type': 'stat',
+  'stat': 'Under CIF Incoterms rules, the minimum insurance cover required is 110% of the invoice '
+          'value of the goods — insurance premiums themselves typically run 0.5%-1% of FOB/CIF '
+          'value depending on cargo type and route, well below what most first-time exporters '
+          'budget for.',
+  'source': 'iContainers — CIF Incoterm guide',
+  'url': 'https://www.icontainers.com/help/incoterms/cif/'}],
     },
     {
         "slug": "missed-appointment-loss-calculator",
@@ -1652,6 +1846,31 @@ FREE_TOOLS = [
        + '<div class="tr-row tr-total"><span>Revenue lost / month</span><b>₹' + Math.round(monthlyLoss).toLocaleString('en-IN') + '</b></div>'
        + '<div class="tr-note">An automatic reminder the day before a slot is the cheapest fix for this number.</div>';
 }""",
+        "content": [{'type': 'h2', 'text': "No-shows aren't a rounding error — they're a recurring revenue leak"},
+ {'type': 'p',
+  'text': "Every missed slot is lost revenue that already had a cost attached to it — the doctor's "
+          'time, the front-desk booking effort, and the opportunity cost of a patient who could '
+          'have filled that slot instead. A no-show isn\'t "nothing happened"; it\'s a slot that '
+          'generated zero revenue but was fully staffed for.'},
+ {'type': 'stat',
+  'stat': 'A 2023 rapid systematic review in the Journal of the American Medical Informatics '
+          'Association found the global average outpatient no-show rate runs around 23%, ranging '
+          'from roughly 13% in Oceania to as high as 43% in parts of Africa, with Asia among the '
+          'higher-rate regions in the pooled studies.',
+  'source': 'Journal of the American Medical Informatics Association (Oxford Academic), 2023',
+  'url': 'https://academic.oup.com/jamia/article/30/3/559/6889491'},
+ {'type': 'p',
+  'text': 'A single, India-specific published no-show rate proving one exact number for Indian '
+          "hospitals wasn't findable in peer-reviewed literature at the time of writing — so we're "
+          'not going to pretend one exists. What the global research does show consistently is '
+          'that no-show rates in the high-teens to mid-20s percent range are common across '
+          "outpatient settings worldwide, which puts this calculator's default 18% well within the "
+          'range multiple independent studies report — not an outlier assumption.'},
+ {'type': 'p',
+  'text': "The same systematic review's core finding is worth repeating: predictive, "
+          'reminder-based interventions are the most consistently effective lever for reducing '
+          'no-shows — which is exactly why an automatic WhatsApp reminder the day before a slot is '
+          'the standard, low-cost fix, not a nice-to-have.'}],
     },
     {
         "slug": "batch-profitability-calculator",
@@ -1673,6 +1892,26 @@ FREE_TOOLS = [
        + '<div class="tr-row"><span>Total Cost</span><b>₹' + cost.toLocaleString('en-IN') + '</b></div>'
        + '<div class="tr-row tr-total"><span>Profit (' + margin + '% margin)</span><b>₹' + profit.toLocaleString('en-IN') + '</b></div>';
 }""",
+        "content": [{'type': 'h2',
+  'text': "What a healthy batch margin actually looks like in India's coaching market"},
+ {'type': 'stat',
+  'stat': "India's coaching institutes market is valued at USD 7.2 billion in 2025 and projected "
+          'to reach USD 17.8 billion by 2034 — a sector growing fast enough that margin discipline '
+          'on each batch matters more, not less, as competition for the same students intensifies.',
+  'source': 'IMARC Group',
+  'url': 'https://www.imarcgroup.com/india-coaching-institutes-market'},
+ {'type': 'stat',
+  'stat': 'Independent tutors with low fixed overhead typically run profit margins of 60%-80%, '
+          'while mid-sized coaching institutes carrying rented classroom space and faculty '
+          'salaries usually operate at a much thinner 35%-55%.',
+  'source': 'Bajaj Finserv — Coaching Institute Business guide',
+  'url': 'https://www.bajajfinserv.in/coaching-institute-business'},
+ {'type': 'p',
+  'text': 'That gap is almost entirely explained by the two cost lines this calculator asks for: '
+          'faculty cost and other overhead. A batch that looks profitable on fee collections alone '
+          'can still be a 35%-margin batch once a fair share of rent, staff and marketing spend is '
+          "allocated to it — which is the number that actually determines whether it's worth "
+          'running again next term.'}],
     },
     {
         "slug": "home-loan-emi-calculator",
@@ -1694,6 +1933,60 @@ FREE_TOOLS = [
        + '<div class="tr-row"><span>Total Interest</span><b>₹' + Math.round(totalInterest).toLocaleString('en-IN') + '</b></div>'
        + '<div class="tr-row"><span>Total Payment</span><b>₹' + Math.round(totalPay).toLocaleString('en-IN') + '</b></div>';
 }""",
+        "content": [{'type': 'h2', 'text': 'Home loan interest rates — leading Indian banks (as of September 2026)'},
+ {'type': 'table',
+  'caption': 'Rates as published on each bank\'s own site',
+  'headers': ['Bank', 'Interest Rate (p.a.)', 'Source'],
+  'rows': [[{'text': 'SBI',
+             'url': 'https://sbi.co.in/web/personal-banking/loans/home-loans/interest-rates'},
+            '7.25% – 8.45%',
+            {'text': 'SBI official rate page',
+             'url': 'https://sbi.co.in/web/personal-banking/loans/home-loans/interest-rates'}],
+           [{'text': 'HDFC Bank',
+             'url': 'https://www.hdfcbank.com/personal/borrow/popular-loans/home-loan/home-loan-interest-rate'},
+            '7.75% – 9.40%',
+            {'text': 'HDFC Bank official rate page',
+             'url': 'https://www.hdfcbank.com/personal/borrow/popular-loans/home-loan/home-loan-interest-rate'}],
+           [{'text': 'ICICI Bank',
+             'url': 'https://www.icicibank.com/personal-banking/loans/home-loan/interest-rate'},
+            '7.50% – 9.00%',
+            {'text': 'ICICI Bank official rate page',
+             'url': 'https://www.icicibank.com/personal-banking/loans/home-loan/interest-rate'}],
+           [{'text': 'Axis Bank',
+             'url': 'https://www.axisbank.com/retail/loans/home-loan/interest-rate'},
+            '8.00% – 9.15%',
+            {'text': 'Axis Bank official rate page',
+             'url': 'https://www.axisbank.com/retail/loans/home-loan/interest-rate'}],
+           [{'text': 'Kotak Mahindra Bank',
+             'url': 'https://www.kotak.com/en/personal-banking/loans/home-loan/interest-rates.html'},
+            '7.60% – 9.45%',
+            {'text': 'Kotak official rate page',
+             'url': 'https://www.kotak.com/en/personal-banking/loans/home-loan/interest-rates.html'}],
+           [{'text': 'Punjab National Bank', 'url': 'https://www.pnbindia.in/home-loan.html'},
+            '7.50% – 9.75%',
+            {'text': 'PNB official rate page', 'url': 'https://www.pnbindia.in/home-loan.html'}]],
+  'note': 'Rates change with RBI repo-rate moves and vary by CIBIL score, loan-to-value and '
+          'employment type — the figures above are as reported across bank-published rate pages in '
+          "September 2026. Always confirm the live number on the bank's own page before quoting it "
+          'to a customer.'},
+ {'type': 'h2', 'text': "What homes actually cost, and how fast that's moving"},
+ {'type': 'stat',
+  'stat': "Average residential prices across India's top 7 cities rose about 8% in 2025, from "
+          'roughly ₹8,590/sq ft at end-2024 to ₹9,260/sq ft at end-2025 — with NCR the standout, '
+          'posting double-digit growth while most other metros saw single-digit appreciation.',
+  'source': 'ANAROCK Research',
+  'url': 'https://telanganatoday.com/housing-sales-volume-down-14-pc-in-2025-in-7-cities-anarock'},
+ {'type': 'stat',
+  'stat': "Over a 5-year window, ANAROCK data shows construction costs across India's top 7 cities "
+          'up roughly 34%, while average housing prices in those same cities rose about 59% — '
+          'appreciation that has outpaced the cost of actually building the homes.',
+  'source': 'ANAROCK Research, via Business Standard',
+  'url': 'https://www.business-standard.com/industry/news/india-housing-prices-construction-costs-top-seven-cities-anarock-126090300706_1.html'},
+ {'type': 'p',
+  'text': 'That appreciation is exactly why the loan amount a buyer types into this calculator '
+          'keeps climbing every year, even for the same 2BHK — and why a same-day EMI number, '
+          'backed by a real bank rate rather than a guessed one, is what actually moves a hesitant '
+          'lead toward booking a site visit.'}],
     },
     {
         "slug": "quote-margin-calculator",
@@ -1713,6 +2006,21 @@ FREE_TOOLS = [
        + '<div class="tr-row"><span>Margin %</span><b>' + marginPct + '%</b></div>'
        + '<div class="tr-row tr-total"><span>Total Profit on Order</span><b>₹' + Math.round(totalProfit).toLocaleString('en-IN') + '</b></div>';
 }""",
+        "content": [{'type': 'h2', 'text': "What's actually a healthy margin on a manufacturing quote"},
+ {'type': 'stat',
+  'stat': "CRISIL's SME Tracker found CRISIL-rated micro and small enterprises (MSEs) in men's "
+          'apparel manufacturing running an average operating profit margin of 9.8% — about 200 '
+          "basis points higher than kids' apparel (7.5%) and women's apparel (6.9%) makers in the "
+          'same rated cohort.',
+  'source': 'CRISIL SME Tracker',
+  'url': 'https://www.simamills.in/latest-news/crisil-sme-tracker-for-mses-mens-apparel-is-where-the-money-is/'},
+ {'type': 'p',
+  'text': 'That single-digit range is typical of Indian manufacturing more broadly — most SME '
+          'manufacturers operate on net margins in the 5%-10% band, thin enough that a quote sent '
+          'out 3 days late to a price-sensitive buyer, or shaved by a percentage point to win the '
+          'order, can erase most of the profit on that run before a single unit ships. Checking '
+          'the real margin on an RFQ before it goes out, not after the PO lands, is what keeps a '
+          '"won" order from actually being a break-even one.'}],
     },
     {
         "slug": "admission-conversion-calculator",
@@ -1735,6 +2043,28 @@ FREE_TOOLS = [
        + '<div class="tr-row"><span>Overall Conversion</span><b>' + overall + '%</b></div>'
        + '<div class="tr-row tr-total"><span>Revenue Booked</span><b>₹' + revenue.toLocaleString('en-IN') + '</b></div>';
 }""",
+        "content": [{'type': 'h2',
+  'text': "Fee income is growing across India's schools — but so is scrutiny on every enquiry"},
+ {'type': 'stat',
+  'stat': 'Fee income across 96 CRISIL-rated Indian schools and colleges, together generating '
+          'nearly ₹20,000 crore in annual fee income, was projected to grow 12%-14% in FY25 on '
+          'higher enrolments and fee revisions, with operating margins holding around 28%.',
+  'source': 'CRISIL Ratings',
+  'url': 'https://www.crisilratings.com/en/home/newsroom/press-releases/2024/10/fee-income-of-educational-institutes-to-grow-12-14percent-this-fiscal.html'},
+ {'type': 'stat',
+  'stat': 'Government survey data shows households spending on private schooling running nearly 9x '
+          'what government-school families spend — ₹25,002 vs ₹2,863 per student annually — with '
+          'urban course-fee spending (₹15,143) nearly 4x the rural average (₹3,979).',
+  'source': 'MoSPI Comprehensive Modular Survey: Education (CMS:E) 2025, via Business Standard',
+  'url': 'https://www.business-standard.com/education/news/education-mospi-survey-private-school-government-scholarship-fees-coaching-tuition-urban-rural-125082601316_1.html'},
+ {'type': 'p',
+  'text': 'That gap is exactly why the Avg. Annual Fee figure in this calculator swings so widely '
+          'by school and city — a ₹90,000 default sits well above the national private-school '
+          'average, but squarely in range for a mid-tier CBSE/ICSE school in a metro. Whatever the '
+          'actual number, admission-week revenue is only ever as real as the conversion funnel '
+          "behind it: an enquiry that never gets a same-day WhatsApp reply doesn't become a test "
+          "booking, and a test booking that isn't followed up doesn't become an admission — "
+          'regardless of how strong the fee income looks on paper.'}],
     },
     {
         "slug": "home-collection-savings-calculator",
@@ -1753,6 +2083,32 @@ FREE_TOOLS = [
   return '<div class="tr-row"><span>Time Saved / Month</span><b>' + timeSaved + ' mins</b></div>'
        + '<div class="tr-row tr-total"><span>Cost Saved / Month</span><b>₹' + costSaved.toLocaleString('en-IN') + '</b></div>';
 }""",
+        "content": [{'type': 'h2',
+  'text': 'What home collection actually costs — and why the big chains already made it free'},
+ {'type': 'table',
+  'caption': 'Published test pricing across major Indian diagnostic chains (illustrative, '
+             'September 2026)',
+  'headers': ['Chain', 'Thyroid Profile', 'Home collection'],
+  'rows': [[{'text': 'Dr Lal PathLabs',
+             'url': 'https://www.lalpathlabs.com/pathology-test/thyroid-profile-total'},
+            '~₹930 (varies by city)',
+            'Free in 30+ cities'],
+           [{'text': 'Metropolis Healthcare',
+             'url': 'https://www.metropolisindia.com/parameter/thyroid-panel-4'},
+            '~₹505–₹600 (Mumbai pricing)',
+            'Home collection available, priced by location'],
+           [{'text': 'Thyrocare', 'url': 'https://thyrocareservices.com/'},
+            'Bundled from ₹799–₹999 (Aarogyam packages, 60-80+ tests)',
+            'Free home collection, no hidden charge']],
+  'note': 'Prices vary by city, package and ongoing offers — figures above are as '
+          "published/aggregated in September 2026. Always confirm current pricing on the lab's own "
+          'website before quoting a patient.'},
+ {'type': 'p',
+  'text': 'The pattern across all three major chains is the same: free or near-free home '
+          'collection is now the industry default, not a premium add-on. A local lab that still '
+          "treats a home-collection request as a scheduling hassle isn't just losing convenience "
+          'points — it\'s competing against national chains that have already made "send someone '
+          'to my house" the cheapest way to win the sample.'}],
     },
     {
         "slug": "wedding-budget-calculator",
@@ -1776,6 +2132,26 @@ FREE_TOOLS = [
        + '<div class="tr-row"><span>Misc & Contingency (10%)</span><b>₹' + Math.round(misc).toLocaleString('en-IN') + '</b></div>'
        + '<div class="tr-row tr-total"><span>Estimated Total</span><b>₹' + Math.round(total).toLocaleString('en-IN') + '</b></div>';
 }""",
+        "content": [{'type': 'h2', 'text': 'Real numbers before the vendor calls start'},
+ {'type': 'stat',
+  'stat': 'An estimated 32 lakh weddings were expected across India in a single wedding-season '
+          'window (November 4 – December 14), generating around ₹3.75 lakh crore in business — a '
+          'volume of simultaneous demand compressed into a few weeks.',
+  'source': 'Deccan Herald, citing the Confederation of All India Traders (CAIT)',
+  'url': 'https://www.deccanherald.com/amp/story/india%2F32-lakh-weddings-in-india-during-november-4-december-14-to-generate-rs-375-lakh-crore-business-cait-1160192.html'},
+ {'type': 'stat',
+  'stat': "India's average wedding budget stood at ₹39.5 lakh in 2025, up 8% year-on-year — "
+          'ranging from ₹15-25 lakh for a Tier-2 city wedding, to ₹35-38 lakh in a metro, up to '
+          '₹58 lakh for a destination wedding.',
+  'source': 'WedMeGood Annual Wedding Industry Report 2025-26',
+  'url': 'https://www.wedmegood.com/blog/wedmegood-annual-wedding-industry-report-2025-2026/'},
+ {'type': 'p',
+  'text': 'Those ranges are exactly why a couple asking "what\'s this actually going to cost?" '
+          'needs a real number fast, not a vague estimate a week later — by the time a planner '
+          "gets back to them with a rough figure, they've often already gotten a faster answer "
+          'from someone else. A guest count, per-plate cost and venue budget plugged in here gets '
+          'them a realistic total in the same conversation, while the quote is still theirs to '
+          'win.'}],
     },
     {
         "slug": "bmi-tdee-calculator",
@@ -1797,6 +2173,25 @@ FREE_TOOLS = [
   return '<div class="tr-row"><span>BMI</span><b>' + bmi.toFixed(1) + ' — ' + category + '</b></div>'
        + '<div class="tr-row tr-total"><span>Daily Calories (TDEE)</span><b>' + Math.round(tdee).toLocaleString('en-IN') + ' kcal</b></div>';
 }""",
+        "content": [{'type': 'h2', 'text': 'Why this calculator\'s "Normal" range isn\'t the same for every body'},
+ {'type': 'table',
+  'caption': 'BMI classification — WHO global vs. ICMR/WHO Asia-Pacific cutoffs for Indian bodies',
+  'headers': ['Category', 'WHO global cutoff', 'ICMR (2022) / WHO Asia-Pacific cutoff'],
+  'rows': [['Underweight', '< 18.5', '< 18.5'],
+           ['Normal', '18.5 – 24.9', '18.5 – 22.9'],
+           ['Overweight', '25.0 – 29.9', '23.0 – 24.9'],
+           ['Obese', '≥ 30.0', '≥ 25.0']],
+  'note': 'Source: Indian Council of Medical Research (ICMR), 2022 guidelines, and WHO '
+          'Asia-Pacific BMI classification. Cutoffs vary slightly across published summaries — '
+          'treat as a directional guide, not a clinical diagnosis.'},
+ {'type': 'p',
+  'text': 'Indians and other South Asians tend to carry more visceral fat — the fat around '
+          'internal organs that drives metabolic risk — at a lower body weight than Western '
+          "populations, which is why ICMR and WHO's own Asia-Pacific guidance recommend lower "
+          'cutoffs: overweight from a BMI of 23, not 25. A trial member who reads "Normal" on a '
+          'Western BMI chart may already be in the overweight range by the standard actually '
+          'relevant to their own health risk — a distinction worth surfacing before, not after, '
+          'they sign up.'}],
     },
     {
         "slug": "income-tax-calculator",
@@ -1823,6 +2218,38 @@ FREE_TOOLS = [
        + '<div class="tr-row tr-total"><span>Estimated Total Tax</span><b>₹' + Math.round(total).toLocaleString('en-IN') + '</b></div>'
        + '<div class="tr-note">Illustrative only, simplified new-regime slabs — a CA can confirm your exact liability and deductions.</div>';
 }""",
+        "content": [{'type': 'h2',
+  'text': 'The real slabs — this calculator uses a simplified version, always confirm the exact '
+          'one'},
+ {'type': 'table',
+  'caption': 'New Tax Regime slabs — FY 2025-26 / FY 2026-27 (AY 2026-27 / 2027-28)',
+  'headers': ['Taxable Income', 'Rate'],
+  'rows': [['Up to ₹4,00,000', 'Nil'],
+           ['₹4,00,001 – ₹8,00,000', '5%'],
+           ['₹8,00,001 – ₹12,00,000', '10%'],
+           ['₹12,00,001 – ₹16,00,000', '15%'],
+           ['₹16,00,001 – ₹20,00,000', '20%'],
+           ['₹20,00,001 – ₹24,00,000', '25%'],
+           ['Above ₹24,00,000', '30%']],
+  'note': 'Section 87A rebate makes income up to ₹12 lakh effectively tax-free under the new '
+          'regime (₹12.75 lakh for salaried taxpayers, after the ₹75,000 standard deduction). The '
+          'new regime is the default regime unless the old regime is specifically opted into.'},
+ {'type': 'table',
+  'caption': 'Old Tax Regime slabs (unchanged for several years)',
+  'headers': ['Taxable Income', 'Rate'],
+  'rows': [['Up to ₹2,50,000', 'Nil'],
+           ['₹2,50,001 – ₹5,00,000', '5%'],
+           ['₹5,00,001 – ₹10,00,000', '20%'],
+           ['Above ₹10,00,000', '30%']],
+  'note': 'Section 87A rebate makes income up to ₹5 lakh effectively tax-free under the old '
+          'regime. Standard deduction of ₹50,000 applies for salaried/pension income only.'},
+ {'type': 'p',
+  'text': 'This calculator runs a simplified, illustrative version of the new-regime slabs and a '
+          '4% cess — it does not reflect deductions, exemptions, or every nuance of the slab '
+          "structure shown above. It's meant to give a rough directional number in a client "
+          'conversation, not a filing-ready figure. Always confirm the exact, current slab '
+          'structure and any applicable deductions directly on incometax.gov.in, or with a CA, '
+          "before it's used for anything beyond a ballpark estimate."}],
     },
     {
         "slug": "renovation-cost-estimator",
@@ -1839,6 +2266,22 @@ FREE_TOOLS = [
   return '<div class="tr-row tr-total"><span>Estimated Range</span><b>₹' + Math.round(low).toLocaleString('en-IN') + ' – ₹' + Math.round(high).toLocaleString('en-IN') + '</b></div>'
        + '<div class="tr-note">Final cost depends on material grade and site condition — this is a planning-stage range.</div>';
 }""",
+        "content": [{'type': 'h2', 'text': 'What renovation actually costs per sq ft right now'},
+ {'type': 'stat',
+  'stat': 'Full home renovation costs in India typically run ₹800-₹3,000 per sq ft depending on '
+          'scope and material grade, with luxury renovations exceeding ₹5,000/sq ft — and overall '
+          'renovation costs have risen roughly 12%-18% since 2024 on higher material and labour '
+          'prices.',
+  'source': 'AECORD / NoBroker home renovation cost guides, 2026',
+  'url': 'https://aecord.com/blog/home-renovation-cost-in-india-2026'},
+ {'type': 'p',
+  'text': "This calculator's default rate of ₹1,800/sq ft sits comfortably in the mid-segment band "
+          'that most metro renovations actually land in — basic cosmetic work (repaint, basic '
+          'flooring, fixture swaps) starts lower, around ₹500-800/sq ft, while premium finishes '
+          'and structural changes push well past ₹3,000/sq ft. The point of a range instead of a '
+          'single number is that the final cost genuinely depends on material grade and site '
+          'condition — which is exactly why this estimate is a planning-stage starting point, not '
+          'a quote.'}],
     },
     {
         "slug": "revenue-leakage-calculator",
@@ -1855,6 +2298,26 @@ FREE_TOOLS = [
   return '<div class="tr-row tr-total"><span>Revenue Leaking / Month</span><b>₹' + monthlyLeak.toLocaleString('en-IN') + '</b></div>'
        + '<div class="tr-note">That\\'s what a WhatsApp catalog tied to real stock is built to keep in-store.</div>';
 }""",
+        "content": [{'type': 'h2', 'text': "What's actually walking out the door to quick-commerce"},
+ {'type': 'stat',
+  'stat': 'Nearly 80% of consumers have shifted at least a quarter of their grocery spending to '
+          'quick-commerce apps, and over 2 lakh kirana stores closed in a single year — yet local '
+          "stores still hold 88% of India's retail food market on trust, credit, and zero delivery "
+          'fees alone.',
+  'source': 'Outlook Business, citing AICPDF',
+  'url': 'https://www.outlookbusiness.com/explainers/kirana-stores-are-losing-the-battle-against-zepto-blinkit-and-instamart'},
+ {'type': 'stat',
+  'stat': "Blinkit, Zepto and Swiggy Instamart together control over 90% of India's quick-commerce "
+          "order volume, with the sector's gross merchandise value estimated at USD 6.1 billion in "
+          '2024 and projected to grow at a roughly 48% CAGR through 2028.',
+  'source': 'Datum Intelligence, cited via Startupfeed',
+  'url': 'https://startupfeed.in/quick-commerce-war-2026-blinkit-zepto-instamart-amazon-flipkart/'},
+ {'type': 'p',
+  'text': 'That second number is the one that matters for this calculator: a market growing at '
+          "nearly 50% a year isn't a passing phase a kirana store can wait out — it's the size of "
+          'the tap this tool is measuring. Every "can\'t visit today" enquiry that goes unanswered '
+          "doesn't just lose one order; it's one more data point nudging that customer's default "
+          'habit toward whichever app answered in nine minutes.'}],
     },
     {
         "slug": "car-loan-emi-calculator",
@@ -1875,6 +2338,46 @@ FREE_TOOLS = [
   return '<div class="tr-row"><span>Loan Amount</span><b>₹' + principal.toLocaleString('en-IN') + '</b></div>'
        + '<div class="tr-row tr-total"><span>Monthly EMI</span><b>₹' + Math.round(emi).toLocaleString('en-IN') + '</b></div>';
 }""",
+        "content": [{'type': 'h2',
+  'text': 'Car loan interest rates — leading Indian banks and NBFCs (as of September 2026)'},
+ {'type': 'table',
+  'caption': 'Rates as published on each lender\'s own site',
+  'headers': ['Lender', 'Interest Rate (p.a.)', 'Source'],
+  'rows': [[{'text': 'SBI',
+             'url': 'https://sbi.co.in/web/personal-banking/loans/car-loan/interest-rate'},
+            '8.70% – 9.85% (new car)',
+            {'text': 'SBI official rate page',
+             'url': 'https://sbi.co.in/web/personal-banking/loans/car-loan/interest-rate'}],
+           [{'text': 'HDFC Bank',
+             'url': 'https://www.hdfcbank.com/personal/borrow/popular-loans/car-loan/interest-rate'},
+            'From 9.40% (new car)',
+            {'text': 'HDFC Bank official rate page',
+             'url': 'https://www.hdfcbank.com/personal/borrow/popular-loans/car-loan/interest-rate'}],
+           [{'text': 'ICICI Bank',
+             'url': 'https://www.icicibank.com/personal-banking/loans/car-loan/interest-rate'},
+            '7.90% – 11.20% (new car)',
+            {'text': 'ICICI Bank official rate page',
+             'url': 'https://www.icicibank.com/personal-banking/loans/car-loan/interest-rate'}],
+           [{'text': 'Axis Bank',
+             'url': 'https://www.axisbank.com/retail/loans/car-loan/interest-rates-charges'},
+            '8.90% – 11.80% (new car)',
+            {'text': 'Axis Bank official rate page',
+             'url': 'https://www.axisbank.com/retail/loans/car-loan/interest-rates-charges'}],
+           [{'text': 'Bajaj Finserv',
+             'url': 'https://www.bajajfinserv.in/new-car-finance-interest-rates-and-charges'},
+            'Up to 12% (new car)',
+            {'text': 'Bajaj Finserv official rate page',
+             'url': 'https://www.bajajfinserv.in/new-car-finance-interest-rates-and-charges'}]],
+  'note': 'Rates depend on credit score, income and loan tenure, and shift with RBI policy changes '
+          '— figures above are as reported across lender-published rate pages in September 2026. '
+          "Always confirm the live rate on the lender's own page before it's quoted to a walk-in "
+          'customer.'},
+ {'type': 'p',
+  'text': 'A one-percentage-point gap between lenders on a ₹7.5 lakh car loan can shift the EMI by '
+          '₹700-800 a month — often the exact difference between a test-drive customer saying yes '
+          'on the spot or asking for "a day to think about it." Having the real, current range on '
+          'hand during that conversation, instead of a guessed number, is what keeps the financing '
+          'question from stalling the sale.'}],
     },
     {
         "slug": "tile-quantity-calculator",
@@ -1893,6 +2396,26 @@ FREE_TOOLS = [
   return '<div class="tr-row"><span>Room Area</span><b>' + area.toFixed(0) + ' sq ft</b></div>'
        + '<div class="tr-row tr-total"><span>Tiles Needed (incl. wastage)</span><b>' + tilesNeeded + ' tiles</b></div>';
 }""",
+        "content": [{'type': 'h2', 'text': 'The real tile market behind this order'},
+ {'type': 'stat',
+  'stat': "Kajaria Ceramics leads India's organized tile market with roughly 17% share, followed "
+          'by Somany Ceramics and Prism Johnson (~9% each) — but organized players collectively '
+          'hold only about 46% of the overall market in FY25, with the unorganized sector, '
+          'concentrated in Morbi, Gujarat, still commanding the majority ~54% of volume.',
+  'source': 'Industry equity research (Nirmal Bang Tiles Sector coverage)',
+  'url': 'https://images.assettype.com/bloombergquint/2023-10/8237a072-8413-4db8-99ec-cf28e29727e5/Nirmal_Bang_Tiles_Sector_Initiating_Coverage_Note.pdf'},
+ {'type': 'stat',
+  'stat': 'Fully installed vitrified tile flooring in India typically runs ₹100-₹170 per sq ft '
+          'including labour, with labour alone adding roughly 30%-40% to the material cost — and '
+          'metro-city labour rates running 15%-20% higher than Tier-2/3 towns.',
+  'source': 'Tile installation cost guides, 2025-26',
+  'url': 'https://www.houseyog.com/blog/floor-tiling-cost-per-sqft-india/'},
+ {'type': 'p',
+  'text': 'That labour share is exactly why the wastage percentage in this calculator matters more '
+          'than it looks — a 10% wastage buffer is the industry-standard allowance for cuts, '
+          'breakage and pattern-matching, and under-ordering by even one box means a second '
+          'showroom trip, a delayed site, and a contractor who remembers which supplier made them '
+          'wait.'}],
     },
     {
         "slug": "bulk-order-margin-calculator",
@@ -1911,5 +2434,25 @@ FREE_TOOLS = [
   return '<div class="tr-row"><span>Margin / Unit</span><b>₹' + marginUnit.toFixed(2) + ' (' + marginPct + '%)</b></div>'
        + '<div class="tr-row tr-total"><span>Total Margin on Order</span><b>₹' + Math.round(totalMargin).toLocaleString('en-IN') + '</b></div>';
 }""",
+        "content": [{'type': 'h2', 'text': "Real margin benchmarks for India's general trade"},
+ {'type': 'stat',
+  'stat': 'Traditional trade — the general trade network of over 11.5 million stores served by '
+          'wholesalers and distributors — still accounts for 81.8% of FMCG sales in India, '
+          'remaining the dominant retail channel despite the growth of e-commerce and modern '
+          'trade.',
+  'source': 'NielsenIQ, "Four Key Trends Shaping the FMCG Landscape in India"',
+  'url': 'https://nielseniq.com/global/en/insights/analysis/2022/explore-the-four-key-trends-shaping-the-fmcg-landscape-in-india/'},
+ {'type': 'stat',
+  'stat': "FMCG distributor gross margins in India's general trade typically run 10%-20% depending "
+          'on category and competitive intensity — industry guidance puts anything below ~8% as '
+          'too thin to reliably cover freight, warehousing and staffing costs once real operating '
+          'expenses are netted out.',
+  'source': 'Industry distributor-margin guides, 2026',
+  'url': 'https://spirestock.com/blog/fmcg-distributor-margin-profit-guide-india'},
+ {'type': 'p',
+  'text': 'That floor is the number worth checking an order against before it ships, not after: a '
+          'reorder priced to win on volume alone, at an 8% margin or below, can look like a win on '
+          'the top line while barely covering what it actually costs to get the stock into the '
+          "retailer's hands."}],
     },
 ]
