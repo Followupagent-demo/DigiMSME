@@ -1500,9 +1500,17 @@ Every claim on this site is labeled honestly: "Proven" means a real pilot has ru
 
 
 def build_headers_and_redirects():
-    # Cloudflare Pages picks these up automatically from the output root.
+    # Cloudflare Pages/Workers picks these up automatically from the output
+    # root. Asset filenames here aren't content-hashed (still plain names
+    # like cinematic.js, not cinematic.a1b2c3.js), so `immutable` + a
+    # year-long max-age is NOT safe — it would tell a returning visitor's
+    # browser to keep serving an old cached JS/CSS file forever, even after
+    # a real fix is deployed, with no way to force a refresh short of the
+    # visitor clearing their cache. A short max-age with must-revalidate
+    # keeps most of the caching benefit (no re-download on every request)
+    # while guaranteeing every deploy is picked up within the hour.
     headers = """/assets/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=3600, must-revalidate
 
 /*
   X-Content-Type-Options: nosniff
