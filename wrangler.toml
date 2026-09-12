@@ -1,0 +1,5 @@
+name = "tiny-sky-5603"
+compatibility_date = "2026-09-12"
+
+[assets]
+directory = "./site"

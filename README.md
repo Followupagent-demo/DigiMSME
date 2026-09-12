@@ -25,7 +25,7 @@ Only 5 industries (`export-trading`, `hospital`, `gym-fitness-chain`, `ca-legal-
 ### Real-screen component system
 
 Every demo (Home, the flagship, all 15 industries, all 15 modules) renders actual platform mockups instead of narrated placeholder text — built in `build.py`:
-- `search_results_screen()` — a Maps/Search results list with named competitors, ratings, and complete-vs-incomplete profile tags. Home's opening scene cycles through 5 industries (Electrician/Gym/Event Planner/Hospital/Retail) every 2.2s via `assets_src/js/home-rotator.js`, in sync across its two scenes — so no visitor sees only a field that isn't theirs.
+- `search_results_screen()` — a Maps/Search results list with named competitors, ratings, and complete-vs-incomplete profile tags. Home's opening scene cycles through all 15 targeted industries every 2.2s via `assets_src/js/home-rotator.js`, in sync across its two scenes (`search_presets` in `build_home()`) — so no visitor sees only a field that isn't theirs.
 - `chat_screen()` — a WhatsApp conversation with a real header (avatar, contact name, live status). Every industry and module has its own distinct customer name (see `CUSTOMER_NAMES` / `MODULE_CONTACT_NAMES` in `build.py`).
 - `lead_notification_screen()` — a platform-native inbound-lead card (IndiaMART RFQ, 99acres, Instagram DM, a missed call) for industries whose pain narrative is about a specific discovery platform, not Maps.
 - `payment_screen()` — a pay sheet (Pending → Paid), visually distinct from chat.
@@ -57,14 +57,23 @@ This regenerates `site/` from scratch (deletes and rebuilds it) and copies `asse
 cd site && python3 -m http.server 8000
 ```
 
-## Cloudflare Pages deploy (free tier)
+## Deploying
 
-**Option A — direct upload (fastest):** Cloudflare dashboard → Workers & Pages → Create → Pages → Upload assets → drag in the contents of `site/` (or this zip). No build command needed — it's already static output.
+This repo is git-connected to a **Cloudflare Workers** project (Workers Builds, deploy command `npx wrangler deploy`) — not classic Pages. `wrangler.toml` at the repo root tells it where to find static output:
 
-**Option B — connect a git repo:** push this project to GitHub, then in Cloudflare Pages set:
-- Build command: `python3 build.py`
-- Build output directory: `site`
-- Root directory: `/`
+```toml
+name = "tiny-sky-5603"
+compatibility_date = "2026-09-12"
+
+[assets]
+directory = "./site"
+```
+
+`site/` is **committed to git** (not gitignored) specifically so this works with zero build step on Cloudflare's side — their Build command is set to `None`, so if `site/` weren't committed, `wrangler deploy` would fail with "Could not detect a directory containing static files" (which is exactly what happened before this was added). **Whenever you change `data.py`, `build.py`, or `assets_src/`, run `python3 build.py` and commit the regenerated `site/` along with your source changes** — pushing source without rebuilding `site/` will deploy stale content.
+
+If you'd rather have Cloudflare rebuild on every push instead of committing `site/`: set the dashboard's Build command to `python3 build.py`, keep the same `wrangler.toml`, and you can go back to gitignoring `site/`. Either approach works; committed output is simpler and doesn't depend on Python being available in Cloudflare's build image.
+
+**Alternative — direct upload / classic Pages:** Cloudflare dashboard → Workers & Pages → Create → Pages → Upload assets → drag in the contents of `site/` (or the deliverable zip). No wrangler.toml or build command needed for this path.
 
 ### Free-tier optimizations already built in
 - Zero build step required — pure static HTML/CSS/JS, so Pages serves it instantly with no build minutes spent.
