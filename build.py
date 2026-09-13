@@ -253,6 +253,18 @@ def chat_mock(lines):
     return out
 
 
+def attempt_card(business, message, status):
+    """One compact 'tried this business too, got ignored' card — used to
+    stack several real attempts alongside the main chat_screen example, so
+    a loss point's body copy ("already asked two more") has something to
+    actually point at instead of describing it and showing only one."""
+    return f"""<div class="attempt-card">
+      <div class="attempt-biz">{esc(business)}</div>
+      <div class="chat-bubble in">{esc(message)}</div>
+      <div class="attempt-status">{esc(status)}</div>
+    </div>"""
+
+
 def chat_screen(contact, status, lines):
     """A chat_mock with a real conversation header — avatar initial, contact
     name, and a live status line (Online / Typing…) — reads as an actual
@@ -581,7 +593,12 @@ def build_home(lang="en"):
     contact = "रोहन शर्मा" if is_hi else "Rohan Sharma"
     if is_hi:
         chat1 = [("in", "नमस्ते, क्या आप कमर्शियल इलेक्ट्रिकल पैनल अपग्रेड करते हैं?"), ("meta", "देखा गया · कोई जवाब नहीं · 2 घंटे")]
-        chat2 = [("in", "नमस्ते, क्या आप कमर्शियल इलेक्ट्रिकल पैनल अपग्रेड करते हैं?"),
+        other_attempts = [
+            ("संराइज़ इलेक्ट्रिकल्स", "नमस्ते, क्या आप कमर्शियल पैनल अपग्रेड करते हैं?", "देखा गया · कोई जवाब नहीं · 3 घंटे"),
+            ("ओम इलेक्ट्रिकल वर्क्स", "क्या इस हफ़्ते 40kW अपग्रेड के लिए कोई उपलब्ध है?", "भेजा गया · कोई जवाब नहीं"),
+        ]
+        chat2 = [("in", "आपकी वेबसाइट और रिव्यूज़ देखे — अच्छा लगा।"),
+                 ("in", "नमस्ते, क्या आप कमर्शियल इलेक्ट्रिकल पैनल अपग्रेड करते हैं?"),
                  ("out", "जी हां! आपके पैनल की मौजूदा कैपेसिटी बता सकते हैं?"),
                  ("in", "25kW पैनल है, 40kW तक अपग्रेड करना है।")]
         chat3 = [("in", "तो कीमत क्या होगी?"), ("meta", "कोई स्पष्ट जवाब नहीं मिला"), ("in", "ठीक है, कहीं और देखता हूं।")]
@@ -591,7 +608,12 @@ def build_home(lang="en"):
                  ("in", "हां, बुक कर दीजिए।")]
     else:
         chat1 = [("in", "Hi, do you do commercial electrical panel upgrades?"), ("meta", "Seen · no reply · 2 hours")]
-        chat2 = [("in", "Hi, do you do commercial electrical panel upgrades?"),
+        other_attempts = [
+            ("Sunrise Electricals", "Hi, do you do commercial panel upgrades?", "Seen · no reply · 3 hours"),
+            ("Om Electrical Works", "Anyone available for a 40kW upgrade this week?", "Delivered · no reply"),
+        ]
+        chat2 = [("in", "Checked out your website and reviews — looks solid."),
+                 ("in", "Hi, do you do commercial electrical panel upgrades?"),
                  ("out", "Yes! Could you share your panel's current capacity?"),
                  ("in", "It's a 25kW panel, want to upgrade to 40kW.")]
         chat3 = [("in", "So what's the cost?"), ("meta", "No clear answer given"), ("in", "Ok, let me check elsewhere.")]
@@ -623,14 +645,19 @@ def build_home(lang="en"):
                     "Rohan Sharma just messaged asking about a panel upgrade — a real job, ready to book today. Two hours pass. No reply. He's not still waiting. He's already asked two more electricians the exact same question.",
             "chat": chat1,
             "accent": "red",
-        }, "raw", extra_body=mark_dissolve(chat_screen(contact, "2 घंटे पहले देखा गया" if is_hi else "Last seen 2 hours ago", chat1), "chat-bubble in", drift="up")),
+        }, "raw",
+            extra_body='<div class="attempt-stack">'
+                       + mark_dissolve(chat_screen(contact, "2 घंटे पहले देखा गया" if is_hi else "Last seen 2 hours ago", chat1), "chat-bubble in", drift="up")
+                       + "".join(attempt_card(b, m, s) for b, m, s in other_attempts)
+                       + "</div>",
+            shatter="#ff6b6b"),
         scene({
             "eyebrow": "फिक्स" if is_hi else "Fixed",
             "title": "किसी और से पूछने से पहले ही जवाब मिल गया" if is_hi else "Answered before he can ask anyone else",
             "body": "सिर्फ़ \"धन्यवाद\" नहीं — एक असली सवाल वापस, जो इसे \"शायद\" से कोटेशन की तरफ़ ले जाता है। रोहन अभी अपना जवाब टाइप कर रहा है। उसने किसी और को मैसेज करने के बारे में सोचा तक नहीं।" if is_hi else
                     "Not a canned \"thanks for reaching out\" — a real question back, the one that moves this from a maybe to a quote. Rohan's still typing his reply. He hasn't even thought about messaging anyone else.",
             "accent": "green",
-        }, "raw", extra_body=chat_screen(contact, "ऑनलाइन" if is_hi else "Online", chat2)),
+        }, "raw", extra_body=chat_screen(contact, "ऑनलाइन" if is_hi else "Online", chat2), shatter="#25d366"),
 
         scene({
             "eyebrow": "नुकसान बिंदु #3 — कोटेशन" if is_hi else "Loss Point #3 — The Quote",
@@ -638,14 +665,14 @@ def build_home(lang="en"):
             "body": "\"देखकर बताता हूं\" — ज़्यादातर काम यूं ही चुपचाप खत्म हो जाते हैं। रोहन किसी नंबर का इंतज़ार नहीं करता जो शायद कल आए — उसके दूसरे टैब में पहले से किसी और की कीमत खुली है।" if is_hi else
                     "\"Let me check and get back to you\" is how most jobs die quietly. Rohan doesn't wait around for a number that might come tomorrow — he's already got someone else's price open in his other tab.",
             "accent": "red",
-        }, "raw", extra_body=chat_screen(contact, "टाइप कर रहे हैं…" if is_hi else "Typing…", chat3)),
+        }, "raw", extra_body=chat_screen(contact, "टाइप कर रहे हैं…" if is_hi else "Typing…", chat3), shatter="#ff6b6b"),
         scene({
             "eyebrow": "फिक्स" if is_hi else "Fixed",
             "title": "एक असली नंबर — और डील बचाने की गुंजाइश" if is_hi else "A real number — and room to save the sale",
             "body": "₹58,000, दो दिन में पूरा। जब रोहन कहीं और की सस्ती कीमत का ज़िक्र करता है, तो उसे तुरंत मैच किया जाता है, साथ में वारंटी भी — व्हाट्सएप पर पांच मिनट की प्राइस-वॉर में गंवाने की बजाय।" if is_hi else
                     "₹58,000, done in two days. When Rohan mentions a cheaper quote elsewhere, it gets matched on the spot, with a warranty thrown in — not lost to a five-minute price war on WhatsApp.",
             "accent": "green",
-        }, "raw", extra_body=chat_screen(contact, "ऑनलाइन" if is_hi else "Online", chat4)),
+        }, "raw", extra_body=chat_screen(contact, "ऑनलाइन" if is_hi else "Online", chat4), shatter="#25d366"),
 
         scene({
             "eyebrow": "नुकसान बिंदु #4 — पेमेंट" if is_hi else "Loss Point #4 — Payment",

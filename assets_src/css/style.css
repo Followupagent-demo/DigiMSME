@@ -236,6 +236,18 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 .scene[data-accent="red"] .chat-mock { box-shadow: 0 0 0 1px rgba(255,107,107,0.25) inset; }
 .scene[data-accent="green"] .chat-mock { box-shadow: 0 0 0 1px rgba(37,211,102,0.25) inset; }
 
+/* Stack of "tried this business too, got ignored" cards alongside the
+   main chat_screen example — so a loss point's "already asked two more"
+   line has something to actually show, not just describe. */
+.attempt-stack { display: flex; flex-direction: column; gap: 10px; max-width: 420px; }
+.attempt-card {
+  display: flex; flex-direction: column; gap: 6px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 10px 14px;
+}
+.attempt-biz { font-size: 0.76rem; font-weight: 700; color: var(--muted); }
+.attempt-status { font-size: 0.72rem; color: var(--danger); font-style: italic; }
+
 /* growth stat panel */
 .stat-panel {
   background: #0e1216; border: 1px solid var(--border); border-radius: 18px;
