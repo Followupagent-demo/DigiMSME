@@ -45,7 +45,29 @@
     goToStep(stepIndex - 1);
   }
 
-  function wireSingleSelect(stepName, stateKey) {
+  // Brief "pulling this from a universe of automation agents" pause
+  // between steps — a zooming label over the ambient background, then
+  // the callback runs (usually advance()/showResult()). Skipped
+  // entirely for prefers-reduced-motion so it never blocks navigation
+  // for anyone who's asked for less motion.
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function showTransition(label, callback) {
+    var overlay = document.getElementById("cyb-transition");
+    var labelEl = document.getElementById("cyb-transition-label");
+    if (!overlay || !labelEl || reduceMotion) { callback(); return; }
+    labelEl.textContent = label;
+    labelEl.classList.remove("is-zooming");
+    // force reflow so the zoom keyframe restarts every time
+    void labelEl.offsetWidth;
+    labelEl.classList.add("is-zooming");
+    overlay.hidden = false;
+    setTimeout(function () {
+      overlay.hidden = true;
+      callback();
+    }, 3200);
+  }
+
+  function wireSingleSelect(stepName, stateKey, labelFn) {
     var root = document.querySelector('.cyb-step[data-step="' + stepName + '"]');
     if (!root) return;
     root.querySelectorAll(".cyb-chip").forEach(function (chip) {
@@ -53,7 +75,9 @@
         root.querySelectorAll(".cyb-chip").forEach(function (c) { c.classList.remove("is-active"); });
         chip.classList.add("is-active");
         state[stateKey] = chip.getAttribute("data-value");
-        setTimeout(advance, 180);
+        if (stepName === "industry") renderToolsStep(state.industry);
+        var label = labelFn ? labelFn() : "Loading…";
+        showTransition(label, advance);
       });
     });
   }
@@ -72,17 +96,43 @@
     });
   }
 
-  wireSingleSelect("industry", "industry");
-  wireSingleSelect("scale", "scale");
-  wireSingleSelect("department", "dept");
-  wireMultiSelect("tools", "tools");
+  // The "what are you using?" step shows real software for the
+  // visitor's own industry (via stackOptionsByIndustry), not the same
+  // generic list for everyone — rebuilt fresh each time industry changes.
+  function renderToolsStep(industrySlug) {
+    var root = document.querySelector('.cyb-step[data-step="tools"] .cyb-choice-grid');
+    if (!root) return;
+    var options = (CYB.stackOptionsByIndustry && CYB.stackOptionsByIndustry[industrySlug]) || CYB.defaultStackOptions || [];
+    state.tools = [];
+    root.innerHTML = options.map(function (tool) {
+      return '<button type="button" class="cyb-chip" data-value="' + escHtml(tool) + '">' + escHtml(tool) + "</button>";
+    }).join("");
+    wireMultiSelect("tools", "tools");
+  }
+
+  wireSingleSelect("industry", "industry", function () {
+    var name = (CYB.industries[state.industry] || {}).name || "your industry";
+    return "Scanning " + (CYB.moduleCount || 15) + " Automation Agents for " + name + "…";
+  });
+  wireSingleSelect("scale", "scale", function () {
+    var label = (CYB.scale[state.scale] || {}).label || state.scale;
+    return "Calibrating for " + label + "-Scale Operations…";
+  });
+  wireSingleSelect("department", "dept", function () {
+    var label = state.dept ? CYB.depts[state.dept] : "";
+    return "Focusing the Flow on " + (label || "Your Team") + "…";
+  });
   wireMultiSelect("pains", "pains", function () {
     var btn = document.getElementById("cyb-generate-btn");
     if (btn) btn.disabled = state.pains.length === 0;
   });
 
   var toolsNext = document.getElementById("cyb-tools-next");
-  if (toolsNext) toolsNext.addEventListener("click", advance);
+  if (toolsNext) {
+    toolsNext.addEventListener("click", function () {
+      showTransition("Mapping Your Current Stack…", advance);
+    });
+  }
 
   document.querySelectorAll("[data-cyb-back]").forEach(function (btn) {
     btn.addEventListener("click", goBack);
@@ -111,7 +161,15 @@
   var genBtn = document.getElementById("cyb-generate-btn");
   if (genBtn) {
     genBtn.disabled = true;
-    genBtn.addEventListener("click", function () { showResult(); });
+    genBtn.addEventListener("click", function () {
+      var modIds = [];
+      state.pains.forEach(function (id) {
+        var p = CYB.pains[id];
+        if (!p) return;
+        p.modules.forEach(function (m) { if (modIds.indexOf(m) === -1) modIds.push(m); });
+      });
+      showTransition("Assembling Your Automation From " + modIds.length + " Matched Agent" + (modIds.length === 1 ? "" : "s") + "…", showResult);
+    });
   }
 
   // ---------------- workflow parsing (mirrors build.py's _wf_load / _wf_primary_path) ----------------

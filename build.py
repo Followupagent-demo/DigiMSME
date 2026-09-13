@@ -13,7 +13,7 @@ from data import (
     BRAND, TAGLINE, TAGLINE_HI, SITE_URL, NAV, NAV_HI, INDUSTRIES, PRICING_PACKS,
     CUSTOM_HAVE, CUSTOM_ADDONS,
     MODULES, INDUSTRY_MODULES, NEGOTIATION_AGENT, BLOG_POSTS, FREE_TOOLS, BRAIN_SCENARIOS,
-    WHATSAPP_NUMBER, BUSINESS_SCALE_TIERS, BUSINESS_SCALE_SOURCE, CURRENT_TOOLS, DEPARTMENTS, PAIN_POINTS,
+    WHATSAPP_NUMBER, BUSINESS_SCALE_TIERS, BUSINESS_SCALE_SOURCE, CURRENT_TOOLS, INDUSTRY_TOOLS, DEPARTMENTS, PAIN_POINTS,
 )
 
 INDUSTRY_BY_SLUG = {i["slug"]: i for i in INDUSTRIES}
@@ -552,7 +552,7 @@ def cinematic_wrap(scenes_html, n_scenes, extra_class=""):
 
 
 # ---------------------------------------------------------------- HOME
-def hero_orchestration_bg():
+def hero_orchestration_bg(css_class="home-hero-orchestration"):
     """Ambient, decorative multi-agent orchestration network behind the
     Home hero — not a real workflow (purely visual), reusing the same
     node/edge language as the real n8n canvases elsewhere on the site,
@@ -594,7 +594,7 @@ def hero_orchestration_bg():
             dur = 5 + (i % 4)
             edge_svg += (f'<circle r="3.5" class="hero-orch-pulse">'
                          f'<animateMotion dur="{dur}s" repeatCount="indefinite" path="{path}"></animateMotion></circle>')
-    return f"""<svg class="home-hero-orchestration" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    return f"""<svg class="{css_class}" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       {edge_svg}
       {node_svg}
     </svg>"""
@@ -1622,10 +1622,15 @@ def build_check_your_business():
         "blogsByIndustry": blogs_by_industry,
         "blogsByModule": blogs_by_module,
         "toolsByIndustry": tools_by_industry,
+        # Real software per industry, for the "what are you using?" step —
+        # keyed separately from toolsByIndustry (free calculators) above.
+        "stackOptionsByIndustry": INDUSTRY_TOOLS,
+        "defaultStackOptions": CURRENT_TOOLS,
+        "moduleCount": len(MODULES),
     }
     cyb_json = json.dumps(cyb_data).replace("</", "<\\/")
 
-    body = nav("/check-your-business/") + f"""
+    body = f'<div class="cyb-page-bg-wrap">{hero_orchestration_bg("cyb-page-bg")}</div>\n<div class="cyb-content-layer">\n' + nav("/check-your-business/") + f"""
 <section class="page-hero section-pad-sm">
   <div class="container">
     <div class="eyebrow">Check Your Business</div>
@@ -1711,7 +1716,15 @@ def build_check_your_business():
   </div>
 </section>
 
+<div class="cyb-transition" id="cyb-transition" hidden aria-live="polite">
+  <div class="cyb-transition-inner">
+    <span class="cyb-transition-icon">⚙️</span>
+    <div class="cyb-transition-label" id="cyb-transition-label"></div>
+  </div>
+</div>
+
 <script type="application/json" id="cyb-data">{cyb_json}</script>
+</div>
 """ + foot()
     write("check-your-business/index.html", head(
         "Check Your Business — Automate Only What You Want — " + BRAND,

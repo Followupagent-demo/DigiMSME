@@ -1268,6 +1268,45 @@ CURRENT_TOOLS = [
     "Salesforce", "Shopify / WooCommerce", "None — fully manual", "Other",
 ]
 
+# Real software each industry actually runs on today — shown on the
+# Check Your Business wizard's "what are you using?" step once an
+# industry is picked, instead of one generic list for everyone. Every
+# name here is a real, checkable product (or an accurate generic
+# category where no single brand dominates, e.g. "Dealer Management
+# System (DMS)") — never invented.
+INDUSTRY_TOOLS = {
+    "export-trading": ["Tally", "Zoho Books", "Excel / Google Sheets", "WhatsApp Business App",
+                        "EDI / Customs Software", "None — fully manual", "Other"],
+    "hospital": ["Practo", "Hospital Management Software (HMS)", "Tally", "Excel / Google Sheets",
+                 "WhatsApp Business App", "None — fully manual", "Other"],
+    "coaching-institute": ["Classplus", "Teachmint", "Tally", "Excel / Google Sheets",
+                            "WhatsApp Business App", "None — fully manual", "Other"],
+    "real-estate-developer": ["Sell.Do", "LeadSquared", "99acres / MagicBricks Leads", "Excel / Google Sheets",
+                               "WhatsApp Business App", "None — fully manual", "Other"],
+    "b2b-manufacturer": ["Tally", "SAP Business One", "Zoho Books", "Excel / Google Sheets",
+                          "WhatsApp Business App", "None — fully manual", "Other"],
+    "private-school": ["Fedena", "Entab", "Tally", "Excel / Google Sheets",
+                        "WhatsApp Business App", "None — fully manual", "Other"],
+    "diagnostic-lab": ["Crelio Health", "Practo", "Tally", "Excel / Google Sheets",
+                        "WhatsApp Business App", "None — fully manual", "Other"],
+    "wedding-planner-banquet": ["Instagram DMs", "Excel / Google Sheets", "WhatsApp Business App", "Tally",
+                                 "None — fully manual", "Other"],
+    "gym-fitness-chain": ["Gym Management Software", "Tally", "Excel / Google Sheets",
+                           "WhatsApp Business App", "None — fully manual", "Other"],
+    "ca-legal-firm": ["Tally", "Zoho Books", "Practice Management Software", "Excel / Google Sheets",
+                       "WhatsApp Business App", "None — fully manual", "Other"],
+    "interior-designer": ["Excel / Google Sheets", "Instagram DMs", "WhatsApp Business App", "Tally",
+                           "None — fully manual", "Other"],
+    "retail-store": ["Tally", "Zoho (CRM/Books)", "Shopify / WooCommerce", "Excel / Google Sheets",
+                      "WhatsApp Business App", "None — fully manual", "Other"],
+    "automobile-showroom": ["Dealer Management System (DMS)", "Tally", "Excel / Google Sheets",
+                             "WhatsApp Business App", "None — fully manual", "Other"],
+    "building-materials-showroom": ["Tally", "Excel / Google Sheets", "WhatsApp Business App",
+                                     "None — fully manual", "Other"],
+    "wholesale-distributor": ["Tally", "Zoho Books", "Excel / Google Sheets", "WhatsApp Business App",
+                               "None — fully manual", "Other"],
+}
+
 DEPARTMENTS = [
     {"id": "sales", "label": "Sales"},
     {"id": "marketing", "label": "Marketing"},
