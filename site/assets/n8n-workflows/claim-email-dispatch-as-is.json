@@ -4,7 +4,7 @@
     {
       "parameters": {},
       "id": "n1",
-      "name": "Customer Inquiry Comes In",
+      "name": "Claim Documents Ready",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 1,
       "position": [
@@ -16,7 +16,7 @@
     {
       "parameters": {},
       "id": "n2",
-      "name": "Staff Manually Checks / Searches",
+      "name": "Staff Push the Email to \"Later\"",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
       "position": [
@@ -70,18 +70,18 @@
     }
   ],
   "connections": {
-    "Customer Inquiry Comes In": {
+    "Claim Documents Ready": {
       "main": [
         [
           {
-            "node": "Staff Manually Checks / Searches",
+            "node": "Staff Push the Email to \"Later\"",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Staff Manually Checks / Searches": {
+    "Staff Push the Email to \"Later\"": {
       "main": [
         [
           {

@@ -4,7 +4,7 @@
     {
       "parameters": {},
       "id": "n1",
-      "name": "Customer Searches / Finds Listing",
+      "name": "Customer Searches, Finds the Listing",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 1,
       "position": [
@@ -16,7 +16,7 @@
     {
       "parameters": {},
       "id": "n2",
-      "name": "Staff Manually Checks / Searches",
+      "name": "Staff Never Differentiate the Listing",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
       "position": [
@@ -70,18 +70,18 @@
     }
   ],
   "connections": {
-    "Customer Searches / Finds Listing": {
+    "Customer Searches, Finds the Listing": {
       "main": [
         [
           {
-            "node": "Staff Manually Checks / Searches",
+            "node": "Staff Never Differentiate the Listing",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Staff Manually Checks / Searches": {
+    "Staff Never Differentiate the Listing": {
       "main": [
         [
           {

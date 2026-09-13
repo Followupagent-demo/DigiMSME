@@ -4,7 +4,7 @@
     {
       "parameters": {},
       "id": "n1",
-      "name": "Customer Inquiry Comes In",
+      "name": "A Week Goes By, No New Post",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 1,
       "position": [
@@ -16,7 +16,7 @@
     {
       "parameters": {},
       "id": "n2",
-      "name": "Staff Manually Checks / Searches",
+      "name": "Staff Never Find a Spare Afternoon",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
       "position": [
@@ -70,18 +70,18 @@
     }
   ],
   "connections": {
-    "Customer Inquiry Comes In": {
+    "A Week Goes By, No New Post": {
       "main": [
         [
           {
-            "node": "Staff Manually Checks / Searches",
+            "node": "Staff Never Find a Spare Afternoon",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Staff Manually Checks / Searches": {
+    "Staff Never Find a Spare Afternoon": {
       "main": [
         [
           {

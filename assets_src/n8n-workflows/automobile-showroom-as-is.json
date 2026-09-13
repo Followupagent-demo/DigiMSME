@@ -4,7 +4,7 @@
     {
       "parameters": {},
       "id": "n1",
-      "name": "Customer Inquiry Comes In",
+      "name": "Walk-In or DM Inquiry Comes In",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 1,
       "position": [
@@ -16,7 +16,7 @@
     {
       "parameters": {},
       "id": "n2",
-      "name": "Staff Manually Checks / Searches",
+      "name": "Staff Log It on Paper, If At All",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
       "position": [
@@ -70,18 +70,18 @@
     }
   ],
   "connections": {
-    "Customer Inquiry Comes In": {
+    "Walk-In or DM Inquiry Comes In": {
       "main": [
         [
           {
-            "node": "Staff Manually Checks / Searches",
+            "node": "Staff Log It on Paper, If At All",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Staff Manually Checks / Searches": {
+    "Staff Log It on Paper, If At All": {
       "main": [
         [
           {

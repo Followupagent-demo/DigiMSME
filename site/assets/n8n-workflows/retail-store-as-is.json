@@ -4,7 +4,7 @@
     {
       "parameters": {},
       "id": "n1",
-      "name": "Customer Inquiry Comes In",
+      "name": "Loyal Customer Messages on WhatsApp",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 1,
       "position": [
@@ -16,7 +16,7 @@
     {
       "parameters": {},
       "id": "n2",
-      "name": "Staff Manually Checks / Searches",
+      "name": "Staff Can't Confirm Real Stock Over Chat",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
       "position": [
@@ -70,18 +70,18 @@
     }
   ],
   "connections": {
-    "Customer Inquiry Comes In": {
+    "Loyal Customer Messages on WhatsApp": {
       "main": [
         [
           {
-            "node": "Staff Manually Checks / Searches",
+            "node": "Staff Can't Confirm Real Stock Over Chat",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Staff Manually Checks / Searches": {
+    "Staff Can't Confirm Real Stock Over Chat": {
       "main": [
         [
           {
