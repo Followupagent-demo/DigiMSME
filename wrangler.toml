@@ -1,5 +1,31 @@
 name = "tiny-sky-5603"
 compatibility_date = "2026-09-12"
+main = "src/worker.js"
 
 [assets]
 directory = "./site"
+binding = "ASSETS"
+
+# Fires the "Market Pulse" auto-post job (see src/worker.js) every 6
+# hours. Cron is UTC; 0 */6 * * * = 00:00, 06:00, 12:00, 18:00 UTC.
+[triggers]
+crons = ["0 */6 * * *"]
+
+# Create with: npx wrangler kv namespace create MARKET_PULSE
+# then paste the returned id below (id is not a secret — it's just an
+# opaque namespace pointer, safe to commit).
+[[kv_namespaces]]
+binding = "MARKET_PULSE"
+id = "b56a541f7e094693ae6b2d75b5856e56"
+
+
+# The GROQ_API_KEY secret lives in Cloudflare's account-level Secrets
+# Store, not as a classic Worker secret — so it's bound here by
+# reference, never by value. store_id is just a pointer (like the KV
+# id above), not the secret itself, so it's safe to commit.
+# Find it: Cloudflare dashboard -> Secrets Store -> click the store ->
+# the Store ID is shown on that page (also in the page URL).
+[[secrets_store_secrets]]
+binding = "GROQ_API_KEY"
+store_id = "f2f252a7b48a4bb1a3616b8994ac243c"
+secret_name = "34532987r83409grok"
