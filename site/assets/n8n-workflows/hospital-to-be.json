@@ -1,0 +1,151 @@
+{
+  "name": "AsliKaam — Hospital (multi-branch) (Automated)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "Patient Searches for a Branch",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        300
+      ],
+      "webhookId": "AsliKaam — Hospital (multi-branch) (Automated)-1"
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "Branch Found on Google (Dedicated Listing)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        280,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "Doctor Page Viewed by Specialty",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        560,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n4",
+      "name": "WhatsApp: Appointment Booked + Confirmed",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        840,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n5",
+      "name": "Customer Confirms?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n6",
+      "name": "Order / Booking Won",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        130
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n7",
+      "name": "Follow-Up Nudge Sent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1400,
+        470
+      ]
+    }
+  ],
+  "connections": {
+    "Patient Searches for a Branch": {
+      "main": [
+        [
+          {
+            "node": "Branch Found on Google (Dedicated Listing)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Branch Found on Google (Dedicated Listing)": {
+      "main": [
+        [
+          {
+            "node": "Doctor Page Viewed by Specialty",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Doctor Page Viewed by Specialty": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp: Appointment Booked + Confirmed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp: Appointment Booked + Confirmed": {
+      "main": [
+        [
+          {
+            "node": "Customer Confirms?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Customer Confirms?": {
+      "main": [
+        [
+          {
+            "node": "Order / Booking Won",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Follow-Up Nudge Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

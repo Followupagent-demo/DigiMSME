@@ -1,0 +1,151 @@
+{
+  "name": "AsliKaam — Retail Store (Kirana / General) (Automated)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "Customer Asks: In Stock?",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        300
+      ],
+      "webhookId": "AsliKaam — Retail Store (Kirana / General) (Automated)-1"
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "AI: Checks Real Stock (Live Catalog)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        280,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "Order + Payment in Same Chat",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        560,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n4",
+      "name": "Pickup or Delivery Confirmed",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        840,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n5",
+      "name": "Customer Confirms?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n6",
+      "name": "Order / Booking Won",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        130
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n7",
+      "name": "Follow-Up Nudge Sent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1400,
+        470
+      ]
+    }
+  ],
+  "connections": {
+    "Customer Asks: In Stock?": {
+      "main": [
+        [
+          {
+            "node": "AI: Checks Real Stock (Live Catalog)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: Checks Real Stock (Live Catalog)": {
+      "main": [
+        [
+          {
+            "node": "Order + Payment in Same Chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Order + Payment in Same Chat": {
+      "main": [
+        [
+          {
+            "node": "Pickup or Delivery Confirmed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pickup or Delivery Confirmed": {
+      "main": [
+        [
+          {
+            "node": "Customer Confirms?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Customer Confirms?": {
+      "main": [
+        [
+          {
+            "node": "Order / Booking Won",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Follow-Up Nudge Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

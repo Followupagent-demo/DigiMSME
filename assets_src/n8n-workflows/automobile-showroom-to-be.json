@@ -1,0 +1,151 @@
+{
+  "name": "AsliKaam — Automobile Showroom (Automated)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "Test-Drive Inquiry (DM/Walk-In)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        300
+      ],
+      "webhookId": "AsliKaam — Automobile Showroom (Automated)-1"
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "AI: Books Test-Drive Slot Instantly",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        280,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "Test Drive Completed",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        560,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n4",
+      "name": "WhatsApp: Service/Insurance Reminders",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        840,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n5",
+      "name": "Customer Confirms?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n6",
+      "name": "Order / Booking Won",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        130
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n7",
+      "name": "Follow-Up Nudge Sent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1400,
+        470
+      ]
+    }
+  ],
+  "connections": {
+    "Test-Drive Inquiry (DM/Walk-In)": {
+      "main": [
+        [
+          {
+            "node": "AI: Books Test-Drive Slot Instantly",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: Books Test-Drive Slot Instantly": {
+      "main": [
+        [
+          {
+            "node": "Test Drive Completed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test Drive Completed": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp: Service/Insurance Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp: Service/Insurance Reminders": {
+      "main": [
+        [
+          {
+            "node": "Customer Confirms?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Customer Confirms?": {
+      "main": [
+        [
+          {
+            "node": "Order / Booking Won",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Follow-Up Nudge Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

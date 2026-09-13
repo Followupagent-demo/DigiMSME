@@ -1,0 +1,151 @@
+{
+  "name": "AsliKaam — Export / Trading (Automated)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "RFQ Received (Email/WhatsApp)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        300
+      ],
+      "webhookId": "AsliKaam — Export / Trading (Automated)-1"
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "Live Catalog Shared (Landed-Cost Specs)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        280,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "AI: Routes Inquiry to Right Person",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        560,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n4",
+      "name": "Same-Day Quote Sent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        840,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n5",
+      "name": "Customer Confirms?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n6",
+      "name": "Order / Booking Won",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        130
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n7",
+      "name": "Follow-Up Nudge Sent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1400,
+        470
+      ]
+    }
+  ],
+  "connections": {
+    "RFQ Received (Email/WhatsApp)": {
+      "main": [
+        [
+          {
+            "node": "Live Catalog Shared (Landed-Cost Specs)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Live Catalog Shared (Landed-Cost Specs)": {
+      "main": [
+        [
+          {
+            "node": "AI: Routes Inquiry to Right Person",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: Routes Inquiry to Right Person": {
+      "main": [
+        [
+          {
+            "node": "Same-Day Quote Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Same-Day Quote Sent": {
+      "main": [
+        [
+          {
+            "node": "Customer Confirms?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Customer Confirms?": {
+      "main": [
+        [
+          {
+            "node": "Order / Booking Won",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Follow-Up Nudge Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

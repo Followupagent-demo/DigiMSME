@@ -1,0 +1,151 @@
+{
+  "name": "AsliKaam — Wholesale Distributor (Automated)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "Retailer's Usual Reorder Window",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        300
+      ],
+      "webhookId": "AsliKaam — Wholesale Distributor (Automated)-1"
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "AI: Reorder Nudge Timed to Cycle",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        280,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "Retailer Browses WhatsApp Catalog",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        560,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n4",
+      "name": "Reorder Placed, No Phone Tag",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        840,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n5",
+      "name": "Customer Confirms?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n6",
+      "name": "Order / Booking Won",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        130
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n7",
+      "name": "Follow-Up Nudge Sent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1400,
+        470
+      ]
+    }
+  ],
+  "connections": {
+    "Retailer's Usual Reorder Window": {
+      "main": [
+        [
+          {
+            "node": "AI: Reorder Nudge Timed to Cycle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: Reorder Nudge Timed to Cycle": {
+      "main": [
+        [
+          {
+            "node": "Retailer Browses WhatsApp Catalog",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retailer Browses WhatsApp Catalog": {
+      "main": [
+        [
+          {
+            "node": "Reorder Placed, No Phone Tag",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reorder Placed, No Phone Tag": {
+      "main": [
+        [
+          {
+            "node": "Customer Confirms?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Customer Confirms?": {
+      "main": [
+        [
+          {
+            "node": "Order / Booking Won",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Follow-Up Nudge Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

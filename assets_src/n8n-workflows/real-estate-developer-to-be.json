@@ -1,0 +1,151 @@
+{
+  "name": "AsliKaam — Real Estate Developer (Automated)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "Visitor Lands on Listing",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        300
+      ],
+      "webhookId": "AsliKaam — Real Estate Developer (Automated)-1"
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "Intent Captured on Project Microsite",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        280,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "WhatsApp: Instant Follow-Up (No 3-Day Gap)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        560,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n4",
+      "name": "Brochure Sent + Site Visit Booked",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        840,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n5",
+      "name": "Customer Confirms?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n6",
+      "name": "Order / Booking Won",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        130
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n7",
+      "name": "Follow-Up Nudge Sent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1400,
+        470
+      ]
+    }
+  ],
+  "connections": {
+    "Visitor Lands on Listing": {
+      "main": [
+        [
+          {
+            "node": "Intent Captured on Project Microsite",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Intent Captured on Project Microsite": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp: Instant Follow-Up (No 3-Day Gap)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp: Instant Follow-Up (No 3-Day Gap)": {
+      "main": [
+        [
+          {
+            "node": "Brochure Sent + Site Visit Booked",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brochure Sent + Site Visit Booked": {
+      "main": [
+        [
+          {
+            "node": "Customer Confirms?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Customer Confirms?": {
+      "main": [
+        [
+          {
+            "node": "Order / Booking Won",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Follow-Up Nudge Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

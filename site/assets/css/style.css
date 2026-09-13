@@ -774,6 +774,8 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 .process-step-ai.is-active .process-step-dot { border-color: #b98aff; box-shadow: 0 0 0 4px rgba(185,138,255,0.12), 0 0 12px rgba(185,138,255,0.35); }
 .process-step-wait.is-active .process-step-dot { border-color: var(--muted); box-shadow: none; }
 .process-step-done.is-active .process-step-dot { border-color: var(--accent-dim); background: rgba(37,211,102,0.18); }
+.process-step-manual.is-active .process-step-dot { border-color: var(--muted); box-shadow: none; }
+.process-step-danger.is-active .process-step-dot { border-color: var(--danger); background: rgba(255,107,107,0.18); box-shadow: 0 0 0 4px rgba(255,107,107,0.12), 0 0 12px rgba(255,107,107,0.35); }
 .process-runner-caption { color: var(--muted); font-size: 0.85rem; margin-top: 16px; max-width: 640px; }
 @media (prefers-reduced-motion: reduce) {
   .process-step, .process-step-dot, .process-step-body, .process-step::before { transition: none !important; animation: none !important; }
@@ -821,6 +823,8 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 .n8n-node-ai rect { stroke: #b98aff; filter: drop-shadow(0 0 5px rgba(185,138,255,0.3)); }
 .n8n-node-wait rect { stroke: var(--muted); stroke-dasharray: 3 3; }
 .n8n-node-done rect { stroke: var(--accent-dim); fill: rgba(37,211,102,0.08); }
+.n8n-node-manual rect { stroke: var(--muted); fill: #14181e; }
+.n8n-node-danger rect { stroke: var(--danger); fill: rgba(255,107,107,0.08); filter: drop-shadow(0 0 4px rgba(255,107,107,0.25)); }
 .n8n-node-icon { font-size: 20px; }
 .n8n-node-label { fill: var(--fg); font-size: 13px; font-weight: 600; font-family: inherit; }
 .n8n-node.is-active rect { stroke-width: 3; }
@@ -830,6 +834,8 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 .n8n-node-ai.is-active rect { filter: drop-shadow(0 0 18px rgba(185,138,255,0.95)); }
 .n8n-node-wait.is-active rect { filter: drop-shadow(0 0 12px rgba(255,255,255,0.6)); }
 .n8n-node-done.is-active rect { filter: drop-shadow(0 0 18px rgba(37,211,102,0.95)); }
+.n8n-node-manual.is-active rect { filter: drop-shadow(0 0 12px rgba(154,164,175,0.6)); }
+.n8n-node-danger.is-active rect { filter: drop-shadow(0 0 18px rgba(255,107,107,0.9)); }
 
 .n8n-edge { fill: none; stroke: var(--border); stroke-width: 1.5; }
 .n8n-edge-alt { stroke-dasharray: 4 4; opacity: 0.5; }

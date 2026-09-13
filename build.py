@@ -1090,6 +1090,92 @@ def industry_citation(ind):
 </section>"""
 
 
+def industry_workflow_section(ind):
+    """AS-IS (today's manual process) vs TO-BE (automated) — two real n8n
+    workflows per industry, both rendered with the same tap-to-play /
+    desktop zoom-canvas component used on Home and the demo pages, so
+    the industry page shows the mechanism instead of just describing it.
+    Silently omits itself if the generated files aren't present."""
+    slug = ind["slug"]
+    as_is_file, to_be_file = f"{slug}-as-is.json", f"{slug}-to-be.json"
+    if not (os.path.exists(os.path.join(ASSETS_SRC, "n8n-workflows", as_is_file))
+            and os.path.exists(os.path.join(ASSETS_SRC, "n8n-workflows", to_be_file))):
+        return ""
+    return f"""<section class="section-pad-sm" style="border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="eyebrow">⚡ Real Workflow, Not a Mockup</div>
+    <h2>Why this actually matters — the process, before and after</h2>
+    <p class="lead" style="max-width:720px;">{esc(ind['name'])} doesn't lose this deal on price or quality — it loses it in one specific, fixable gap: {esc(ind['leak_label'].lower())}. Below is that gap as it runs today, and the same process after automation — both real n8n workflows, not a diagram standing in for one.</p>
+
+    <div style="margin-top:32px;">
+      <h3 style="color:var(--danger); font-size:1.1rem;">Today — a manual process</h3>
+      <p class="lead" style="font-size:0.9rem;">No system catches the gap until the customer's already gone.</p>
+      {render_workflow_dual(as_is_file, caption=f"{esc(ind['name'])} today — {esc(ind['leak_label'])}, with nothing tracking it until it's too late.")}
+    </div>
+
+    <div style="margin-top:40px;">
+      <h3 style="color:var(--accent); font-size:1.1rem;">After automation</h3>
+      <p class="lead" style="font-size:0.9rem;">Tap play — the same customer journey, minus the gap.</p>
+      {render_workflow_dual(to_be_file, caption=f"{esc(ind['name'])} automated — {esc(ind['solution'])}")}
+    </div>
+  </div>
+</section>"""
+
+
+def industry_case_study_section(ind):
+    """Always shows the roadmap (real, existing before/after numbers
+    already used elsewhere on the site — not new claims). Only shows
+    the 'already running at scale' block where data.py actually has
+    real, sourced case_study/market_outlook for this industry — that
+    takes real per-industry research, so most industries won't have it
+    yet, and this renders nothing extra for those rather than guessing."""
+    g = ind["growth"]
+    roadmap_html = f"""<div class="card" style="border-left:3px solid var(--accent-dim);">
+      <div class="eyebrow">📈 Your Roadmap</div>
+      <h3 style="margin-top:8px;">{esc(g['title'])}</h3>
+      <p class="lead" style="font-size:0.95rem;">{esc(g['body'])}</p>
+      <div class="row-cta" style="align-items:center; gap:14px; margin-top:12px; flex-wrap:wrap;">
+        <span style="font-size:0.85rem; color:var(--muted);">{esc(g['stat_label'])}</span>
+        <span style="font-weight:700; color:var(--danger);">{esc(g['stat_from'])}</span>
+        <span style="color:var(--muted);">→</span>
+        <span style="font-weight:700; color:var(--accent);">{esc(g['stat_to'])}</span>
+      </div>
+    </div>"""
+
+    proof_html = ""
+    cs, outlook = ind.get("case_study"), ind.get("market_outlook")
+    if cs or outlook:
+        cs_html = ""
+        if cs:
+            stats_html = "".join(f"<li>{esc(s)}</li>" for s in cs["stats"])
+            sources_html = " · ".join(
+                f'<a href="{s["url"]}" target="_blank" rel="noopener">{esc(s["label"])} ↗</a>' for s in cs["sources"])
+            cs_html = f"""<div class="card" style="border-left:3px solid var(--accent);">
+              <div class="eyebrow">🏆 Already Running at Scale</div>
+              <h3 style="margin-top:8px;">{esc(cs['company'])}</h3>
+              <p class="lead" style="font-size:0.95rem;">{esc(cs['summary'])}</p>
+              <ul class="stack" style="list-style:none; padding:0; margin:14px 0;">{stats_html}</ul>
+              <p style="font-size:0.8rem; color:var(--muted);">{sources_html}</p>
+            </div>"""
+        outlook_html = ""
+        if outlook:
+            items = "".join(f"""<div class="card">
+              <p class="lead" style="font-size:0.92rem; margin:0 0 8px;">{esc(o['stat'])}</p>
+              <a href="{o['url']}" target="_blank" rel="noopener" style="font-size:0.8rem; color:var(--accent); font-weight:600;">— {esc(o['source'])} ↗</a>
+            </div>""" for o in outlook)
+            outlook_html = f'<div class="grid grid-2 mt-32">{items}</div>'
+        proof_html = f'<div style="margin-top:24px;">{cs_html}{outlook_html}</div>'
+
+    return f"""<section class="section-pad-sm">
+  <div class="container">
+    <div class="eyebrow">Why This Matters</div>
+    <h2>The roadmap{" — and who's already ahead" if proof_html else ""}</h2>
+    {roadmap_html}
+    {proof_html}
+  </div>
+</section>"""
+
+
 def build_industry_page(ind):
     bullets = "".join(f"<li>{esc(b)}</li>" for b in ind["solution_bullets"])
     body = nav("/industries/") + f"""
@@ -1117,6 +1203,10 @@ def build_industry_page(ind):
 {industry_citation(ind)}
 
 {static_preview(ind)}
+
+{industry_workflow_section(ind)}
+
+{industry_case_study_section(ind)}
 
 <section class="section-pad">
   <div class="container">
@@ -1502,7 +1592,11 @@ N8N_NODE_STYLE = {
 def _wf_node_icon(n):
     icon, cls = N8N_NODE_STYLE.get(n["type"], ("⚙️", "n8n-node-action"))
     name = n["name"]
-    if name.startswith("AI:") or name.startswith("AI "):
+    if name.startswith("Lost") or name.startswith("❌") or "Competitor Wins" in name:
+        icon, cls = "❌", "n8n-node-danger"
+    elif name.startswith("Staff") or name.startswith("Manual"):
+        icon, cls = "🧍", "n8n-node-manual"
+    elif name.startswith("AI:") or name.startswith("AI "):
         icon, cls = "🧠", "n8n-node-ai"
     elif "WhatsApp" in name:
         icon = "💬"

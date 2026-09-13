@@ -108,6 +108,24 @@ INDUSTRIES = [
             "source": "KPMG India",
             "url": "https://kpmg.com/in/en/insights/2025/12/multi-speciality-hospitals-in-india-evolution-of-hospitals-deals-post-covid.html",
         },
+        "case_study": {
+            "company": "Apollo 24|7",
+            "summary": "Apollo 24|7 — one of India's largest hospital chains — built a WhatsApp system (via Infobip) for symptom checking, appointment and diagnostic booking, and reminders. Same mechanism this page describes, already running at scale.",
+            "stats": [
+                "95% message delivery rate",
+                "Call-centre workload down 20%",
+                "Diagnostic bookings up 49%",
+                "Revenue per order up 72%",
+            ],
+            "sources": [
+                {"label": "Infobip customer case study", "url": "https://www.infobip.com/customer/apollo-247"},
+                {"label": "WhatsApp Business official success story", "url": "https://business.whatsapp.com/resources/success-stories/apollo-24-7"},
+            ],
+        },
+        "market_outlook": [
+            {"stat": "India's digital healthcare market is projected to reach ₹1.16 trillion by 2028, growing at a 15.76% CAGR from 2023.", "source": "ResearchAndMarkets", "url": "https://www.businesswire.com/news/home/20240702666035/en/Digital-Healthcare-Market-in-India-2024---Forecasts-to-2028-Robust-Growth-Spurred-by-Widespread-Smartphone-and-Internet-Adoption---ResearchAndMarkets.com"},
+            {"stat": "India's AI-in-healthcare market is forecast to grow from $21.63M in 2025 to $110.61M by 2030 — a 38.6% CAGR.", "source": "MarketsandMarkets", "url": "https://www.marketsandmarkets.com/Market-Reports/geography/artificial-intelligence-healthcare-market/India"},
+        ],
         "pain": {
             "eyebrow": "The Moment",
             "title": "A branch that doesn't exist online",

@@ -1,0 +1,151 @@
+{
+  "name": "AsliKaam — Coaching Institute (Automated)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "Student Clicks Course Link (Any City)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        300
+      ],
+      "webhookId": "AsliKaam — Coaching Institute (Automated)-1"
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "Course Sales Page (Batch + Outcomes)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        280,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "Payment Collected In-Page",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        560,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n4",
+      "name": "AI: Access Granted Automatically",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        840,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n5",
+      "name": "Customer Confirms?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n6",
+      "name": "Order / Booking Won",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        130
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n7",
+      "name": "Follow-Up Nudge Sent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1400,
+        470
+      ]
+    }
+  ],
+  "connections": {
+    "Student Clicks Course Link (Any City)": {
+      "main": [
+        [
+          {
+            "node": "Course Sales Page (Batch + Outcomes)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Course Sales Page (Batch + Outcomes)": {
+      "main": [
+        [
+          {
+            "node": "Payment Collected In-Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Payment Collected In-Page": {
+      "main": [
+        [
+          {
+            "node": "AI: Access Granted Automatically",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: Access Granted Automatically": {
+      "main": [
+        [
+          {
+            "node": "Customer Confirms?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Customer Confirms?": {
+      "main": [
+        [
+          {
+            "node": "Order / Booking Won",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Follow-Up Nudge Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

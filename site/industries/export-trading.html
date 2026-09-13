@@ -13,7 +13,7 @@
 <meta property="og:url" content="https://tiny-sky-5603.innndemolog.workers.dev/industries/export-trading.html">
 <meta property="og:locale" content="en_IN">
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="/assets/css/style.css?v=1789306184">
+<link rel="stylesheet" href="/assets/css/style.css?v=1789306701">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -139,6 +139,211 @@
   </div>
 </section>
 
+<section class="section-pad-sm" style="border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="eyebrow">⚡ Real Workflow, Not a Mockup</div>
+    <h2>Why this actually matters — the process, before and after</h2>
+    <p class="lead" style="max-width:720px;">Export / Trading doesn't lose this deal on price or quality — it loses it in one specific, fixable gap: rfq sits unread for 2 days. Below is that gap as it runs today, and the same process after automation — both real n8n workflows, not a diagram standing in for one.</p>
+
+    <div style="margin-top:32px;">
+      <h3 style="color:var(--danger); font-size:1.1rem;">Today — a manual process</h3>
+      <p class="lead" style="font-size:0.9rem;">No system catches the gap until the customer's already gone.</p>
+      <div class="workflow-dual">
+      <div class="workflow-mobile-view"><div class="process-runner">
+      <button type="button" class="process-runner-start">▶ Tap to see how this runs</button>
+      <div class="process-runner-status" aria-live="polite"></div>
+      <div class="process-steps"><div class="process-step process-step-trigger">
+          <span class="process-step-dot"><span class="process-step-icon">⚡</span></span>
+          <span class="process-step-body">
+            <span class="process-step-label">Customer Inquiry Comes In</span>
+            
+          </span>
+        </div><div class="process-step process-step-manual">
+          <span class="process-step-dot"><span class="process-step-icon">🧍</span></span>
+          <span class="process-step-body">
+            <span class="process-step-label">Staff Manually Checks / Searches</span>
+            
+          </span>
+        </div><div class="process-step process-step-condition">
+          <span class="process-step-dot"><span class="process-step-icon">🔀</span></span>
+          <span class="process-step-body">
+            <span class="process-step-label">RFQ sits unread for 2 days</span>
+            <span class="process-step-alt">↳ otherwise: Customer Happens to Wait It Out</span>
+          </span>
+        </div><div class="process-step process-step-wait">
+          <span class="process-step-dot"><span class="process-step-icon">⏱</span></span>
+          <span class="process-step-body">
+            <span class="process-step-label">Days Pass — No Update Sent</span>
+            
+          </span>
+        </div><div class="process-step process-step-danger">
+          <span class="process-step-dot"><span class="process-step-icon">❌</span></span>
+          <span class="process-step-body">
+            <span class="process-step-label">Lost to a Competitor Who Answered First</span>
+            
+          </span>
+        </div></div>
+      <button type="button" class="process-runner-replay" hidden>↻ Replay</button>
+      
+    </div></div>
+      <div class="workflow-desktop-view"><div class="workflow-canvas">
+      <div class="workflow-canvas-toolbar">
+        <button type="button" class="workflow-canvas-start">▶ Tap to see how this runs</button>
+        <button type="button" class="workflow-canvas-replay" hidden>↻ Replay</button>
+        <div class="workflow-canvas-status" aria-live="polite"></div>
+      </div>
+      <div class="workflow-canvas-frame">
+        <svg class="workflow-canvas-svg" viewBox="0 0 1282 473" preserveAspectRatio="xMidYMid meet">
+          <path class="n8n-edge" d="M270,236.0 C284.0,236.0 284.0,236.0 298,236.0"></path><circle class="n8n-edge-pulse" r="4" data-from="Customer Inquiry Comes In" data-to="Staff Manually Checks / Searches"><animateMotion dur="2.6s" repeatCount="indefinite" path="M270,236.0 C284.0,236.0 284.0,236.0 298,236.0"></animateMotion></circle><path class="n8n-edge" d="M508,236.0 C522.0,236.0 522.0,236.0 536,236.0"></path><circle class="n8n-edge-pulse" r="4" data-from="Staff Manually Checks / Searches" data-to="RFQ sits unread for 2 days"><animateMotion dur="2.6s" repeatCount="indefinite" path="M508,236.0 C522.0,236.0 522.0,236.0 536,236.0"></animateMotion></circle><path class="n8n-edge" d="M746,236.0 C760.0,236.0 760.0,92.0 774,92.0"></path><circle class="n8n-edge-pulse" r="4" data-from="RFQ sits unread for 2 days" data-to="Days Pass — No Update Sent"><animateMotion dur="2.6s" repeatCount="indefinite" path="M746,236.0 C760.0,236.0 760.0,92.0 774,92.0"></animateMotion></circle><path class="n8n-edge n8n-edge-alt" d="M746,236.0 C760.0,236.0 760.0,381.0 774,381.0"></path><circle class="n8n-edge-pulse n8n-edge-alt" r="4" data-from="RFQ sits unread for 2 days" data-to="Customer Happens to Wait It Out"><animateMotion dur="3.0s" repeatCount="indefinite" path="M746,236.0 C760.0,236.0 760.0,381.0 774,381.0"></animateMotion></circle><path class="n8n-edge" d="M984,92.0 C998.0,92.0 998.0,92.0 1012,92.0"></path><circle class="n8n-edge-pulse" r="4" data-from="Days Pass — No Update Sent" data-to="Lost to a Competitor Who Answered First"><animateMotion dur="2.6s" repeatCount="indefinite" path="M984,92.0 C998.0,92.0 998.0,92.0 1012,92.0"></animateMotion></circle>
+          <g class="n8n-node n8n-node-trigger" data-name="Customer Inquiry Comes In" transform="translate(60,204)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">⚡</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Customer Inquiry</tspan><tspan x="48" dy="16">Comes In</tspan></text>
+        </g><g class="n8n-node n8n-node-manual" data-name="Staff Manually Checks / Searches" transform="translate(298,204)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">🧍</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Staff Manually</tspan><tspan x="48" dy="16">Checks / Searches</tspan></text>
+        </g><g class="n8n-node n8n-node-condition" data-name="RFQ sits unread for 2 days" transform="translate(536,204)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">🔀</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">RFQ sits unread</tspan><tspan x="48" dy="16">for 2 days</tspan></text>
+        </g><g class="n8n-node n8n-node-wait" data-name="Days Pass — No Update Sent" transform="translate(774,60)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">⏱</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Days Pass — No</tspan><tspan x="48" dy="16">Update Sent</tspan></text>
+        </g><g class="n8n-node n8n-node-danger" data-name="Lost to a Competitor Who Answered First" transform="translate(1012,60)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">❌</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Lost to a</tspan><tspan x="48" dy="16">Competitor Who A…</tspan></text>
+        </g><g class="n8n-node n8n-node-done" data-name="Customer Happens to Wait It Out" transform="translate(774,349)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">✅</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Customer Happens</tspan><tspan x="48" dy="16">to Wait It Out</tspan></text>
+        </g>
+        </svg>
+      </div>
+      <div class="workflow-canvas-live-caption"></div>
+      <script type="application/json" class="workflow-canvas-data">{"viewBox": "0 0 1282 473", "nodes": {"Customer Inquiry Comes In": {"x": 60, "y": 204, "w": 210, "h": 64}, "Staff Manually Checks / Searches": {"x": 298, "y": 204, "w": 210, "h": 64}, "RFQ sits unread for 2 days": {"x": 536, "y": 204, "w": 210, "h": 64}, "Days Pass \u2014 No Update Sent": {"x": 774, "y": 60, "w": 210, "h": 64}, "Lost to a Competitor Who Answered First": {"x": 1012, "y": 60, "w": 210, "h": 64}, "Customer Happens to Wait It Out": {"x": 774, "y": 349, "w": 210, "h": 64}}, "walk": ["Customer Inquiry Comes In", "Staff Manually Checks / Searches", "RFQ sits unread for 2 days", "Days Pass \u2014 No Update Sent", "Lost to a Competitor Who Answered First"]}</script>
+    </div></div>
+      <p class="process-runner-caption workflow-dual-caption">Export / Trading today — RFQ sits unread for 2 days, with nothing tracking it until it's too late.</p>
+    </div>
+    </div>
+
+    <div style="margin-top:40px;">
+      <h3 style="color:var(--accent); font-size:1.1rem;">After automation</h3>
+      <p class="lead" style="font-size:0.9rem;">Tap play — the same customer journey, minus the gap.</p>
+      <div class="workflow-dual">
+      <div class="workflow-mobile-view"><div class="process-runner">
+      <button type="button" class="process-runner-start">▶ Tap to see how this runs</button>
+      <div class="process-runner-status" aria-live="polite"></div>
+      <div class="process-steps"><div class="process-step process-step-trigger">
+          <span class="process-step-dot"><span class="process-step-icon">💬</span></span>
+          <span class="process-step-body">
+            <span class="process-step-label">RFQ Received (Email/WhatsApp)</span>
+            
+          </span>
+        </div><div class="process-step process-step-action">
+          <span class="process-step-dot"><span class="process-step-icon">🌐</span></span>
+          <span class="process-step-body">
+            <span class="process-step-label">Live Catalog Shared (Landed-Cost Specs)</span>
+            
+          </span>
+        </div><div class="process-step process-step-ai">
+          <span class="process-step-dot"><span class="process-step-icon">🧠</span></span>
+          <span class="process-step-body">
+            <span class="process-step-label">AI: Routes Inquiry to Right Person</span>
+            
+          </span>
+        </div><div class="process-step process-step-action">
+          <span class="process-step-dot"><span class="process-step-icon">🌐</span></span>
+          <span class="process-step-body">
+            <span class="process-step-label">Same-Day Quote Sent</span>
+            
+          </span>
+        </div><div class="process-step process-step-condition">
+          <span class="process-step-dot"><span class="process-step-icon">🔀</span></span>
+          <span class="process-step-body">
+            <span class="process-step-label">Customer Confirms?</span>
+            <span class="process-step-alt">↳ otherwise: Follow-Up Nudge Sent</span>
+          </span>
+        </div><div class="process-step process-step-done">
+          <span class="process-step-dot"><span class="process-step-icon">✅</span></span>
+          <span class="process-step-body">
+            <span class="process-step-label">Order / Booking Won</span>
+            
+          </span>
+        </div></div>
+      <button type="button" class="process-runner-replay" hidden>↻ Replay</button>
+      
+    </div></div>
+      <div class="workflow-desktop-view"><div class="workflow-canvas">
+      <div class="workflow-canvas-toolbar">
+        <button type="button" class="workflow-canvas-start">▶ Tap to see how this runs</button>
+        <button type="button" class="workflow-canvas-replay" hidden>↻ Replay</button>
+        <div class="workflow-canvas-status" aria-live="polite"></div>
+      </div>
+      <div class="workflow-canvas-frame">
+        <svg class="workflow-canvas-svg" viewBox="0 0 1520 473" preserveAspectRatio="xMidYMid meet">
+          <path class="n8n-edge" d="M270,236.0 C284.0,236.0 284.0,236.0 298,236.0"></path><circle class="n8n-edge-pulse" r="4" data-from="RFQ Received (Email/WhatsApp)" data-to="Live Catalog Shared (Landed-Cost Specs)"><animateMotion dur="2.6s" repeatCount="indefinite" path="M270,236.0 C284.0,236.0 284.0,236.0 298,236.0"></animateMotion></circle><path class="n8n-edge" d="M508,236.0 C522.0,236.0 522.0,236.0 536,236.0"></path><circle class="n8n-edge-pulse" r="4" data-from="Live Catalog Shared (Landed-Cost Specs)" data-to="AI: Routes Inquiry to Right Person"><animateMotion dur="2.6s" repeatCount="indefinite" path="M508,236.0 C522.0,236.0 522.0,236.0 536,236.0"></animateMotion></circle><path class="n8n-edge" d="M746,236.0 C760.0,236.0 760.0,236.0 774,236.0"></path><circle class="n8n-edge-pulse" r="4" data-from="AI: Routes Inquiry to Right Person" data-to="Same-Day Quote Sent"><animateMotion dur="2.6s" repeatCount="indefinite" path="M746,236.0 C760.0,236.0 760.0,236.0 774,236.0"></animateMotion></circle><path class="n8n-edge" d="M984,236.0 C998.0,236.0 998.0,236.0 1012,236.0"></path><circle class="n8n-edge-pulse" r="4" data-from="Same-Day Quote Sent" data-to="Customer Confirms?"><animateMotion dur="2.6s" repeatCount="indefinite" path="M984,236.0 C998.0,236.0 998.0,236.0 1012,236.0"></animateMotion></circle><path class="n8n-edge" d="M1222,236.0 C1236.0,236.0 1236.0,92.0 1250,92.0"></path><circle class="n8n-edge-pulse" r="4" data-from="Customer Confirms?" data-to="Order / Booking Won"><animateMotion dur="2.6s" repeatCount="indefinite" path="M1222,236.0 C1236.0,236.0 1236.0,92.0 1250,92.0"></animateMotion></circle><path class="n8n-edge n8n-edge-alt" d="M1222,236.0 C1236.0,236.0 1236.0,381.0 1250,381.0"></path><circle class="n8n-edge-pulse n8n-edge-alt" r="4" data-from="Customer Confirms?" data-to="Follow-Up Nudge Sent"><animateMotion dur="3.0s" repeatCount="indefinite" path="M1222,236.0 C1236.0,236.0 1236.0,381.0 1250,381.0"></animateMotion></circle>
+          <g class="n8n-node n8n-node-trigger" data-name="RFQ Received (Email/WhatsApp)" transform="translate(60,204)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">💬</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">RFQ Received</tspan><tspan x="48" dy="16">(Email/WhatsApp)</tspan></text>
+        </g><g class="n8n-node n8n-node-action" data-name="Live Catalog Shared (Landed-Cost Specs)" transform="translate(298,204)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">🌐</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Live Catalog</tspan><tspan x="48" dy="16">Shared (Landed-C…</tspan></text>
+        </g><g class="n8n-node n8n-node-ai" data-name="AI: Routes Inquiry to Right Person" transform="translate(536,204)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">🧠</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">AI: Routes</tspan><tspan x="48" dy="16">Inquiry to Right…</tspan></text>
+        </g><g class="n8n-node n8n-node-action" data-name="Same-Day Quote Sent" transform="translate(774,204)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">🌐</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Same-Day Quote</tspan><tspan x="48" dy="16">Sent</tspan></text>
+        </g><g class="n8n-node n8n-node-condition" data-name="Customer Confirms?" transform="translate(1012,204)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">🔀</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Customer</tspan><tspan x="48" dy="16">Confirms?</tspan></text>
+        </g><g class="n8n-node n8n-node-done" data-name="Order / Booking Won" transform="translate(1250,60)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">✅</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Order / Booking</tspan><tspan x="48" dy="16">Won</tspan></text>
+        </g><g class="n8n-node n8n-node-action" data-name="Follow-Up Nudge Sent" transform="translate(1250,349)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">🌐</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Follow-Up Nudge</tspan><tspan x="48" dy="16">Sent</tspan></text>
+        </g>
+        </svg>
+      </div>
+      <div class="workflow-canvas-live-caption"></div>
+      <script type="application/json" class="workflow-canvas-data">{"viewBox": "0 0 1520 473", "nodes": {"RFQ Received (Email/WhatsApp)": {"x": 60, "y": 204, "w": 210, "h": 64}, "Live Catalog Shared (Landed-Cost Specs)": {"x": 298, "y": 204, "w": 210, "h": 64}, "AI: Routes Inquiry to Right Person": {"x": 536, "y": 204, "w": 210, "h": 64}, "Same-Day Quote Sent": {"x": 774, "y": 204, "w": 210, "h": 64}, "Customer Confirms?": {"x": 1012, "y": 204, "w": 210, "h": 64}, "Order / Booking Won": {"x": 1250, "y": 60, "w": 210, "h": 64}, "Follow-Up Nudge Sent": {"x": 1250, "y": 349, "w": 210, "h": 64}}, "walk": ["RFQ Received (Email/WhatsApp)", "Live Catalog Shared (Landed-Cost Specs)", "AI: Routes Inquiry to Right Person", "Same-Day Quote Sent", "Customer Confirms?", "Order / Booking Won"]}</script>
+    </div></div>
+      <p class="process-runner-caption workflow-dual-caption">Export / Trading automated — Catalog + WhatsApp RFQ routing, same-day quote</p>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad-sm">
+  <div class="container">
+    <div class="eyebrow">Why This Matters</div>
+    <h2>The roadmap</h2>
+    <div class="card" style="border-left:3px solid var(--accent-dim);">
+      <div class="eyebrow">📈 Your Roadmap</div>
+      <h3 style="margin-top:8px;">One fast reply, compounding</h3>
+      <p class="lead" style="font-size:0.95rem;">Same-day response rate turns cold leads into repeat buyers across every inquiry channel.</p>
+      <div class="row-cta" style="align-items:center; gap:14px; margin-top:12px; flex-wrap:wrap;">
+        <span style="font-size:0.85rem; color:var(--muted);">Quote turnaround</span>
+        <span style="font-weight:700; color:var(--danger);">4 days</span>
+        <span style="color:var(--muted);">→</span>
+        <span style="font-weight:700; color:var(--accent);">Same day</span>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
 <section class="section-pad">
   <div class="container">
     <div class="grid grid-2" style="align-items:start;">
@@ -163,17 +368,17 @@
     <div>© AsliKaam — Digital Partner of MSMEs Automation</div>
   </div>
 </footer>
-<script src="/assets/js/config.js?v=1789306184"></script>
-<script src="/assets/js/gsap-loader.js?v=1789306184"></script>
-<script src="/assets/js/particle-text.js?v=1789306184"></script>
-<script src="/assets/js/currency-particles.js?v=1789306184"></script>
-<script src="/assets/js/shatter-visual.js?v=1789306184"></script>
-<script src="/assets/js/cinematic.js?v=1789306184"></script>
-<script src="/assets/js/global-ui.js?v=1789306184"></script>
-<script src="/assets/js/use-case-switcher.js?v=1789306184"></script>
-<script src="/assets/js/home-rotator.js?v=1789306184"></script>
-<script src="/assets/js/card-burst-nav.js?v=1789306184"></script>
-<script src="/assets/js/process-runner.js?v=1789306184"></script>
-<script src="/assets/js/workflow-canvas.js?v=1789306184"></script>
+<script src="/assets/js/config.js?v=1789306701"></script>
+<script src="/assets/js/gsap-loader.js?v=1789306701"></script>
+<script src="/assets/js/particle-text.js?v=1789306701"></script>
+<script src="/assets/js/currency-particles.js?v=1789306701"></script>
+<script src="/assets/js/shatter-visual.js?v=1789306701"></script>
+<script src="/assets/js/cinematic.js?v=1789306701"></script>
+<script src="/assets/js/global-ui.js?v=1789306701"></script>
+<script src="/assets/js/use-case-switcher.js?v=1789306701"></script>
+<script src="/assets/js/home-rotator.js?v=1789306701"></script>
+<script src="/assets/js/card-burst-nav.js?v=1789306701"></script>
+<script src="/assets/js/process-runner.js?v=1789306701"></script>
+<script src="/assets/js/workflow-canvas.js?v=1789306701"></script>
 </body>
 </html>
