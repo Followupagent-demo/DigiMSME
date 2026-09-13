@@ -1279,6 +1279,56 @@
   <div class="scene-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
   <p class="container fallback-note" style="padding:16px 24px; color:var(--muted); font-size:0.8rem;">Scroll to move through each step.</p>
 </section>
+<section class="section-pad">
+  <div class="container">
+    <div class="eyebrow">अपना नंबर देखें</div>
+    <h2>आप हर महीने कितना गंवा रहे हैं?</h2>
+    <p class="lead">वही गणित जो रोहन की कहानी में था — बस अब आपके अपने नंबरों के साथ।</p>
+    <div class="tool-layout">
+      <form class="tool-form" id="leak-calc-form">
+        <div class="tool-field">
+          <label for="lc-leads">हर महीने पूछताछ / लीड्स</label>
+          <input type="number" id="lc-leads" value="60" step="5">
+        </div>
+        <div class="tool-field">
+          <label for="lc-value">औसत डील वैल्यू (₹)</label>
+          <input type="number" id="lc-value" value="5000" step="500">
+        </div>
+        <div class="tool-field">
+          <label for="lc-lost">धीमे/बिना जवाब के कितना % गंवाया जाता है, अनुमान</label>
+          <input type="number" id="lc-lost" value="20" step="1" min="0" max="100">
+        </div>
+      </form>
+      <div class="tool-result leak-calc-result" id="leak-calc-result">
+        <h4>अनुमानित मासिक नुकसान</h4>
+        <canvas id="leak-drip-canvas" class="leak-drip-canvas"></canvas>
+        <div class="leak-amount" id="leak-amount">₹0</div>
+        <p class="tr-note">यह आपका अपना समायोज्य अनुमान है, कोई सार्वभौमिक इंडस्ट्री आंकड़ा नहीं — % को अपने असली अनुभव के हिसाब से सेट करें।</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section-pad" style="background: var(--bg-alt);">
+  <div class="container">
+    <div class="eyebrow">ख़ुद आज़माएं</div>
+    <h2>एक मैसेज टाइप करें। देखें कि “कोई जवाब नहीं” असल में कैसा दिखता है।</h2>
+    <p class="lead">कुछ भी टाइप करें — एक कीमत, एक शिकायत, जो भी। अगर 3 सेकंड में जवाब नहीं मिलता, देखें कि ज़्यादातर असली पूछताछ के साथ क्या होता है।</p>
+    <div class="sandbox-chat-screen">
+      <div class="chat-screen-header">
+        <span class="cs-avatar">?</span>
+        <div>
+          <div class="cs-name">एक ग्राहक</div>
+          <div class="cs-status" id="sandbox-status">आपके मैसेज का इंतज़ार…</div>
+        </div>
+      </div>
+      <div class="chat-mock" id="sandbox-chat-mock"></div>
+      <form id="sandbox-form" class="sandbox-input-row">
+        <input type="text" id="sandbox-input" placeholder="ग्राहक का मैसेज टाइप करें…" maxlength="80">
+        <button type="submit" class="btn btn-primary">भेजें</button>
+      </form>
+    </div>
+  </div>
+</section>
 
 <section class="section-pad">
   <div class="container">
@@ -1303,6 +1353,8 @@
 <script src="/assets/js/cinematic.js"></script>
 <script src="/assets/js/global-ui.js"></script>
 <script src="/assets/js/home-hero.js"></script>
+<script src="/assets/js/leak-calculator.js"></script>
+<script src="/assets/js/type-explode.js"></script>
 <script src="/assets/js/use-case-switcher.js"></script>
 <script src="/assets/js/home-rotator.js"></script>
 </body>

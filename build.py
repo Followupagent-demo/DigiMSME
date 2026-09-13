@@ -636,7 +636,59 @@ def build_home(lang="en"):
   <div class="home-hero-arrow" aria-hidden="true">↓</div>
 </section>
 """
-    body = nav("/hi/" if is_hi else "/", lang) + hero + cinematic_wrap(scenes, len(scenes)) + f"""
+    leak_calc = f"""<section class="section-pad">
+  <div class="container">
+    <div class="eyebrow">{"अपना नंबर देखें" if is_hi else "See Your Own Number"}</div>
+    <h2>{"आप हर महीने कितना गंवा रहे हैं?" if is_hi else "How much are you losing every month, right now?"}</h2>
+    <p class="lead">{"वही गणित जो रोहन की कहानी में था — बस अब आपके अपने नंबरों के साथ।" if is_hi else "Same math as Rohan's story — just with your own numbers instead."}</p>
+    <div class="tool-layout">
+      <form class="tool-form" id="leak-calc-form">
+        <div class="tool-field">
+          <label for="lc-leads">{"हर महीने पूछताछ / लीड्स" if is_hi else "Enquiries / Leads per month"}</label>
+          <input type="number" id="lc-leads" value="60" step="5">
+        </div>
+        <div class="tool-field">
+          <label for="lc-value">{"औसत डील वैल्यू (₹)" if is_hi else "Average Deal Value (₹)"}</label>
+          <input type="number" id="lc-value" value="5000" step="500">
+        </div>
+        <div class="tool-field">
+          <label for="lc-lost">{"धीमे/बिना जवाब के कितना % गंवाया जाता है, अनुमान" if is_hi else "Estimated % lost to slow/no follow-up"}</label>
+          <input type="number" id="lc-lost" value="20" step="1" min="0" max="100">
+        </div>
+      </form>
+      <div class="tool-result leak-calc-result" id="leak-calc-result">
+        <h4>{"अनुमानित मासिक नुकसान" if is_hi else "Estimated Monthly Leak"}</h4>
+        <canvas id="leak-drip-canvas" class="leak-drip-canvas"></canvas>
+        <div class="leak-amount" id="leak-amount">₹0</div>
+        <p class="tr-note">{"यह आपका अपना समायोज्य अनुमान है, कोई सार्वभौमिक इंडस्ट्री आंकड़ा नहीं — % को अपने असली अनुभव के हिसाब से सेट करें।" if is_hi else "This is your own adjustable estimate, not a universal industry stat — set the loss % to match what you actually see in your business."}</p>
+      </div>
+    </div>
+  </div>
+</section>
+"""
+    type_explode = f"""<section class="section-pad" style="background: var(--bg-alt);">
+  <div class="container">
+    <div class="eyebrow">{"ख़ुद आज़माएं" if is_hi else "Try It Yourself"}</div>
+    <h2>{"एक मैसेज टाइप करें। देखें कि “कोई जवाब नहीं” असल में कैसा दिखता है।" if is_hi else "Type a message. Watch what “no reply” actually looks like."}</h2>
+    <p class="lead">{"कुछ भी टाइप करें — एक कीमत, एक शिकायत, जो भी। अगर 3 सेकंड में जवाब नहीं मिलता, देखें कि ज़्यादातर असली पूछताछ के साथ क्या होता है।" if is_hi else "Type anything — a price, a complaint, whatever. If it doesn't get a reply in 3 seconds, watch what happens to most real enquiries."}</p>
+    <div class="sandbox-chat-screen">
+      <div class="chat-screen-header">
+        <span class="cs-avatar">?</span>
+        <div>
+          <div class="cs-name">{"एक ग्राहक" if is_hi else "A Customer"}</div>
+          <div class="cs-status" id="sandbox-status">{"आपके मैसेज का इंतज़ार…" if is_hi else "Waiting for your message…"}</div>
+        </div>
+      </div>
+      <div class="chat-mock" id="sandbox-chat-mock"></div>
+      <form id="sandbox-form" class="sandbox-input-row">
+        <input type="text" id="sandbox-input" placeholder="{"ग्राहक का मैसेज टाइप करें…" if is_hi else "Type your customer's message…"}" maxlength="80">
+        <button type="submit" class="btn btn-primary">{"भेजें" if is_hi else "Send"}</button>
+      </form>
+    </div>
+  </div>
+</section>
+"""
+    body = nav("/hi/" if is_hi else "/", lang) + hero + cinematic_wrap(scenes, len(scenes)) + leak_calc + type_explode + f"""
 <section class="section-pad">
   <div class="container">
     <div class="eyebrow">{"AsliKaam क्यों" if is_hi else "Why AsliKaam"}</div>
@@ -1549,7 +1601,10 @@ def inject_home_hero_script(path):
         html = f.read()
     html = html.replace(
         '<script src="/assets/js/global-ui.js"></script>',
-        '<script src="/assets/js/global-ui.js"></script>\n<script src="/assets/js/home-hero.js"></script>',
+        '<script src="/assets/js/global-ui.js"></script>\n'
+        '<script src="/assets/js/home-hero.js"></script>\n'
+        '<script src="/assets/js/leak-calculator.js"></script>\n'
+        '<script src="/assets/js/type-explode.js"></script>',
     )
     with open(full, "w", encoding="utf-8") as f:
         f.write(html)
