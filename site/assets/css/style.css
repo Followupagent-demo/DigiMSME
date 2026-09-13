@@ -658,3 +658,41 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
   .balloon { animation: none; position: static; display: inline-flex; margin: 6px; }
   .balloon-field { height: auto; padding: 40px 16px 16px; display: block; }
 }
+
+/* ---------- Industries: Flip Cards + BPM Workflow back-face ---------- */
+.flip-card { perspective: 1200px; height: 280px; }
+.flip-card-inner {
+  position: relative; width: 100%; height: 100%;
+  transition: transform 0.6s cubic-bezier(.4,.2,.2,1); transform-style: preserve-3d;
+}
+.flip-card:hover .flip-card-inner, .flip-card.is-flipped .flip-card-inner { transform: rotateY(180deg); }
+.flip-card-front, .flip-card-back {
+  position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  margin: 0; width: 100%; height: 100%; box-sizing: border-box;
+}
+.flip-card-back { transform: rotateY(180deg); display: flex; flex-direction: column; gap: 12px; }
+
+.bpm-flow { position: relative; padding-left: 24px; display: flex; flex-direction: column; gap: 9px; flex: 1; justify-content: center; }
+.bpm-flow::before {
+  content: ""; position: absolute; left: 8px; top: 6px; bottom: 6px; width: 2px;
+  background: linear-gradient(to bottom, var(--border), var(--accent));
+}
+.bpm-step {
+  position: relative; font-size: 0.78rem; color: var(--muted); display: flex; align-items: center; gap: 8px;
+  opacity: 0; transform: translateX(-6px); animation-name: bpm-in; animation-duration: 0.4s; animation-timing-function: ease; animation-fill-mode: forwards;
+}
+.bpm-step::before {
+  content: ""; position: absolute; left: -20px; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--border); border: 2px solid var(--card);
+}
+.bpm-step.bpm-payment { color: var(--accent); font-weight: 700; }
+.bpm-step.bpm-payment::before { background: var(--accent); box-shadow: 0 0 8px rgba(37,211,102,0.6); }
+.bpm-icon { font-size: 0.95rem; }
+@keyframes bpm-in { to { opacity: 1; transform: translateX(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .flip-card-inner { transition: none; }
+  .bpm-step { animation: none; opacity: 1; transform: none; }
+}
+@media (max-width: 640px) {
+  .flip-card { height: 300px; }
+}

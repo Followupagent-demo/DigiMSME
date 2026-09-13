@@ -783,6 +783,22 @@ def build_industries_index(lang="en"):
     canonical = "/hi/industries/" if is_hi else "/industries/"
     alternates = {"en": "/industries/", "hi": "/hi/industries/"}
 
+    bpm_stages = [
+        ("🔍", "खोजा गया" if is_hi else "Discovered"),
+        ("💬", "संपर्क हुआ" if is_hi else "Contacted"),
+        ("📝", "कोटेशन दिया" if is_hi else "Quoted"),
+        ("🤝", "नेगोशिएट हुआ" if is_hi else "Negotiated"),
+        ("💳", "पेमेंट हुई" if is_hi else "Paid"),
+        ("🔄", "रेफरल मिला" if is_hi else "Referred"),
+    ]
+    bpm_steps_html = "".join(
+        f'<div class="bpm-step{" bpm-payment" if icon == "💳" else ""}" style="animation-delay:{0.3 + i * 0.09:.2f}s">'
+        f'<span class="bpm-icon">{icon}</span>{esc(label)}</div>'
+        for i, (icon, label) in enumerate(bpm_stages)
+    )
+    bpm_flow = f'<div class="bpm-flow">{bpm_steps_html}</div>'
+    explore_full = "पूरा केस देखें →" if is_hi else "Explore full case →"
+
     cards = ""
     balloons = ""
     for ind in INDUSTRIES:
@@ -790,12 +806,20 @@ def build_industries_index(lang="en"):
         use_case = ind["use_case_hi"] if is_hi else ind["use_case"]
         explore = "देखें →" if is_hi else "Explore →"
         href = f"{detail_prefix}{ind['slug']}.html"
-        cards += f"""<a class="card industry-card" href="{href}">
-          <span class="icon" style="font-size:28px;">{ind['icon']}</span>
-          <h3>{esc(name)}</h3>
-          <p>{esc(use_case)}</p>
-          <div class="starts-at">{explore}</div>
-        </a>"""
+        cards += f"""<div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="card industry-card flip-card-front">
+              <span class="icon" style="font-size:28px;">{ind['icon']}</span>
+              <h3>{esc(name)}</h3>
+              <p>{esc(use_case)}</p>
+              <div class="starts-at">{explore}</div>
+            </div>
+            <div class="card industry-card flip-card-back">
+              {bpm_flow}
+              <a class="btn btn-primary btn-block" href="{href}">{explore_full}</a>
+            </div>
+          </div>
+        </div>"""
         balloons += f"""<button type="button" class="balloon" data-href="{href}">
           <span class="balloon-icon">{ind['icon']}</span>
           <span class="balloon-label">{esc(name)}</span>
@@ -1777,7 +1801,8 @@ def inject_balloon_script(path):
     html = html.replace(
         '<script src="/assets/js/global-ui.js"></script>',
         '<script src="/assets/js/global-ui.js"></script>\n'
-        '<script src="/assets/js/balloon-industries.js"></script>',
+        '<script src="/assets/js/balloon-industries.js"></script>\n'
+        '<script src="/assets/js/industry-flip-cards.js"></script>',
     )
     with open(full, "w", encoding="utf-8") as f:
         f.write(html)
