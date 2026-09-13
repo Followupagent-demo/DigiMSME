@@ -580,24 +580,24 @@ def build_home(lang="en"):
 
     contact = "रोहन शर्मा" if is_hi else "Rohan Sharma"
     if is_hi:
-        chat1 = [("in", "नमस्ते, क्या आप इलेक्ट्रिकल पैनल अपग्रेड करते हैं?"), ("meta", "देखा गया · कोई जवाब नहीं · 2 घंटे")]
-        chat2 = [("in", "नमस्ते, क्या आप इलेक्ट्रिकल पैनल अपग्रेड करते हैं?"),
+        chat1 = [("in", "नमस्ते, क्या आप कमर्शियल इलेक्ट्रिकल पैनल अपग्रेड करते हैं?"), ("meta", "देखा गया · कोई जवाब नहीं · 2 घंटे")]
+        chat2 = [("in", "नमस्ते, क्या आप कमर्शियल इलेक्ट्रिकल पैनल अपग्रेड करते हैं?"),
                  ("out", "जी हां! आपके पैनल की मौजूदा कैपेसिटी बता सकते हैं?"),
-                 ("in", "5kW पैनल है, 8kW तक अपग्रेड करना है।")]
+                 ("in", "25kW पैनल है, 40kW तक अपग्रेड करना है।")]
         chat3 = [("in", "तो कीमत क्या होगी?"), ("meta", "कोई स्पष्ट जवाब नहीं मिला"), ("in", "ठीक है, कहीं और देखता हूं।")]
-        chat4 = [("out", "8kW अपग्रेड: ₹6,200 सब कुछ शामिल, एक दिन में पूरा।"),
-                 ("in", "कहीं और ₹5,000 का कोटेशन मिला, मैच कर सकते हैं?"),
-                 ("out", "₹5,000 मैच करेंगे — साथ में 1 साल की वारंटी। बुक करें?"),
+        chat4 = [("out", "40kW अपग्रेड: ₹58,000 सब कुछ शामिल, दो दिन में पूरा।"),
+                 ("in", "कहीं और ₹48,000 का कोटेशन मिला, मैच कर सकते हैं?"),
+                 ("out", "₹48,000 मैच करेंगे — साथ में 1 साल की वारंटी। बुक करें?"),
                  ("in", "हां, बुक कर दीजिए।")]
     else:
-        chat1 = [("in", "Hi, do you do electrical panel upgrades?"), ("meta", "Seen · no reply · 2 hours")]
-        chat2 = [("in", "Hi, do you do electrical panel upgrades?"),
+        chat1 = [("in", "Hi, do you do commercial electrical panel upgrades?"), ("meta", "Seen · no reply · 2 hours")]
+        chat2 = [("in", "Hi, do you do commercial electrical panel upgrades?"),
                  ("out", "Yes! Could you share your panel's current capacity?"),
-                 ("in", "It's a 5kW panel, want to upgrade to 8kW.")]
+                 ("in", "It's a 25kW panel, want to upgrade to 40kW.")]
         chat3 = [("in", "So what's the cost?"), ("meta", "No clear answer given"), ("in", "Ok, let me check elsewhere.")]
-        chat4 = [("out", "Upgrade to 8kW: ₹6,200 all-inclusive, done in a day."),
-                 ("in", "Got a quote for ₹5,000 elsewhere, can you match?"),
-                 ("out", "We'll match ₹5,000 — plus a 1-year warranty. Book it?"),
+        chat4 = [("out", "Upgrade to 40kW: ₹58,000 all-inclusive, done in two days."),
+                 ("in", "Got a quote for ₹48,000 elsewhere, can you match?"),
+                 ("out", "We'll match ₹48,000 — plus a 1-year warranty. Book it?"),
                  ("in", "Yes, book it.")]
 
     scenes = [
@@ -642,8 +642,8 @@ def build_home(lang="en"):
         scene({
             "eyebrow": "फिक्स" if is_hi else "Fixed",
             "title": "एक असली नंबर — और डील बचाने की गुंजाइश" if is_hi else "A real number — and room to save the sale",
-            "body": "₹6,200, एक दिन में पूरा। जब रोहन कहीं और की सस्ती कीमत का ज़िक्र करता है, तो उसे तुरंत मैच किया जाता है, साथ में वारंटी भी — व्हाट्सएप पर पांच मिनट की प्राइस-वॉर में गंवाने की बजाय।" if is_hi else
-                    "₹6,200, done in a day. When Rohan mentions a cheaper quote elsewhere, it gets matched on the spot, with a warranty thrown in — not lost to a five-minute price war on WhatsApp.",
+            "body": "₹58,000, दो दिन में पूरा। जब रोहन कहीं और की सस्ती कीमत का ज़िक्र करता है, तो उसे तुरंत मैच किया जाता है, साथ में वारंटी भी — व्हाट्सएप पर पांच मिनट की प्राइस-वॉर में गंवाने की बजाय।" if is_hi else
+                    "₹58,000, done in two days. When Rohan mentions a cheaper quote elsewhere, it gets matched on the spot, with a warranty thrown in — not lost to a five-minute price war on WhatsApp.",
             "accent": "green",
         }, "raw", extra_body=chat_screen(contact, "ऑनलाइन" if is_hi else "Online", chat4)),
 
