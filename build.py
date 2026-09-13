@@ -13,6 +13,7 @@ from data import (
     BRAND, TAGLINE, TAGLINE_HI, SITE_URL, NAV, NAV_HI, INDUSTRIES, PRICING_PACKS,
     CUSTOM_HAVE, CUSTOM_ADDONS,
     MODULES, INDUSTRY_MODULES, NEGOTIATION_AGENT, BLOG_POSTS, FREE_TOOLS, BRAIN_SCENARIOS,
+    WHATSAPP_NUMBER, BUSINESS_SCALE_TIERS, BUSINESS_SCALE_SOURCE, CURRENT_TOOLS, DEPARTMENTS, PAIN_POINTS,
 )
 
 INDUSTRY_BY_SLUG = {i["slug"]: i for i in INDUSTRIES}
@@ -216,7 +217,7 @@ def nav(active, lang="en"):
         links += f'<li><a href="{target}"{current}>{label}</a></li>'
     wa_text = "Hi!%20I'd%20like%20to%20know%20more%20about%20AsliKaam." if lang == "en" \
         else "Namaste!%20Mujhe%20AsliKaam%20ke%20baare%20mein%20jaankari%20chahiye."
-    wa_href = f"https://wa.me/911234567890?text={wa_text}"
+    wa_href = f"https://wa.me/{WHATSAPP_NUMBER}?text={wa_text}"
     wa_cta = "व्हाट्सएप करें" if lang == "hi" else "WhatsApp Us"
 
     if lang == "hi":
@@ -481,7 +482,7 @@ def consultation_cta_section(lang="en"):
     is_hi = lang == "hi"
     wa_text = "Hi!%20I'd%20like%20a%20free%20consultation%20for%20my%20business." if lang == "en" \
         else "Namaste!%20Mujhe%20apne%20business%20ke%20liye%20muft%20consultation%20chahiye."
-    wa_href = f"https://wa.me/911234567890?text={wa_text}"
+    wa_href = f"https://wa.me/{WHATSAPP_NUMBER}?text={wa_text}"
     return f"""<section class="section-pad" style="background: var(--bg-alt);">
       <div class="container center">
         <div class="eyebrow">{"मुफ़्त कंसल्टेशन" if is_hi else "Free Consultation"}</div>
@@ -551,20 +552,33 @@ def cinematic_wrap(scenes_html, n_scenes, extra_class=""):
 def hero_orchestration_bg():
     """Ambient, decorative multi-agent orchestration network behind the
     Home hero — not a real workflow (purely visual), reusing the same
-    node/edge language as the real n8n canvases elsewhere on the site
-    so the hero itself reads as 'this is an automation system' before a
-    visitor scrolls at all. Low-opacity and pointer-events:none so it
-    never competes with the hero text."""
+    node/edge language as the real n8n canvases elsewhere on the site,
+    but labeled with real automation names (not abstract icons alone)
+    so a visitor immediately recognizes "yes, that's my problem" before
+    scrolling at all. A slow continuous scale animation gives the whole
+    network a breathing zoom-in/zoom-out feel, and each node gets a
+    soft outer glow ring — low-opacity and pointer-events:none throughout
+    so it never competes with the hero text."""
     nodes = [
-        (150, 170, "⚡", "trigger"), (430, 110, "🔍", "action"), (760, 190, "💬", "action"),
-        (1060, 130, "🧠", "ai"), (1320, 210, "📄", "action"), (210, 660, "🔔", "condition"),
-        (560, 730, "💳", "action"), (910, 690, "🌐", "action"), (1260, 650, "✅", "done"),
+        (150, 170, "⚡", "trigger", "Missed-Call Win-Back"),
+        (430, 110, "🔍", "action", "Lead Scoring"),
+        (760, 190, "💬", "action", "Review Replies"),
+        (1060, 130, "🧠", "ai", "AI Negotiation"),
+        (1320, 210, "📄", "action", "Invoice Reminders"),
+        (210, 660, "🔔", "condition", "Stock Alerts"),
+        (560, 730, "💳", "action", "Payment Reminders"),
+        (910, 690, "🌐", "action", "Local SEO Content"),
+        (1260, 650, "✅", "done", "Booking Reminders"),
     ]
     edges = [(0, 1), (1, 2), (2, 3), (3, 4), (0, 5), (5, 6), (6, 7), (7, 8), (2, 7), (3, 8)]
     node_svg = "".join(
+        f'<g class="hero-orch-group">'
+        f'<circle cx="{x}" cy="{y}" r="38" class="hero-orch-glow hero-orch-{cls}"></circle>'
         f'<circle cx="{x}" cy="{y}" r="26" class="hero-orch-node hero-orch-{cls}"></circle>'
         f'<text x="{x}" y="{y + 7}" class="hero-orch-icon" text-anchor="middle">{icon}</text>'
-        for x, y, icon, cls in nodes
+        f'<text x="{x}" y="{y + 52}" class="hero-orch-label" text-anchor="middle">{esc(label)}</text>'
+        f'</g>'
+        for x, y, icon, cls, label in nodes
     )
     edge_svg = ""
     for i, (a, b) in enumerate(edges):
@@ -575,7 +589,7 @@ def hero_orchestration_bg():
         edge_svg += f'<path d="{path}" class="hero-orch-edge"></path>'
         if i % 2 == 0:
             dur = 5 + (i % 4)
-            edge_svg += (f'<circle r="3" class="hero-orch-pulse">'
+            edge_svg += (f'<circle r="3.5" class="hero-orch-pulse">'
                          f'<animateMotion dur="{dur}s" repeatCount="indefinite" path="{path}"></animateMotion></circle>')
     return f"""<svg class="home-hero-orchestration" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       {edge_svg}
@@ -866,7 +880,7 @@ def build_home(lang="en"):
     ]
     hero_wa_text = "Hi!%20I'd%20like%20to%20talk%20about%20my%20business." if lang == "en" \
         else "Namaste!%20Mujhe%20apne%20business%20ke%20baare%20mein%20baat%20karni%20hai."
-    hero_wa_href = f"https://wa.me/911234567890?text={hero_wa_text}"
+    hero_wa_href = f"https://wa.me/{WHATSAPP_NUMBER}?text={hero_wa_text}"
     hero = f"""<section class="home-hero" id="home-hero">
   <div class="home-hero-grid"></div>
   {hero_orchestration_bg()}
@@ -1536,6 +1550,142 @@ def build_module_demo_page(mod):
         mod["blurb"], f"/demos/module-{mod['id']}.html") + body)
 
 
+# ---------------------------------------------------------------- CHECK YOUR BUSINESS
+def build_check_your_business():
+    """A self-serve lead-qualification wizard: industry -> real Udyam
+    business-size tier -> current tools -> (department, if Large) ->
+    broad everyday pain points -> a composite automation flow, assembled
+    live in the browser from real module workflow files (JS, see
+    check-your-business.js), ending in a WhatsApp CTA prefilled with the
+    visitor's own answers. All step markup is static HTML (crawlable,
+    good for SEO) with JS only handling show/hide, the live flow
+    assembly, and the WhatsApp link — no backend, no stored data."""
+    industry_chips = "".join(
+        f'<button type="button" class="cyb-chip" data-value="{ind["slug"]}">{ind["icon"]} {esc(ind["name"])}</button>'
+        for ind in INDUSTRIES)
+
+    scale_chips = "".join(
+        f'<button type="button" class="cyb-chip cyb-chip-scale" data-value="{t["id"]}">'
+        f'<span>{esc(t["label"])}</span><span class="cyb-chip-range">{esc(t["range"])}</span></button>'
+        for t in BUSINESS_SCALE_TIERS)
+    scale_source = (f'<p class="cyb-scale-source">Source: <a href="{BUSINESS_SCALE_SOURCE["url"]}" '
+                     f'target="_blank" rel="noopener">{esc(BUSINESS_SCALE_SOURCE["label"])} ↗</a></p>')
+
+    tool_chips = "".join(
+        f'<button type="button" class="cyb-chip" data-value="{esc(tool)}">{esc(tool)}</button>'
+        for tool in CURRENT_TOOLS)
+
+    dept_chips = "".join(
+        f'<button type="button" class="cyb-chip" data-value="{d["id"]}">{esc(d["label"])}</button>'
+        for d in DEPARTMENTS)
+
+    pain_chips = "".join(
+        f'<button type="button" class="cyb-chip" data-value="{p["id"]}">{esc(p["label"])}</button>'
+        for p in PAIN_POINTS)
+
+    # Data for check-your-business.js — module -> real workflow filename,
+    # reusing the same N8N_WORKFLOW_FILE override the server-rendered
+    # pages already use, so the wizard plays the exact same TO-BE files.
+    cyb_modules = {m["id"]: {"name": m["name"], "file": N8N_WORKFLOW_FILE.get(m["id"], f"{m['id']}.json")} for m in MODULES}
+    cyb_data = {
+        "whatsapp": WHATSAPP_NUMBER,
+        "industries": {ind["slug"]: {"name": ind["name"]} for ind in INDUSTRIES},
+        "scale": {t["id"]: {"label": t["label"]} for t in BUSINESS_SCALE_TIERS},
+        "depts": {d["id"]: d["label"] for d in DEPARTMENTS},
+        "pains": {p["id"]: {"label": p["label"], "modules": p["modules"]} for p in PAIN_POINTS},
+        "modules": cyb_modules,
+    }
+    cyb_json = json.dumps(cyb_data).replace("</", "<\\/")
+
+    body = nav("/check-your-business/") + f"""
+<section class="page-hero section-pad-sm">
+  <div class="container">
+    <div class="eyebrow">Check Your Business</div>
+    <h1>Automate Only What You Want — Not What a SaaS Sells You</h1>
+    <p class="lead">Two minutes of questions about your own business. One real automation flow, built around your actual answers — not a bundled package — that you can watch run and send straight to your own WhatsApp.</p>
+  </div>
+</section>
+
+<section class="section-pad-sm" id="cyb-intro">
+  <div class="container">
+    <div class="cyb-intro-checklist">
+      <div class="cyb-intro-item"><span class="cyb-intro-num">1</span> Check your current process and leaks</div>
+      <div class="cyb-intro-item"><span class="cyb-intro-num">2</span> See how automation will look in your case</div>
+    </div>
+    <div class="center"><button type="button" class="btn btn-primary" id="cyb-start-btn">Start — Takes 2 Minutes</button></div>
+  </div>
+</section>
+
+<section class="section-pad-sm" id="cyb-wizard" hidden>
+  <div class="container">
+    <div class="cyb-progress"><div class="cyb-progress-bar" id="cyb-progress-bar"></div></div>
+
+    <div class="cyb-step" data-step="industry">
+      <h2>What's your industry?</h2>
+      <div class="cyb-choice-grid">{industry_chips}</div>
+    </div>
+
+    <div class="cyb-step" data-step="scale" hidden>
+      <h2>What's your business size?</h2>
+      {scale_source}
+      <div class="cyb-choice-grid" style="margin-top:14px;">{scale_chips}</div>
+    </div>
+
+    <div class="cyb-step" data-step="tools" hidden>
+      <h2>What are you using today?</h2>
+      <p class="cyb-step-note">Pick as many as apply.</p>
+      <div class="cyb-choice-grid">{tool_chips}</div>
+      <button type="button" class="btn btn-primary" id="cyb-tools-next">Next</button>
+    </div>
+
+    <div class="cyb-step" data-step="department" hidden>
+      <h2>Which department needs this most?</h2>
+      <div class="cyb-choice-grid">{dept_chips}</div>
+    </div>
+
+    <div class="cyb-step" data-step="pains" hidden>
+      <h2>What's actually costing you the most?</h2>
+      <p class="cyb-step-note">Pick as many as apply.</p>
+      <div class="cyb-choice-grid">{pain_chips}</div>
+      <button type="button" class="btn btn-primary" id="cyb-generate-btn">See My Automation</button>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad-sm" id="cyb-result" hidden>
+  <div class="container">
+    <div class="eyebrow">Your Automation</div>
+    <h2>Here's what this could look like</h2>
+    <p class="cyb-result-summary-box" id="cyb-result-summary"></p>
+    <div id="cyb-result-flow"></div>
+    <div class="card cyb-whatsapp-cta" style="margin-top:28px;">
+      <div class="eyebrow">📲 Get This Sent to You</div>
+      <p class="lead" style="margin:8px 0 18px;">Send us your answers on WhatsApp — free — and we'll tell you exactly what it'd take to build this for your business.</p>
+      <a class="btn btn-primary btn-block" id="cyb-whatsapp-btn" href="#" target="_blank" rel="noopener">Send to My WhatsApp — Free</a>
+    </div>
+  </div>
+</section>
+
+<script type="application/json" id="cyb-data">{cyb_json}</script>
+""" + foot()
+    write("check-your-business/index.html", head(
+        "Check Your Business — Automate Only What You Want — " + BRAND,
+        "Answer a few questions about your own business and watch a real automation flow built around your actual answers, not a bundled SaaS package. Free, takes 2 minutes.",
+        "/check-your-business/") + body)
+
+
+def inject_check_your_business_script():
+    path = os.path.join(SITE, "check-your-business", "index.html")
+    with open(path, "r", encoding="utf-8") as f:
+        html = f.read()
+    html = html.replace(
+        '<script src="/assets/js/global-ui.js"></script>',
+        '<script src="/assets/js/global-ui.js"></script>\n<script src="/assets/js/check-your-business.js"></script>',
+    )
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(html)
+
+
 # ---------------------------------------------------------------- PRICING
 def build_pricing():
     packs_html = ""
@@ -1577,7 +1727,7 @@ def build_pricing():
         industry_chips += f'<button type="button" class="use-case-chip" data-slug="{ind["slug"]}" data-name="{esc(ind["name"])}">{ind["icon"]} {ind["name"]}</button>'
     industry_modules_json = json.dumps(INDUSTRY_MODULES)
 
-    review_wa_href = "https://wa.me/911234567890?text=Hi!%20I'd%20like%20a%20free%20review%20of%20my%20business."
+    review_wa_href = f"https://wa.me/{WHATSAPP_NUMBER}?text=Hi!%20I'd%20like%20a%20free%20review%20of%20my%20business."
     body = nav("/pricing/") + f"""
 <section class="page-hero">
   <div class="container">
@@ -2533,6 +2683,8 @@ def main():
     for mod in MODULES:
         build_module_demo_page(mod)
     build_negotiation_agent_demo()
+    build_check_your_business()
+    inject_check_your_business_script()
     build_pricing()
     inject_pricing_script()
     build_agentic()

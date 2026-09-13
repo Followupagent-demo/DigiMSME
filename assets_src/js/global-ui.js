@@ -1,8 +1,8 @@
 // Injects the persistent WhatsApp float button + mobile Call/WhatsApp bar on every page.
 (function () {
   var cfg = window.ASLIKAAM_CONFIG || {};
-  var wa = cfg.whatsappNumber || "911234567890";
-  var phone = cfg.phoneNumber || "+911234567890";
+  var wa = cfg.whatsappNumber || "919667510177";
+  var phone = cfg.phoneNumber || "+919667510177";
   var waHref = "https://wa.me/" + wa + "?text=" + encodeURIComponent("Hi! I'd like to know more about AsliKaam.");
 
   var floatBtn = document.createElement("a");

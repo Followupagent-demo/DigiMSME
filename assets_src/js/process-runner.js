@@ -42,4 +42,8 @@
   }
 
   document.querySelectorAll(".process-runner").forEach(initRunner);
+  // Exposed so pages that build a .process-runner after load (e.g. the
+  // Check Your Business wizard's dynamically-assembled flow) can wire it
+  // up without duplicating this logic.
+  window.AsliKaamProcessRunner = { init: initRunner };
 })();

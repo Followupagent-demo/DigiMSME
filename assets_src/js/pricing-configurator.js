@@ -11,7 +11,7 @@
   var summaryList = document.getElementById("config-summary-list");
   var waButton = document.getElementById("config-wa-cta");
   var cfg = window.ASLIKAAM_CONFIG || {};
-  var wa = cfg.whatsappNumber || "911234567890";
+  var wa = cfg.whatsappNumber || "919667510177";
 
   var selectedSlug = "";
   var selectedName = "";

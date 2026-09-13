@@ -5,12 +5,13 @@
 BRAND = "AsliKaam"
 TAGLINE = "Digital Partner of MSMEs Automation"
 TAGLINE_HI = "MSMEs के ऑटोमेशन के लिए डिजिटल पार्टनर"
-WHATSAPP_NUMBER = "911234567890"  # TODO: replace with the real WhatsApp Business number before launch
-PHONE_NUMBER = "+91 12345 67890"  # TODO: replace with the real business line before launch
+WHATSAPP_NUMBER = "919667510177"
+PHONE_NUMBER = "+91 96675 10177"
 SITE_URL = "https://tiny-sky-5603.innndemolog.workers.dev"  # real deployed domain — used for sitemap.xml, robots.txt, and JSON-LD (absolute URLs are required for these, unlike the rest of the site which uses relative links). Update this again if a custom domain is ever attached.
 
 NAV = [
     ("Home", "/"),
+    ("Check Your Business", "/check-your-business/"),
     ("Industries", "/industries/"),
     ("Blogs", "/blogs/"),
     ("Demos", "/demos/"),
@@ -25,6 +26,7 @@ NAV = [
 # Hindi but the destination isn't yet — full-site coverage lands incrementally.
 NAV_HI = [
     ("होम", "/"),
+    ("अपना बिज़नेस जांचें", "/check-your-business/"),
     ("इंडस्ट्रीज़", "/industries/"),
     ("ब्लॉग", "/blogs/"),
     ("डेमो", "/demos/"),
@@ -1247,6 +1249,51 @@ INDUSTRY_MODULES = {
     "building-materials-showroom": ["invoice-reminder", "stock-check-reserve"],
     "wholesale-distributor": ["invoice-reminder", "payment-reconciliation", "reorder-nudge"],
 }
+
+# ------------------------------------------------------------------
+# CHECK YOUR BUSINESS — the interactive wizard's data model. Turnover
+# bands are India's real, official Udyam/MSME classification (Ministry
+# of MSME), not invented tiers.
+# ------------------------------------------------------------------
+BUSINESS_SCALE_TIERS = [
+    {"id": "micro", "label": "Micro", "range": "Up to ₹5 crore turnover"},
+    {"id": "small", "label": "Small", "range": "₹5 crore – ₹50 crore turnover"},
+    {"id": "medium", "label": "Medium", "range": "₹50 crore – ₹250 crore turnover"},
+    {"id": "large", "label": "Large", "range": "Above ₹250 crore turnover"},
+]
+BUSINESS_SCALE_SOURCE = {"label": "Ministry of MSME — official Udyam classification", "url": "https://msme.gov.in/know-about-msme"}
+
+CURRENT_TOOLS = [
+    "Tally", "Zoho (CRM/Books)", "Excel / Google Sheets", "WhatsApp Business App",
+    "Salesforce", "Shopify / WooCommerce", "None — fully manual", "Other",
+]
+
+DEPARTMENTS = [
+    {"id": "sales", "label": "Sales"},
+    {"id": "marketing", "label": "Marketing"},
+    {"id": "operations", "label": "Operations"},
+    {"id": "finance", "label": "Finance"},
+    {"id": "support", "label": "Customer Support"},
+]
+
+# Broad, everyday pain phrases — not a 1:1 mirror of the 15 modules.
+# Each maps to 1-3 modules, so picking a few pain points can recommend
+# an overlapping/combined flow, and each carries which department(s)
+# it's most relevant to (used to pre-filter for Large-org visitors).
+PAIN_POINTS = [
+    {"id": "lost-leads", "label": "We're losing leads — no follow-up", "modules": ["lead-qualification", "win-back"], "depts": ["sales"]},
+    {"id": "inconsistent-sales", "label": "Sales are inconsistent, need steadier orders", "modules": ["reorder-nudge", "competitor-price-watch"], "depts": ["sales", "operations"]},
+    {"id": "not-ranking", "label": "Website's built but nobody finds us", "modules": ["seo-content-agent"], "depts": ["marketing"]},
+    {"id": "few-calls", "label": "Not enough calls or enquiries coming in", "modules": ["missed-call-winback"], "depts": ["marketing", "sales"]},
+    {"id": "invoice-mess", "label": "Invoices and payments are a mess", "modules": ["invoice-reminder", "payment-reconciliation"], "depts": ["finance"]},
+    {"id": "slow-quotes", "label": "Quotes take too long to send out", "modules": ["quotation-drafting"], "depts": ["sales"]},
+    {"id": "repeat-questions", "label": "Same customer questions, every single day", "modules": ["objection-handling"], "depts": ["support", "sales"]},
+    {"id": "review-gap", "label": "Nobody's asking for or replying to reviews", "modules": ["review-reply", "negative-review-recovery"], "depts": ["marketing", "support"]},
+    {"id": "missed-bookings", "label": "Bookings or appointments get missed", "modules": ["booking-reminder"], "depts": ["operations", "support"]},
+    {"id": "stock-questions", "label": "Stock questions eat up staff time", "modules": ["stock-check-reserve"], "depts": ["operations"]},
+    {"id": "slow-claims", "label": "Claims or documents take too long to send", "modules": ["claim-email-dispatch"], "depts": ["operations", "finance"]},
+    {"id": "competitor-blind", "label": "Don't know what competitors are charging", "modules": ["competitor-price-watch"], "depts": ["sales", "marketing"]},
+]
 
 # ------------------------------------------------------------------
 # FLAGSHIP — the negotiation/instant-response agent. Bigger than a

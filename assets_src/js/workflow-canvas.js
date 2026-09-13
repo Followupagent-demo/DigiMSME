@@ -110,4 +110,8 @@
   }
 
   document.querySelectorAll(".workflow-canvas").forEach(initCanvas);
+  // Exposed so pages that build a .workflow-canvas after load (e.g. the
+  // Check Your Business wizard's dynamically-assembled flow) can wire it
+  // up without duplicating this logic.
+  window.AsliKaamWorkflowCanvas = { init: initCanvas };
 })();
