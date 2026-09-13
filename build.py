@@ -1590,6 +1590,28 @@ def build_check_your_business():
     # reusing the same N8N_WORKFLOW_FILE override the server-rendered
     # pages already use, so the wizard plays the exact same TO-BE files.
     cyb_modules = {m["id"]: {"name": m["name"], "file": N8N_WORKFLOW_FILE.get(m["id"], f"{m['id']}.json")} for m in MODULES}
+
+    # Blog recommendations, keyed both by industry (the "grow through
+    # 2027" / industry deep-dives) and by module (the per-automation
+    # deep-dives via MODULE_BLOG_BY_ID) — so the result screen can surface
+    # real, already-written content matched to whatever the visitor
+    # actually picked, without duplicating any of it.
+    blogs_by_industry = {}
+    for p in BLOG_POSTS:
+        ind_slug = p.get("related_industry")
+        if not ind_slug:
+            continue
+        blogs_by_industry.setdefault(ind_slug, []).append(
+            {"slug": p["slug"], "title": p["title"], "dek": p["dek"], "tag": p["tag"]})
+    blogs_by_module = {
+        mod_id: {"slug": p["slug"], "title": p["title"], "dek": p["dek"], "tag": p["tag"]}
+        for mod_id, p in MODULE_BLOG_BY_ID.items()
+    }
+    tools_by_industry = {
+        t["industry"]: {"slug": t["slug"], "title": t["title"], "tagline": t["tagline"]}
+        for t in FREE_TOOLS
+    }
+
     cyb_data = {
         "whatsapp": WHATSAPP_NUMBER,
         "industries": {ind["slug"]: {"name": ind["name"]} for ind in INDUSTRIES},
@@ -1597,6 +1619,9 @@ def build_check_your_business():
         "depts": {d["id"]: d["label"] for d in DEPARTMENTS},
         "pains": {p["id"]: {"label": p["label"], "modules": p["modules"]} for p in PAIN_POINTS},
         "modules": cyb_modules,
+        "blogsByIndustry": blogs_by_industry,
+        "blogsByModule": blogs_by_module,
+        "toolsByIndustry": tools_by_industry,
     }
     cyb_json = json.dumps(cyb_data).replace("</", "<\\/")
 
@@ -1624,17 +1649,20 @@ def build_check_your_business():
     <div class="cyb-progress"><div class="cyb-progress-bar" id="cyb-progress-bar"></div></div>
 
     <div class="cyb-step" data-step="industry">
+      <button type="button" class="cyb-back-btn" data-cyb-back>← Back</button>
       <h2>What's your industry?</h2>
       <div class="cyb-choice-grid">{industry_chips}</div>
     </div>
 
     <div class="cyb-step" data-step="scale" hidden>
+      <button type="button" class="cyb-back-btn" data-cyb-back>← Back</button>
       <h2>What's your business size?</h2>
       {scale_source}
       <div class="cyb-choice-grid" style="margin-top:14px;">{scale_chips}</div>
     </div>
 
     <div class="cyb-step" data-step="tools" hidden>
+      <button type="button" class="cyb-back-btn" data-cyb-back>← Back</button>
       <h2>What are you using today?</h2>
       <p class="cyb-step-note">Pick as many as apply.</p>
       <div class="cyb-choice-grid">{tool_chips}</div>
@@ -1642,11 +1670,13 @@ def build_check_your_business():
     </div>
 
     <div class="cyb-step" data-step="department" hidden>
+      <button type="button" class="cyb-back-btn" data-cyb-back>← Back</button>
       <h2>Which department needs this most?</h2>
       <div class="cyb-choice-grid">{dept_chips}</div>
     </div>
 
     <div class="cyb-step" data-step="pains" hidden>
+      <button type="button" class="cyb-back-btn" data-cyb-back>← Back</button>
       <h2>What's actually costing you the most?</h2>
       <p class="cyb-step-note">Pick as many as apply.</p>
       <div class="cyb-choice-grid">{pain_chips}</div>
@@ -1657,10 +1687,22 @@ def build_check_your_business():
 
 <section class="section-pad-sm" id="cyb-result" hidden>
   <div class="container">
+    <button type="button" class="cyb-back-btn" id="cyb-result-back">← Adjust My Answers</button>
     <div class="eyebrow">Your Automation</div>
     <h2>Here's what this could look like</h2>
     <p class="cyb-result-summary-box" id="cyb-result-summary"></p>
-    <div id="cyb-result-flow"></div>
+    <div class="cyb-automation-block">
+      <div id="cyb-result-flow"></div>
+    </div>
+    <div class="cyb-learn-more" id="cyb-learn-more" hidden>
+      <div class="eyebrow">📚 Worth Reading Before You Decide</div>
+      <div class="grid grid-3" id="cyb-learn-more-grid"></div>
+    </div>
+    <div class="card cyb-calc-cta" id="cyb-calc-cta" hidden>
+      <div class="eyebrow">🧮 Free Calculator</div>
+      <p class="lead" id="cyb-calc-tagline" style="margin:8px 0 14px;"></p>
+      <a class="btn btn-ghost btn-block" id="cyb-calc-link" href="#">Try It Free →</a>
+    </div>
     <div class="card cyb-whatsapp-cta" style="margin-top:28px;">
       <div class="eyebrow">📲 Get This Sent to You</div>
       <p class="lead" style="margin:8px 0 18px;">Send us your answers on WhatsApp — free — and we'll tell you exactly what it'd take to build this for your business.</p>
@@ -2341,12 +2383,21 @@ def build_blog_post_page(post, lang="en"):
     tag = post["tag_hi"] if is_hi else post["tag"]
     more_blogs_label = "और ब्लॉग देखें" if is_hi else "More Blogs"
     more_blogs_href = "/hi/blogs/" if is_hi else "/blogs/"
+    home_label = "🏠 होम" if is_hi else "🏠 Home"
+    home_href = "/hi/" if is_hi else "/"
+    # "Check Your Business" wizard isn't translated yet, matching the
+    # same "only real translations get an /hi/ URL" rule as everywhere
+    # else — Hindi label, English page.
+    cyb_label = "अपना बिज़नेस जांचें — फ्री" if is_hi else "Check Your Business — Free"
+    cyb_href = "/check-your-business/"
     related = INDUSTRY_BY_SLUG.get(post["related_industry"]) if post.get("related_industry") else None
     related_mod = MODULE_BY_ID.get(post["related_module"]) if post.get("related_module") else None
     if related_mod:
         watch_label = f"{esc(related_mod['name'])} को एक्शन में देखें" if is_hi else f"Watch {esc(related_mod['name'])} in action"
         cta = f"""<div class="row-cta center" style="justify-content:center;">
       <a class="btn btn-primary" href="/demos/module-{related_mod['id']}.html">{watch_label}</a>
+      <a class="btn btn-ghost" href="{cyb_href}">{cyb_label}</a>
+      <a class="btn btn-ghost" href="{home_href}">{home_label}</a>
       <a class="btn btn-ghost" href="{more_blogs_href}">{more_blogs_label}</a>
     </div>"""
     elif related:
@@ -2356,6 +2407,8 @@ def build_blog_post_page(post, lang="en"):
             if is_hi else f"See the {esc(related['name'])} fix"
         cta = f"""<div class="row-cta center" style="justify-content:center;">
       <a class="btn btn-primary" href="/industries/{related['slug']}.html">{fix_label}</a>
+      <a class="btn btn-ghost" href="{cyb_href}">{cyb_label}</a>
+      <a class="btn btn-ghost" href="{home_href}">{home_label}</a>
       <a class="btn btn-ghost" href="{more_blogs_href}">{more_blogs_label}</a>
     </div>"""
     else:
@@ -2363,6 +2416,8 @@ def build_blog_post_page(post, lang="en"):
         explore_label = "इंडस्ट्रीज़ देखें" if is_hi else "Explore Industries"
         cta = f"""<div class="row-cta center" style="justify-content:center;">
       <a class="btn btn-primary" href="{explore_href}">{explore_label}</a>
+      <a class="btn btn-ghost" href="{cyb_href}">{cyb_label}</a>
+      <a class="btn btn-ghost" href="{home_href}">{home_label}</a>
       <a class="btn btn-ghost" href="{more_blogs_href}">{more_blogs_label}</a>
     </div>"""
     canonical = f"/hi/blogs/{post['slug']}.html" if is_hi else f"/blogs/{post['slug']}.html"

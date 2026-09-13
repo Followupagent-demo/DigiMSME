@@ -35,6 +35,16 @@
 
   function advance() { goToStep(stepIndex + 1); }
 
+  function goBack() {
+    if (stepIndex <= 0) {
+      wizard.hidden = true;
+      document.getElementById("cyb-intro").hidden = false;
+      document.getElementById("cyb-intro").scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+    goToStep(stepIndex - 1);
+  }
+
   function wireSingleSelect(stepName, stateKey) {
     var root = document.querySelector('.cyb-step[data-step="' + stepName + '"]');
     if (!root) return;
@@ -73,6 +83,20 @@
 
   var toolsNext = document.getElementById("cyb-tools-next");
   if (toolsNext) toolsNext.addEventListener("click", advance);
+
+  document.querySelectorAll("[data-cyb-back]").forEach(function (btn) {
+    btn.addEventListener("click", goBack);
+  });
+
+  var resultBack = document.getElementById("cyb-result-back");
+  if (resultBack) {
+    resultBack.addEventListener("click", function () {
+      document.getElementById("cyb-result").hidden = true;
+      wizard.hidden = false;
+      goToStep(currentSteps().length - 1);
+      wizard.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
 
   var startBtn = document.getElementById("cyb-start-btn");
   if (startBtn) {
@@ -266,6 +290,40 @@
       '<div class="workflow-desktop-view">' + buildCanvasHTML(composite) + "</div>" + cap + "</div>";
   }
 
+  // Real, already-written content matched to what the visitor picked —
+  // industry deep-dives plus one post per automation module they're
+  // getting, deduped, capped at 3 so the section stays scannable.
+  function renderLearnMore(modIds) {
+    var box = document.getElementById("cyb-learn-more");
+    var grid = document.getElementById("cyb-learn-more-grid");
+    if (!box || !grid) return;
+    var posts = [], seen = {};
+    (CYB.blogsByIndustry[state.industry] || []).forEach(function (p) {
+      if (!seen[p.slug]) { seen[p.slug] = true; posts.push(p); }
+    });
+    modIds.forEach(function (id) {
+      var p = CYB.blogsByModule[id];
+      if (p && !seen[p.slug]) { seen[p.slug] = true; posts.push(p); }
+    });
+    posts = posts.slice(0, 3);
+    if (!posts.length) { box.hidden = true; return; }
+    grid.innerHTML = posts.map(function (p) {
+      return '<a class="card blog-card" href="/blogs/' + p.slug + '.html">' +
+        '<div class="blog-meta"><span>' + escHtml(p.tag) + '</span></div>' +
+        '<h3>' + escHtml(p.title) + '</h3><p>' + escHtml(p.dek) + '</p></a>';
+    }).join("");
+    box.hidden = false;
+  }
+
+  function renderCalculator() {
+    var box = document.getElementById("cyb-calc-cta");
+    var tool = CYB.toolsByIndustry[state.industry];
+    if (!box || !tool) { if (box) box.hidden = true; return; }
+    document.getElementById("cyb-calc-tagline").textContent = tool.title + " — " + tool.tagline;
+    document.getElementById("cyb-calc-link").href = "/free-tools/" + tool.slug + ".html";
+    box.hidden = false;
+  }
+
   function showResult() {
     wizard.hidden = true;
     var result = document.getElementById("cyb-result");
@@ -302,6 +360,9 @@
       flowEl.querySelectorAll(".workflow-canvas").forEach(function (el) {
         if (window.AsliKaamWorkflowCanvas) window.AsliKaamWorkflowCanvas.init(el);
       });
+
+      renderLearnMore(modIds);
+      renderCalculator();
 
       var painLabels = painObjs.map(function (p) { return p.label; }).join("; ");
       var msgLines = [

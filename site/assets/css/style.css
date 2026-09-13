@@ -908,7 +908,32 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 .cyb-scale-source a { color: var(--accent); }
 .cyb-result-summary-box { color: var(--muted); font-size: 1rem; max-width: 680px; }
 .cyb-whatsapp-cta { border: 1px solid var(--accent-dim); background: linear-gradient(180deg, rgba(37,211,102,0.06), transparent); }
+
+.cyb-back-btn {
+  display: inline-flex; align-items: center; gap: 6px; margin-bottom: 16px;
+  background: none; border: none; color: var(--muted); font-weight: 600; font-size: 0.86rem;
+  cursor: pointer; padding: 4px 0; transition: color .15s;
+}
+.cyb-back-btn:hover { color: var(--accent); }
+
+/* n8n-canvas-styled frame the generated automation renders inside —
+   same dot-grid + glow language as .workflow-canvas-frame, so the
+   result feels like it's running on an actual automation canvas. */
+.cyb-automation-block {
+  position: relative; border: 1px solid var(--border); border-radius: 20px;
+  padding: 28px 20px; margin: 18px 0 24px; overflow: hidden;
+  background-color: #0a0d11;
+  background-image:
+    radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px),
+    radial-gradient(circle at 12% 12%, rgba(37,211,102,0.10), transparent 45%),
+    radial-gradient(circle at 88% 85%, rgba(77,184,255,0.08), transparent 45%);
+  background-size: 22px 22px, 100% 100%, 100% 100%;
+  background-position: 0 0, 0 0, 0 0;
+}
+.cyb-learn-more { margin: 8px 0 24px; }
+.cyb-calc-cta { border: 1px solid var(--border); background: var(--card); }
 @media (max-width: 640px) {
   .cyb-choice-grid { gap: 8px; }
   .cyb-chip { padding: 10px 14px; font-size: 0.85rem; }
+  .cyb-automation-block { padding: 20px 12px; }
 }
