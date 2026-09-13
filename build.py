@@ -548,6 +548,41 @@ def cinematic_wrap(scenes_html, n_scenes, extra_class=""):
 
 
 # ---------------------------------------------------------------- HOME
+def hero_orchestration_bg():
+    """Ambient, decorative multi-agent orchestration network behind the
+    Home hero — not a real workflow (purely visual), reusing the same
+    node/edge language as the real n8n canvases elsewhere on the site
+    so the hero itself reads as 'this is an automation system' before a
+    visitor scrolls at all. Low-opacity and pointer-events:none so it
+    never competes with the hero text."""
+    nodes = [
+        (150, 170, "⚡", "trigger"), (430, 110, "🔍", "action"), (760, 190, "💬", "action"),
+        (1060, 130, "🧠", "ai"), (1320, 210, "📄", "action"), (210, 660, "🔔", "condition"),
+        (560, 730, "💳", "action"), (910, 690, "🌐", "action"), (1260, 650, "✅", "done"),
+    ]
+    edges = [(0, 1), (1, 2), (2, 3), (3, 4), (0, 5), (5, 6), (6, 7), (7, 8), (2, 7), (3, 8)]
+    node_svg = "".join(
+        f'<circle cx="{x}" cy="{y}" r="26" class="hero-orch-node hero-orch-{cls}"></circle>'
+        f'<text x="{x}" y="{y + 7}" class="hero-orch-icon" text-anchor="middle">{icon}</text>'
+        for x, y, icon, cls in nodes
+    )
+    edge_svg = ""
+    for i, (a, b) in enumerate(edges):
+        ax, ay = nodes[a][0], nodes[a][1]
+        bx, by = nodes[b][0], nodes[b][1]
+        mx, my = (ax + bx) / 2, (ay + by) / 2 - 40
+        path = f"M{ax},{ay} Q{mx},{my} {bx},{by}"
+        edge_svg += f'<path d="{path}" class="hero-orch-edge"></path>'
+        if i % 2 == 0:
+            dur = 5 + (i % 4)
+            edge_svg += (f'<circle r="3" class="hero-orch-pulse">'
+                         f'<animateMotion dur="{dur}s" repeatCount="indefinite" path="{path}"></animateMotion></circle>')
+    return f"""<svg class="home-hero-orchestration" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      {edge_svg}
+      {node_svg}
+    </svg>"""
+
+
 def build_home(lang="en"):
     """The full customer journey, framed as four numbered Loss Points —
     search, enquiry, negotiation, payment — each shown broken (red) then
@@ -792,7 +827,7 @@ def build_home(lang="en"):
             "accent": "red",
         }, "raw", extra_body=enquiry_slides(build_stack1), shatter="#ff6b6b"),
         scene({
-            "eyebrow": "फिक्स" if is_hi else "Fixed",
+            "eyebrow": "फिक्सिंग जारी है" if is_hi else "Keep Fixing",
             "title": "किसी और से पूछने से पहले ही जवाब मिल गया" if is_hi else "Answered before they can ask anyone else",
             "body": "कोई कॉपी-पेस्ट \"धन्यवाद\" नहीं — एक असली सवाल वापस, जो इसे \"शायद\" से असली ऑर्डर की तरफ़ ले जाता है। जवाब अभी टाइप हो रहा है। किसी और को मैसेज करने का ख़याल तक नहीं आया।" if is_hi else
                     "Not a copy-paste \"thanks for your message\" — an actual question back, the one that turns this into a real order. They're already typing their reply. Messaging anyone else hasn't even crossed their mind.",
@@ -807,7 +842,7 @@ def build_home(lang="en"):
             "accent": "red",
         }, "raw", extra_body=enquiry_slides(build_chat3), shatter="#ff6b6b"),
         scene({
-            "eyebrow": "फिक्स" if is_hi else "Fixed",
+            "eyebrow": "फिक्सिंग जारी है" if is_hi else "Keep Fixing",
             "title": "एक असली नंबर — और डील बचाने की गुंजाइश" if is_hi else "A real number — and room to save the sale",
             "body": "एक साफ़ कीमत, कोई आगे-पीछे नहीं। कहीं और की सस्ती कीमत बताई जाती है, तो व्हाट्सएप पर उसी वक्त मैच हो जाती है — दो दिन की चुप्पी में गंवाने की बजाय।" if is_hi else
                     "A clear price, no back-and-forth. When a cheaper quote comes up elsewhere, it gets matched right there on WhatsApp — not lost to two days of silence.",
@@ -822,7 +857,7 @@ def build_home(lang="en"):
             "accent": "red",
         }, "raw", extra_body=f'<div data-currency-particles>{rotating_payment_screen(payment_presets, paid=False, payers=payer_names, payer_label=payer_label)}</div>', shatter="#ff6b6b"),
         scene({
-            "eyebrow": "फिक्स" if is_hi else "Fixed",
+            "eyebrow": "बेसिक्स फिक्स हो गए — आगे के लिए तैयार?" if is_hi else "Basics Fixed Now — Ready for Next?",
             "title": "बिना दोबारा मांगे पैसा आ जाता है" if is_hi else "Paid before anyone has to ask twice",
             "body": "एक पेमेंट लिंक पर टैप, और पैसा आ जाता है — बिना किसी फॉलो-अप मैसेज के, छोटी पेमेंट हो या बड़ी।" if is_hi else
                     "One tap on a payment link, and it's done — no follow-up messages needed, whether it's a small job or a big order.",
@@ -834,10 +869,11 @@ def build_home(lang="en"):
     hero_wa_href = f"https://wa.me/911234567890?text={hero_wa_text}"
     hero = f"""<section class="home-hero" id="home-hero">
   <div class="home-hero-grid"></div>
+  {hero_orchestration_bg()}
   <div class="container home-hero-inner">
     <h1 class="home-hero-title" style="font-size:clamp(2.4rem, 6vw, 4.2rem);">{"आपके बिज़नेस को सिर्फ़ एक वेबसाइट से कहीं ज़्यादा चाहिए।" if is_hi else "Your Business Deserves More Than Just a Website."}</h1>
-    <p class="home-hero-sub">{"हम आपको ग्राहकों तक पहुंचाते हैं, हर पूछताछ का जल्दी जवाब देते हैं, और ज़्यादा पूछताछ को असली बिक्री में बदलते हैं — एक बार का सेटअप, आसान सालाना सपोर्ट।" if is_hi else "We help more customers find you, answer them fast, and turn more of those enquiries into sales — one-time setup, simple annual support."}</p>
-    <p class="home-hero-tag">{"कोई महीने का बिल नहीं। कोई उलझा हुआ प्लान नहीं। जो हम बनाते हैं, वो आपका है।" if is_hi else "No monthly bills. No confusing plans. You own what we build for you."}</p>
+    <p class="home-hero-sub">{"हम आपको ढूंढने लायक बनाते हैं, जल्दी जवाब देते हैं, और ज़्यादा पूछताछ को बिक्री में बदलते हैं।" if is_hi else "We get you found, reply fast, and turn more enquiries into sales."}</p>
+    <p class="home-hero-tag">{"एक बार का सेटअप। कोई महीने का बिल नहीं। जो बनाएं, वो आपका।" if is_hi else "One-time setup. No monthly bills. You own it."}</p>
     <div class="row-cta center" style="justify-content:center; margin-top:22px;">
       <a class="btn btn-primary" href="{"/hi/industries/" if is_hi else "/industries/"}">{"समाधान देखें" if is_hi else "Explore Solutions"}</a>
       <a class="btn btn-ghost" href="{hero_wa_href}" target="_blank" rel="noopener">{"बात करें" if is_hi else "Talk to Us"}</a>

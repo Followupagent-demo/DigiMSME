@@ -133,6 +133,23 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
   -webkit-mask-image: radial-gradient(600px circle at var(--hx, 50%) var(--hy, 40%), #000 0%, transparent 70%);
   mask-image: radial-gradient(600px circle at var(--hx, 50%) var(--hy, 40%), #000 0%, transparent 70%);
 }
+.home-hero-orchestration {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  opacity: 0.4; pointer-events: none;
+}
+.hero-orch-node { fill: #10151b; stroke-width: 1.5; }
+.hero-orch-trigger { stroke: var(--accent); }
+.hero-orch-action { stroke: #4db8ff; }
+.hero-orch-ai { stroke: #b98aff; }
+.hero-orch-condition { stroke: #e6b93d; }
+.hero-orch-done { stroke: var(--accent-dim); }
+.hero-orch-icon { font-size: 20px; fill: var(--fg); font-family: inherit; }
+.hero-orch-edge { fill: none; stroke: var(--border); stroke-width: 1.2; opacity: 0.6; }
+.hero-orch-pulse { fill: var(--accent); filter: drop-shadow(0 0 4px rgba(37,211,102,0.8)); }
+@media (max-width: 640px) { .home-hero-orchestration { opacity: 0.22; } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-orch-pulse animateMotion, .hero-orch-pulse { display: none; }
+}
 .home-hero-inner { position: relative; z-index: 1; }
 .home-hero-title {
   font-size: clamp(3.2rem, 9vw, 6.5rem); font-weight: 800; letter-spacing: -0.02em;
