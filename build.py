@@ -173,6 +173,7 @@ def foot(lang="en"):
 </footer>
 <script src="/assets/js/config.js"></script>
 <script src="/assets/js/gsap-loader.js"></script>
+<script src="/assets/js/particle-text.js"></script>
 <script src="/assets/js/cinematic.js"></script>
 <script src="/assets/js/global-ui.js"></script>
 <script src="/assets/js/use-case-switcher.js"></script>
