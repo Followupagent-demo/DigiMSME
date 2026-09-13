@@ -2463,98 +2463,117 @@ FREE_TOOLS = [
 # stays consistent with the rest of the site) — each showing the same
 # underlying agent adapting its reasoning to a different business: it
 # checks a real constraint (inventory, a rate table, a margin rule, a
-# route map, a credit history) before it answers, rather than sending a
-# canned reply. Cycled client-side on the Agentic Use Cases page by
-# agentic-brain.js.
+# route map, a credit history), then carries the conversation through to
+# an actual close (a booking, a reservation, a payment) — not a single
+# question-and-answer, so it reads as one agent handling the full
+# interaction end-to-end rather than a narrow FAQ chatbot. "customer" is
+# the opening message; "resolution" is the agent's reply plus the
+# customer's own confirmation that closes the loop. Cycled client-side on
+# the Agentic Use Cases page by agentic-brain.js.
 BRAIN_SCENARIOS = [
     {
         "industry": "Export / Trading", "icon": "🚢",
-        "customer": "Need a container quote for basmati rice to Dubai. Can you match the sample pricing from another supplier?",
+        "customer": [("in", "Need a container quote for basmati rice to Dubai. Can you match the sample pricing from another supplier?")],
         "thinking": ["Reading margin sheet…", "Dubai freight slab confirmed", "Competitor rate: match approved within policy"],
-        "reply": "We can match that rate — I've attached your shipping cost breakdown. Reply 'Book' and I'll reserve the container space today.",
+        "resolution": [("out", "We can match that rate — I've attached your shipping cost breakdown. Reply 'Book' and I'll reserve the container space today."),
+                        ("in", "Perfect, I'll wire the advance today.")],
     },
     {
         "industry": "Hospital (multi-branch)", "icon": "🏥",
-        "customer": "Need an emergency ultrasound at your Saket branch today. Do you take Apollo Munich insurance?",
+        "customer": [("in", "Need an emergency ultrasound at your Saket branch today. Do you take Apollo Munich insurance?")],
         "thinking": ["Checking live slot matrix…", "Saket branch: 4 PM opening found", "Insurance panel: covered"],
-        "reply": "Yes, fully covered under your plan — I've held a priority 4:00 PM slot for you at Saket. Just confirm your ID details.",
+        "resolution": [("out", "Yes, fully covered under your plan — I've held a priority 4:00 PM slot for you at Saket. Just confirm your ID details."),
+                        ("in", "Great, see you at 4.")],
     },
     {
         "industry": "Coaching Institute", "icon": "🎓",
-        "customer": "Want to join the NEET dropper batch, but we live 12km away. Is there a hybrid option?",
+        "customer": [("in", "Want to join the NEET dropper batch, but we live 12km away. Is there a hybrid option?")],
         "thinking": ["Checking batch schedule…", "12km is outside walk-in radius", "Hybrid-schedule FAQ retrieved"],
-        "reply": "Yes! She'd only need to come in twice a week for live mock tests — the rest streams in full HD. Want the timetable?",
+        "resolution": [("out", "Yes! She'd only need to come in twice a week for live mock tests — the rest streams in full HD. Want the timetable?"),
+                        ("in", "That works — send me the hybrid schedule.")],
     },
     {
         "industry": "Real Estate Developer", "icon": "🏢",
-        "customer": "Saw your 3BHK sample flat. Is the Dec 2026 possession date firm? Can I tour it this evening?",
+        "customer": [("in", "Saw your 3BHK sample flat. Is the Dec 2026 possession date firm? Can I tour it this evening?")],
         "thinking": ["Checking project registry…", "Phase 2 on schedule for Dec 2026", "Site consultant free at 6 PM"],
-        "reply": "Possession is firm for Dec 2026. I've booked you a walkthrough with our site manager at 6:00 PM today — see you there?",
+        "resolution": [("out", "Possession is firm for Dec 2026. I've booked you a walkthrough with our site manager at 6:00 PM today — see you there?"),
+                        ("in", "Sounds good, I'll be there at 6.")],
     },
     {
         "industry": "B2B Manufacturer", "icon": "🏭",
-        "customer": "Looking to source 10,000 custom aluminum brackets. What's your tooling lead time for a sample run?",
+        "customer": [("in", "Looking to source 10,000 custom aluminum brackets. What's your tooling lead time for a sample run?")],
         "thinking": ["Reading factory queue…", "Tooling line has capacity this week", "Standard sample lead time: 4 days"],
-        "reply": "We can deliver your prototype sample run in 4 days. Upload your CAD drawings here and we'll start tooling today.",
+        "resolution": [("out", "We can deliver your prototype sample run in 4 days. Upload your CAD drawings here and we'll start tooling today."),
+                        ("in", "Sending the CAD files now.")],
     },
     {
         "industry": "Private School", "icon": "🏫",
-        "customer": "I want to enroll my son in 5th grade, but your bus route doesn't cover Sector 4. What do I do?",
+        "customer": [("in", "I want to enroll my son in 5th grade, but your bus route doesn't cover Sector 4. What do I do?")],
         "thinking": ["Parsing route map…", "Sector 4 is 2km from Route C stop", "Retrieving hybrid-schedule FAQ"],
-        "reply": "Don't worry! Our closest bus stop is just 3 minutes from you at 7:40 AM. We also offer a hybrid schedule — want to see the timing chart?",
+        "resolution": [("out", "Don't worry! Our closest bus stop is just 3 minutes from you at 7:40 AM. We also offer a hybrid schedule — want to see the timing chart?"),
+                        ("in", "Thank you, that's a relief!")],
     },
     {
         "industry": "Diagnostic Lab", "icon": "🧪",
-        "customer": "Can someone come home for a fasting blood test tomorrow morning, before 8am?",
+        "customer": [("in", "Can someone come home for a fasting blood test tomorrow morning, before 8am?")],
         "thinking": ["Checking phlebotomist slots…", "7:30 AM home-collection slot open in your pincode", "Fasting-test prep note required"],
-        "reply": "Yes, 7:30 AM works! Please stay fasting from midnight — I'll send the address confirmation and the technician's name shortly.",
+        "resolution": [("out", "Yes, 7:30 AM works! Please stay fasting from midnight — I'll send the address confirmation and the technician's name shortly."),
+                        ("in", "Okay, I'll stay fasting. See you at 7:30.")],
     },
     {
         "industry": "Wedding Planner / Banquet", "icon": "✨",
-        "customer": "Is your ballroom available for November 14th? We're expecting around 400 guests.",
+        "customer": [("in", "Is your ballroom available for November 14th? We're expecting around 400 guests.")],
         "thinking": ["Scanning venue calendar…", "Nov 14 is open", "Ballroom capacity: safe up to 550 guests"],
-        "reply": "It's open, and comfortably fits your guest count. I've held the date for 24 hours — shall we set up a walkthrough?",
+        "resolution": [("out", "It's open, and comfortably fits your guest count. I've held the date for 24 hours — shall we set up a walkthrough?"),
+                        ("in", "Let's lock the walkthrough for this weekend.")],
     },
     {
         "industry": "Gym / Fitness Chain", "icon": "🏋️",
-        "customer": "Want to join the weight-loss program, but I have a chronic knee injury. Do your trainers customize plans?",
+        "customer": [("in", "Want to join the weight-loss program, but I have a chronic knee injury. Do your trainers customize plans?")],
         "thinking": ["Filtering trainer profiles…", "3 rehab-certified coaches active at this branch", "Loading injury-safe guardrails"],
-        "reply": "Yes — we have 3 rehab-certified coaches here. I've booked you a free 15-minute posture assessment this week.",
+        "resolution": [("out", "Yes — we have 3 rehab-certified coaches here. I've booked you a free 15-minute posture assessment this week."),
+                        ("in", "I'll take the assessment slot, thanks.")],
     },
     {
         "industry": "CA / Legal Firm", "icon": "⚖️",
-        "customer": "Got an income tax notice about a mismatch from FY 2024. How fast can you draft a response?",
+        "customer": [("in", "Got an income tax notice about a mismatch from FY 2024. How fast can you draft a response?")],
         "thinking": ["Categorizing notice type…", "Urgency: high, but routine", "Tax desk availability: immediate"],
-        "reply": "This is a routine procedural notice, nothing to panic about. Upload a photo of it here and we'll have a draft response in 2 hours.",
+        "resolution": [("out", "This is a routine procedural notice, nothing to panic about. Upload a photo of it here and we'll have a draft response in 2 hours."),
+                        ("in", "Uploading the notice now.")],
     },
     {
         "industry": "Interior Designer", "icon": "🎨",
-        "customer": "Want to redo my 2BHK living room, minimalist style, but budget is capped at ₹2.5 lakh. Doable?",
+        "customer": [("in", "Want to redo my 2BHK living room, minimalist style, but budget is capped at ₹2.5 lakh. Doable?")],
         "thinking": ["Browsing portfolio…", "Minimalist layouts run lower on materials", "Budget check: within range"],
-        "reply": "Completely doable — we've done 14 minimalist living rooms inside that exact budget. Here are 3 concept moodboards to start.",
+        "resolution": [("out", "Completely doable — we've done 14 minimalist living rooms inside that exact budget. Here are 3 concept moodboards to start."),
+                        ("in", "Love the moodboards — let's proceed.")],
     },
     {
         "industry": "Retail Store (Kirana / General)", "icon": "🛒",
-        "customer": "Hey, do you have the 8-inch ceramic tiles in stock? Need 50 boxes today.",
+        "customer": [("in", "Hey, do you have the 8-inch ceramic tiles in stock? Need 50 boxes today.")],
         "thinking": ["Reading inventory sheet…", "54 boxes found in Warehouse B", "Intent: high-urgency purchase"],
-        "reply": "Yes, we have 54 boxes ready! I've provisionally reserved 50 for you. Can I send a secure UPI link to lock in the dispatch before the van leaves at 2 PM?",
+        "resolution": [("out", "Yes, we have 54 boxes ready! I've provisionally reserved 50 for you. Can I send a secure UPI link to lock in the dispatch before the van leaves at 2 PM?"),
+                        ("in", "Sending the UPI payment now.")],
     },
     {
         "industry": "Automobile Showroom", "icon": "🚗",
-        "customer": "Want to book a test drive for the SUV top variant this Sunday. Is the automatic version available?",
+        "customer": [("in", "Want to book a test drive for the SUV top variant this Sunday. Is the automatic version available?")],
         "thinking": ["Checking demo fleet…", "Automatic SUV: active and fuelled", "Sunday booking roster: open"],
-        "reply": "Yes, the automatic SUV is ready for Sunday — I've booked you the 10:30 AM slot. Just bring your driving licence.",
+        "resolution": [("out", "Yes, the automatic SUV is ready for Sunday — I've booked you the 10:30 AM slot. Just bring your driving licence."),
+                        ("in", "Booked — see you Sunday.")],
     },
     {
         "industry": "Building Materials / Tiles Showroom", "icon": "🧱",
-        "customer": "Need 200 boxes of matte-finish vitrified tiles. Can you match the wholesale-market rate?",
+        "customer": [("in", "Need 200 boxes of matte-finish vitrified tiles. Can you match the wholesale-market rate?")],
         "thinking": ["Checking bulk-margin table…", "Order size: 200 boxes", "Authorized dealer rate: match allowed"],
-        "reply": "We can match that wholesale rate for a 200-box order, plus arrange safe on-site delivery. Here's your commercial invoice to review.",
+        "resolution": [("out", "We can match that wholesale rate for a 200-box order, plus arrange safe on-site delivery. Here's your commercial invoice to review."),
+                        ("in", "Approved, please share the invoice.")],
     },
     {
         "industry": "Wholesale Distributor", "icon": "📦",
-        "customer": "Our shop's out of stock on item #X90. Can we get 50 cases on the usual credit terms?",
+        "customer": [("in", "Our shop's out of stock on item #X90. Can we get 50 cases on the usual credit terms?")],
         "thinking": ["Checking account ledger…", "Client credit history: excellent", "Item #X90: 400 cases in stock"],
-        "reply": "Approved on your standard 30-day terms — 50 cases of #X90 are being packed for tonight's dispatch.",
+        "resolution": [("out", "Approved on your standard 30-day terms — 50 cases of #X90 are being packed for tonight's dispatch."),
+                        ("in", "Thanks, dispatch it today.")],
     },
 ]

@@ -112,7 +112,20 @@
     canvas.style.height = rect.height + "px";
     canvas.style.display = "none";
 
-    el.parentNode.insertBefore(canvas, el.nextSibling);
+    // The canvas is a sibling of el (not a child), so hiding el via
+    // opacity/color never hides the canvas too. That means its position
+    // can't just be "left:0;top:0" and hope el's parent happens to be the
+    // positioned ancestor at exactly el's own offset — with a sibling
+    // before el, or an unrelated positioned ancestor further up the tree,
+    // that lands the canvas somewhere else entirely. Anchor it with an
+    // explicit pixel offset computed from real geometry instead.
+    var parent = el.parentNode;
+    if (getComputedStyle(parent).position === "static") parent.style.position = "relative";
+    var parentRect = parent.getBoundingClientRect();
+    canvas.style.left = (rect.left - parentRect.left) + "px";
+    canvas.style.top = (rect.top - parentRect.top) + "px";
+
+    parent.insertBefore(canvas, el.nextSibling);
 
     this.particles = particles;
     this.rectW = rect.width;

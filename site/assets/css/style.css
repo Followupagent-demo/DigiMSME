@@ -560,12 +560,14 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 /* ---------- Agentic Use Cases: Brain Terminal ---------- */
 .brain-terminal {
   max-width: 640px; margin-top: 28px; padding: 22px 24px; border-radius: 18px;
-  background: var(--card); border: 1px solid var(--border);
+  background: var(--card); border: 1px solid var(--border); cursor: pointer; transition: border-color 0.2s ease;
 }
+.brain-terminal:hover, .brain-terminal:focus-visible { border-color: var(--accent); outline: none; }
 .brain-terminal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
 .brain-industry-chip { font-weight: 700; font-size: 1.05rem; }
 .brain-live-dot { color: var(--accent); font-size: 0.76rem; }
 .brain-terminal .brain-chat { margin: 12px 0; position: relative; }
+.brain-tap-hint { text-align: center; font-size: 0.74rem; color: var(--muted); margin-top: 4px; }
 .brain-thinking {
   background: #0e1216; border: 1px solid var(--accent-dim); border-radius: 12px;
   padding: 12px 16px; margin: 14px 0; transition: opacity 0.25s ease;

@@ -29,19 +29,41 @@
     if (!rect.width || !rect.height) return;
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    var canvas = document.createElement("canvas");
-    canvas.className = "shatter-canvas";
-    canvas.width = Math.ceil(rect.width * dpr);
-    canvas.height = Math.ceil(rect.height * dpr);
-    canvas.style.width = rect.width + "px";
-    canvas.style.height = rect.height + "px";
-    canvas.style.display = "none";
-    el.parentNode.insertBefore(canvas, el.nextSibling);
-
     var cell = this.cell;
     var cols = Math.max(1, Math.round(rect.width / cell));
     var rows = Math.max(1, Math.round(rect.height / cell));
     var cw = rect.width / cols, ch = rect.height / rows;
+
+    // Tiles fall well past the box's own bottom edge to read as a real
+    // freefall, not a wipe — the canvas has to extend down into that drop
+    // zone too, or anything past the box's own height is invisibly
+    // clipped by the canvas's own bitmap bounds long before the fall (and
+    // its alpha fade-in) has actually played out. A short box (like a
+    // single chat bubble) made this obvious: tiles were fully off-canvas,
+    // and therefore invisible, well before halfway through the animation.
+    var dropZone = rect.height * 1.6 + ch * 3;
+    var canvasH = rect.height + dropZone;
+
+    var canvas = document.createElement("canvas");
+    canvas.className = "shatter-canvas";
+    canvas.width = Math.ceil(rect.width * dpr);
+    canvas.height = Math.ceil(canvasH * dpr);
+    canvas.style.width = rect.width + "px";
+    canvas.style.height = canvasH + "px";
+    canvas.style.display = "none";
+
+    // Sibling of el, not a child (hiding el via opacity must never hide
+    // the canvas too) — so its position can't assume el's parent is the
+    // positioned ancestor at exactly el's own offset. Anchor with an
+    // explicit pixel offset computed from real geometry instead.
+    var parent = el.parentNode;
+    if (getComputedStyle(parent).position === "static") parent.style.position = "relative";
+    var parentRect = parent.getBoundingClientRect();
+    canvas.style.left = (rect.left - parentRect.left) + "px";
+    canvas.style.top = (rect.top - parentRect.top) + "px";
+
+    parent.insertBefore(canvas, el.nextSibling);
+
     var particles = [];
     for (var gy = 0; gy < rows; gy++) {
       for (var gx = 0; gx < cols; gx++) {
@@ -49,7 +71,7 @@
         particles.push({
           hx: hx, hy: hy, w: Math.max(1, cw - 2), h: Math.max(1, ch - 2),
           tx: hx + (Math.random() - 0.5) * cw * 4,
-          ty: rect.height + ch * 2 + Math.random() * rect.height * 0.6,
+          ty: rect.height + ch + Math.random() * (dropZone - ch),
           rot: (Math.random() - 0.5) * 1.4,
           jitter: Math.random(),
         });
@@ -59,7 +81,7 @@
 
     this.particles = particles;
     this.rectW = rect.width;
-    this.rectH = rect.height;
+    this.rectH = canvasH;
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
     this.ctx.scale(dpr, dpr);

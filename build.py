@@ -1173,11 +1173,14 @@ def build_pricing():
 # ---------------------------------------------------------------- AGENTIC USE CASES
 def agentic_brain_terminal():
     """Top-fold interactive: the same agent's chat + 'thinking' box cycles
-    through a different industry every few seconds, dissolving and
-    reassembling the text with ParticleText (agentic-brain.js) so it
-    visibly morphs rather than just cutting. First scenario is real,
-    static HTML for no-JS/SEO; the rest ride along as JSON for the script
-    to cycle through."""
+    through all 15 industries, showing a full customer → resolution
+    exchange (not a single Q&A) so it reads as one agent handling a
+    complete interaction, not a narrow FAQ chatbot. Transitions use
+    ShatterVisual (whole-panel block shatter, agentic-brain.js) — hiding
+    the entire bubble including its background, not just the text — with
+    a bounce-in as the new conversation drops into place. Tap the
+    terminal to jump to the next industry immediately. First scenario is
+    real, static HTML for no-JS/SEO; the rest ride along as JSON."""
     first = BRAIN_SCENARIOS[0]
     thinking_html = "".join(f'<li class="brain-step">{esc(step)}</li>' for step in first["thinking"])
     scenarios_json = json.dumps(BRAIN_SCENARIOS).replace("</", "<\\/")
@@ -1185,18 +1188,19 @@ def agentic_brain_terminal():
   <div class="container">
     <div class="eyebrow">🧠 The Same Agent, Every Business</div>
     <h2>Watch it think — as a different business, every few seconds</h2>
-    <p class="lead" style="max-width:640px;">One engine, not fifteen separate bots. It checks a real constraint — stock, a rate table, a margin rule — before it ever replies.</p>
-    <div class="brain-terminal" id="brain-terminal">
+    <p class="lead" style="max-width:640px;">One engine, not fifteen separate bots. It checks a real constraint — stock, a rate table, a margin rule — then carries the conversation through to a close. Tap the terminal to jump ahead.</p>
+    <div class="brain-terminal" id="brain-terminal" role="button" tabindex="0" aria-label="Tap to see the next industry">
       <div class="brain-terminal-head">
         <span class="brain-industry-chip"><span id="brain-icon">{first['icon']}</span> <span id="brain-industry">{esc(first['industry'])}</span></span>
         <span class="brain-live-dot">● live simulation</span>
       </div>
-      <div class="brain-chat"><div class="chat-bubble in" id="brain-customer">{esc(first['customer'])}</div></div>
+      <div class="brain-chat" data-shatter="#8a95a3" id="brain-customer">{chat_mock(first['customer'])}</div>
       <div class="brain-thinking" id="brain-thinking">
         <div class="brain-thinking-label">AI Agent is thinking</div>
         <ul class="brain-steps" id="brain-steps">{thinking_html}</ul>
       </div>
-      <div class="brain-chat"><div class="chat-bubble out" id="brain-reply">{esc(first['reply'])}</div></div>
+      <div class="brain-chat" data-shatter="#25d366" id="brain-resolution">{chat_mock(first['resolution'])}</div>
+      <div class="brain-tap-hint">Tap for next industry →</div>
     </div>
     <script type="application/json" id="brain-scenarios-data">{scenarios_json}</script>
   </div>
