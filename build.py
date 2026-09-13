@@ -17,6 +17,7 @@ from data import (
 
 INDUSTRY_BY_SLUG = {i["slug"]: i for i in INDUSTRIES}
 MODULE_BY_ID = {m["id"]: m for m in MODULES}
+MODULE_BLOG_BY_ID = {p["related_module"]: p for p in BLOG_POSTS if p.get("related_module")}
 
 # Bumped on every build — appended to every /assets/* URL so a browser
 # that already cached an old CSS/JS file (especially one it saw before an
@@ -1311,6 +1312,18 @@ def build_module_demo_page(mod):
     {render_process_runner(wf_file, caption=f"{esc(mod['name'])} — {esc(mod['blurb'])}")}
   </div>
 </section>"""
+    blog_post = MODULE_BLOG_BY_ID.get(mod["id"])
+    blog_section = ""
+    if blog_post:
+        blog_section = f"""<section class="section-pad-sm">
+  <div class="container">
+    <a class="card" href="/blogs/{blog_post['slug']}.html" style="display:block; text-decoration:none;">
+      <div class="eyebrow">📖 Go Deeper</div>
+      <h3 style="margin-top:8px;">{esc(blog_post['title'])}</h3>
+      <p style="color:var(--muted); margin:0;">{esc(blog_post['dek'])}</p>
+    </a>
+  </div>
+</section>"""
     body = nav("/demos/") + f"""
 <section class="page-hero section-pad-sm">
   <div class="container">
@@ -1322,6 +1335,7 @@ def build_module_demo_page(mod):
 </section>
 {cinematic_wrap(scenes, len(scenes))}
 {workflow_section}
+{blog_section}
 <section class="section-pad-sm">
   <div class="container center">
     <a class="btn btn-primary" href="/pricing/">Add this to a Custom Pack</a>
@@ -1828,10 +1842,19 @@ def build_blogs_index():
 def build_blog_post_page(post):
     blocks = "".join(render_blog_block(b) for b in post["body"])
     related = INDUSTRY_BY_SLUG.get(post["related_industry"]) if post.get("related_industry") else None
-    cta = f"""<div class="row-cta center" style="justify-content:center;">
+    related_mod = MODULE_BY_ID.get(post["related_module"]) if post.get("related_module") else None
+    if related_mod:
+        cta = f"""<div class="row-cta center" style="justify-content:center;">
+      <a class="btn btn-primary" href="/demos/module-{related_mod['id']}.html">Watch {esc(related_mod['name'])} in action</a>
+      <a class="btn btn-ghost" href="/blogs/">More Blogs</a>
+    </div>"""
+    elif related:
+        cta = f"""<div class="row-cta center" style="justify-content:center;">
       <a class="btn btn-primary" href="/industries/{related['slug']}.html">See the {esc(related['name'])} fix</a>
       <a class="btn btn-ghost" href="/blogs/">More Blogs</a>
-    </div>""" if related else """<div class="row-cta center" style="justify-content:center;">
+    </div>"""
+    else:
+        cta = """<div class="row-cta center" style="justify-content:center;">
       <a class="btn btn-primary" href="/industries/">Explore Industries</a>
       <a class="btn btn-ghost" href="/blogs/">More Blogs</a>
     </div>"""
