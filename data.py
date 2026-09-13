@@ -2456,3 +2456,50 @@ FREE_TOOLS = [
           "retailer's hands."}],
     },
 ]
+
+
+# ---------------------------------------------------------------- AGENTIC BRAIN TERMINAL
+# A representative sample across our industries (not all 15 — this is a
+# rotating demo, not an exhaustive catalog) showing the same underlying
+# agent adapting its reasoning to a different business each time: it
+# checks a real constraint (inventory, a rate table, a margin rule, a
+# route map) before it answers, rather than sending a canned reply. Cycled
+# client-side on the Agentic Use Cases page by agentic-brain.js.
+BRAIN_SCENARIOS = [
+    {
+        "industry": "Retail Store", "icon": "🏬",
+        "customer": "Hey, do you have the 8-inch ceramic tiles in stock? Need 50 boxes today.",
+        "thinking": ["Reading inventory sheet…", "54 boxes found in Warehouse B", "Intent: high-urgency purchase"],
+        "reply": "Yes, we have 54 boxes ready! I've provisionally reserved 50 for you. Can I send a secure UPI link to lock in the dispatch before the van leaves at 2 PM?",
+    },
+    {
+        "industry": "Hotel", "icon": "🏨",
+        "customer": "Looking for 3 deluxe rooms for this weekend. Can you match the ₹4,500 rate on Booking.com?",
+        "thinking": ["Checking room matrix…", "Weekend occupancy: 60%", "Margin rule: match allowed up to 15% discount"],
+        "reply": "We'll match that ₹4,500 rate for you! Plus, booking directly with us gets you free early check-in. Ready to confirm?",
+    },
+    {
+        "industry": "Private School", "icon": "🎓",
+        "customer": "I want to enroll my son in 5th grade, but your bus route doesn't cover Sector 4. What do I do?",
+        "thinking": ["Parsing route map…", "Sector 4 is 2km from Route C stop", "Retrieving hybrid-schedule FAQ"],
+        "reply": "Don't worry! Our closest bus stop is just 3 minutes from you at 7:40 AM. We also offer a hybrid schedule — want to see the timing chart?",
+    },
+    {
+        "industry": "Guesthouse", "icon": "🔑",
+        "customer": "2 of us, arriving late tonight around 11:30pm — is check-in possible that late?",
+        "thinking": ["Checking caretaker roster…", "Night check-in available till 1 AM", "Rule: late check-in needs advance UPI hold"],
+        "reply": "Yes, 11:30pm works — our caretaker will be waiting. I just need a small ₹500 advance to hold the room, refundable at check-in.",
+    },
+    {
+        "industry": "Diagnostic Lab", "icon": "🩺",
+        "customer": "Can someone come home for a fasting blood test tomorrow morning, before 8am?",
+        "thinking": ["Checking phlebotomist slots…", "7:30 AM home-collection slot open in your pincode", "Fasting-test prep note required"],
+        "reply": "Yes, 7:30 AM works! Please stay fasting from midnight — I'll send the address confirmation and the technician's name shortly.",
+    },
+    {
+        "industry": "Gym", "icon": "🏋️",
+        "customer": "What's the difference between your 3-month and annual plan? Any student discount?",
+        "thinking": ["Checking active plan table…", "Student discount rule: 10% with valid ID", "Comparing tenure pricing"],
+        "reply": "Annual works out cheaper per month, and with a student ID you get 10% off either plan. Want me to hold today's rate while you decide?",
+    },
+]

@@ -10,7 +10,7 @@ import shutil
 from data import (
     BRAND, TAGLINE, TAGLINE_HI, SITE_URL, NAV, NAV_HI, INDUSTRIES, PRICING_PACKS,
     CUSTOM_HAVE, CUSTOM_ADDONS,
-    MODULES, INDUSTRY_MODULES, NEGOTIATION_AGENT, BLOG_POSTS, FREE_TOOLS,
+    MODULES, INDUSTRY_MODULES, NEGOTIATION_AGENT, BLOG_POSTS, FREE_TOOLS, BRAIN_SCENARIOS,
 )
 
 INDUSTRY_BY_SLUG = {i["slug"]: i for i in INDUSTRIES}
@@ -175,6 +175,7 @@ def foot(lang="en"):
 <script src="/assets/js/gsap-loader.js"></script>
 <script src="/assets/js/particle-text.js"></script>
 <script src="/assets/js/currency-particles.js"></script>
+<script src="/assets/js/shatter-visual.js"></script>
 <script src="/assets/js/cinematic.js"></script>
 <script src="/assets/js/global-ui.js"></script>
 <script src="/assets/js/use-case-switcher.js"></script>
@@ -348,10 +349,14 @@ def payment_screen(business, amount, paid):
     </div>"""
 
 
-def scene(stage, kind, extra_body="", contact=None, status="Online"):
+def scene(stage, kind, extra_body="", contact=None, status="Online", shatter=None):
     """kind: 'chat' for pain/fix stages, 'stat' for growth, or raw html via extra_body.
     Pass contact= to render 'chat' as a real headered chat_screen instead of
-    a bare chat_mock — used wherever a customer name adds realism."""
+    a bare chat_mock — used wherever a customer name adds realism.
+    Pass shatter="#hex" to make the whole scene-visual panel break into
+    tinted tiles that fall away (or, on the paired next scene, rise into
+    place) instead of a plain crossfade — used where the visual itself,
+    not just the heading, needs to tell the "lost" vs "won" moment."""
     accent = stage.get("accent", "")
     body = ""
     if kind == "chat":
@@ -368,14 +373,16 @@ def scene(stage, kind, extra_body="", contact=None, status="Online"):
     else:
         body = extra_body
 
-    return f"""<div class="scene" data-accent="{accent}">
+    fx_attr = ' data-visual-fx="shatter"' if shatter else ""
+    shatter_attr = f' data-shatter="{shatter}"' if shatter else ""
+    return f"""<div class="scene" data-accent="{accent}"{fx_attr}>
       <div class="container scene-grid">
         <div class="scene-copy">
           <span class="eyebrow">{esc(stage['eyebrow'])}</span>
           <h2>{stage['title']}</h2>
           <p>{esc(stage['body'])}</p>
         </div>
-        <div class="scene-visual">{body}</div>
+        <div class="scene-visual"{shatter_attr}>{body}</div>
       </div>
     </div>"""
 
@@ -562,14 +569,14 @@ def build_home(lang="en"):
             "body": "न फोटो, न पोस्ट, न वेबसाइट लिंक। जिस ग्राहक के पास उसी समय तीन और विकल्प खुले हों, उसके लिए यह छोटा बिज़नेस नहीं — एक जोखिम लगता है, जिसे लेने का उसके पास वक्त नहीं।" if is_hi else
                     "No photos. No posts. No website link. To a customer with three other options open in the same tab, that's not a small business — it's a risk they don't have time to take a chance on.",
             "accent": "red",
-        }, "raw", extra_body=rotating_search_screen(search_presets, use_fixed=False)),
+        }, "raw", extra_body=rotating_search_screen(search_presets, use_fixed=False), shatter="#ff6b6b"),
         scene({
             "eyebrow": "फिक्स" if is_hi else "Fixed",
             "title": "वही बिज़नेस। अब यही चुना जाता है।" if is_hi else "Same business. Now it's the one they tap.",
             "body": "दुकान में कुछ नहीं बदला — न मालिक, न कीमत, न क्वालिटी। बस वो पंद्रह सेकंड बदले, जिनमें कोई तय करता है कि आप असल में बिज़नेस के लिए तैयार हैं। यही पूरा फ़र्क़ है। अब देखिए इसके बाद क्या होता है।" if is_hi else
                     "Nothing about the shop changed — not the owner, not the price, not the quality. Just the fifteen seconds it takes someone to decide you're actually open for business. That's the whole gap. Here's what happens once someone crosses it.",
             "accent": "green",
-        }, "raw", extra_body=rotating_search_screen(search_presets, use_fixed=True)),
+        }, "raw", extra_body=rotating_search_screen(search_presets, use_fixed=True), shatter="#25d366"),
 
         scene({
             "eyebrow": "नुकसान बिंदु #2 — पूछताछ" if is_hi else "Loss Point #2 — Enquiry",
@@ -1164,6 +1171,81 @@ def build_pricing():
 
 
 # ---------------------------------------------------------------- AGENTIC USE CASES
+def agentic_brain_terminal():
+    """Top-fold interactive: the same agent's chat + 'thinking' box cycles
+    through a different industry every few seconds, dissolving and
+    reassembling the text with ParticleText (agentic-brain.js) so it
+    visibly morphs rather than just cutting. First scenario is real,
+    static HTML for no-JS/SEO; the rest ride along as JSON for the script
+    to cycle through."""
+    first = BRAIN_SCENARIOS[0]
+    thinking_html = "".join(f'<li class="brain-step">{esc(step)}</li>' for step in first["thinking"])
+    scenarios_json = json.dumps(BRAIN_SCENARIOS).replace("</", "<\\/")
+    return f"""<section class="section-pad-sm agentic-brain-section">
+  <div class="container">
+    <div class="eyebrow">🧠 The Same Agent, Every Business</div>
+    <h2>Watch it think — as a different business, every few seconds</h2>
+    <p class="lead" style="max-width:640px;">One engine, not fifteen separate bots. It checks a real constraint — stock, a rate table, a margin rule — before it ever replies.</p>
+    <div class="brain-terminal" id="brain-terminal">
+      <div class="brain-terminal-head">
+        <span class="brain-industry-chip"><span id="brain-icon">{first['icon']}</span> <span id="brain-industry">{esc(first['industry'])}</span></span>
+        <span class="brain-live-dot">● live simulation</span>
+      </div>
+      <div class="brain-chat"><div class="chat-bubble in" id="brain-customer">{esc(first['customer'])}</div></div>
+      <div class="brain-thinking" id="brain-thinking">
+        <div class="brain-thinking-label">AI Agent is thinking</div>
+        <ul class="brain-steps" id="brain-steps">{thinking_html}</ul>
+      </div>
+      <div class="brain-chat"><div class="chat-bubble out" id="brain-reply">{esc(first['reply'])}</div></div>
+    </div>
+    <script type="application/json" id="brain-scenarios-data">{scenarios_json}</script>
+  </div>
+</section>"""
+
+
+def industry_particle_grid():
+    """Grid of all 15 industries as ParticleText tiles, scattered at rest
+    and snapping into a crisp icon+label on hover/tap — visualizing one
+    adaptive engine reshaping itself, not a fixed script per business."""
+    tiles = "".join(f"""<a class="ind-particle-tile" href="/demos/{ind['slug']}.html" data-slug="{ind['slug']}">
+      <span class="ind-particle-label">{ind['icon']} {esc(ind['name'])}</span>
+    </a>""" for ind in INDUSTRIES)
+    return f"""<section class="section-pad-sm">
+  <div class="container">
+    <div class="eyebrow">15 Industries, One Adaptive Engine</div>
+    <h2>Hover any industry — watch it snap into focus</h2>
+    <p class="lead" style="max-width:640px;">The brain above isn't a fixed script for 15 businesses — it's one system that reshapes itself around whichever one you're looking at.</p>
+    <div class="ind-particle-grid">{tiles}</div>
+  </div>
+</section>"""
+
+
+def guardrail_slider_section():
+    """Interactive trust-builder: the visitor sets the AI's own discount
+    ceiling, then simulates a customer pushing past it — proving the
+    agent respects a limit the owner set instead of deciding alone."""
+    return f"""<section class="section-pad-sm guardrail-section">
+  <div class="container">
+    <div class="eyebrow">🛡️ You Set the Limits</div>
+    <h2>What if the AI gives away too much?</h2>
+    <p class="lead" style="max-width:640px;">It doesn't decide alone — it works inside limits you set. Drag the slider, then watch it get tested.</p>
+    <div class="guardrail-box">
+      <div class="guardrail-control">
+        <label for="guardrail-range">Maximum discount the AI can approve on its own</label>
+        <input type="range" id="guardrail-range" min="0" max="30" value="10" step="1">
+        <div class="guardrail-value"><span id="guardrail-value-out">10</span>%</div>
+      </div>
+      <button type="button" class="btn btn-primary" id="guardrail-test-btn">Simulate a customer asking for more</button>
+      <div class="brain-chat" id="guardrail-chat" style="margin-top:18px;"></div>
+      <div class="brain-thinking" id="guardrail-thinking" style="display:none;">
+        <div class="brain-thinking-label">AI Agent is thinking</div>
+        <ul class="brain-steps" id="guardrail-steps"></ul>
+      </div>
+    </div>
+  </div>
+</section>"""
+
+
 def build_agentic():
     non_agentic = [m for m in MODULES if not m["agentic"]]
     agentic = [m for m in MODULES if m["agentic"]]
@@ -1197,6 +1279,9 @@ def build_agentic():
     <p class="lead">Short answer: sometimes, and only for specific, well-defined jobs — never as a blanket replacement for the work. Here's exactly what we can automate, how fast, and for whom — no invented prices, just what it actually is and how long it actually takes.</p>
   </div>
 </section>
+
+{agentic_brain_terminal()}
+{industry_particle_grid()}
 
 <section class="section-pad-sm">
   <div class="container">
@@ -1242,6 +1327,8 @@ def build_agentic():
   </div>
 </section>
 
+{guardrail_slider_section()}
+
 <section class="section-pad">
   <div class="container">
     <h2>Where we draw the line</h2>
@@ -1263,7 +1350,11 @@ def inject_agentic_filter_script():
         html = f.read()
     html = html.replace(
         '<script src="/assets/js/global-ui.js"></script>',
-        '<script src="/assets/js/global-ui.js"></script>\n<script src="/assets/js/agentic-filter.js"></script>',
+        '<script src="/assets/js/global-ui.js"></script>\n'
+        '<script src="/assets/js/agentic-filter.js"></script>\n'
+        '<script src="/assets/js/agentic-brain.js"></script>\n'
+        '<script src="/assets/js/industry-particle-grid.js"></script>\n'
+        '<script src="/assets/js/guardrail-slider.js"></script>',
     )
     with open(path, "w", encoding="utf-8") as f:
         f.write(html)

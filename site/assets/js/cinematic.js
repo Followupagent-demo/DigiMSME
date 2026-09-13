@@ -101,7 +101,10 @@
         var pEl = scene.querySelector(".scene-copy p");
         var isRed = scene.getAttribute("data-accent") === "red";
         var isGreen = scene.getAttribute("data-accent") === "green";
-        var visualEl = isGreen ? scene.querySelector(".scene-visual") : null;
+        // A scene using the shatter-fall effect (data-visual-fx="shatter")
+        // opts out of the default green X-ray clip-path reveal — the two
+        // effects on the same panel would fight each other.
+        var visualEl = (isGreen && scene.getAttribute("data-visual-fx") !== "shatter") ? scene.querySelector(".scene-visual") : null;
         var ptxt = (!reduceMotion && h2 && window.ParticleText) ? new window.ParticleText(h2, { stride: stride }) : null;
         var phrases = (!reduceMotion && isRed && pEl) ? splitIntoPhrases(pEl) : null;
 
@@ -124,7 +127,14 @@
           });
         }
 
-        return { scene: scene, h2: h2, ptxt: ptxt, eyebrow: eyebrow, pEl: pEl, phrases: phrases, extraDissolve: extraDissolve, currencyParticles: currencyParticles, visualEl: visualEl };
+        var shatter = [];
+        if (!reduceMotion && window.ShatterVisual) {
+          Array.prototype.forEach.call(scene.querySelectorAll("[data-shatter]"), function (el) {
+            shatter.push(new window.ShatterVisual(el, { color: el.getAttribute("data-shatter") }));
+          });
+        }
+
+        return { scene: scene, h2: h2, ptxt: ptxt, eyebrow: eyebrow, pEl: pEl, phrases: phrases, extraDissolve: extraDissolve, currencyParticles: currencyParticles, shatter: shatter, visualEl: visualEl };
       });
 
       var HALF_WIDTH = 0.2; // fraction of one scene's slot spent transitioning across each boundary
@@ -158,6 +168,7 @@
 
           st.extraDissolve.forEach(function (pt) { pt.setProgress(dispersion); });
           st.currencyParticles.forEach(function (cp) { cp.setProgress(dispersion); });
+          st.shatter.forEach(function (sv) { sv.setProgress(dispersion); });
 
           if (st.visualEl) st.visualEl.style.setProperty("--reveal", 1 - dispersion);
         });
