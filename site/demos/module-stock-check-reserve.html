@@ -13,7 +13,7 @@
 <meta property="og:url" content="https://tiny-sky-5603.innndemolog.workers.dev/demos/module-stock-check-reserve.html">
 <meta property="og:locale" content="en_IN">
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="/assets/css/style.css?v=1789305599">
+<link rel="stylesheet" href="/assets/css/style.css?v=1789306184">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -121,7 +121,8 @@
     <div class="eyebrow">⚡ Real Workflow, Not a Mockup</div>
     <h2>The story above, as the actual automation that runs it</h2>
     <p class="lead" style="max-width:680px;">Built in n8n, the open-source workflow engine. Tap play below and watch it run end to end — this is what "Stock Check-and-Reserve" actually is, not a diagram standing in for one.</p>
-    <div class="process-runner">
+    <div class="workflow-dual">
+      <div class="workflow-mobile-view"><div class="process-runner">
       <button type="button" class="process-runner-start">▶ Tap to see how this runs</button>
       <div class="process-runner-status" aria-live="polite"></div>
       <div class="process-steps"><div class="process-step process-step-trigger">
@@ -156,7 +157,52 @@
           </span>
         </div></div>
       <button type="button" class="process-runner-replay" hidden>↻ Replay</button>
-      <p class="process-runner-caption">Stock Check-and-Reserve — Customer asks if something's in stock on WhatsApp — the bot checks the real inventory sheet and lets them reserve it.</p>
+      
+    </div></div>
+      <div class="workflow-desktop-view"><div class="workflow-canvas">
+      <div class="workflow-canvas-toolbar">
+        <button type="button" class="workflow-canvas-start">▶ Tap to see how this runs</button>
+        <button type="button" class="workflow-canvas-replay" hidden>↻ Replay</button>
+        <div class="workflow-canvas-status" aria-live="polite"></div>
+      </div>
+      <div class="workflow-canvas-frame">
+        <svg class="workflow-canvas-svg" viewBox="0 0 1146 422" preserveAspectRatio="xMidYMid meet">
+          <path class="n8n-edge" d="M270,211.0 C267.0,211.0 267.0,211.0 264,211.0"></path><circle class="n8n-edge-pulse" r="4" data-from="Customer Asks: In Stock?" data-to="Check Real Inventory Sheet"><animateMotion dur="2.6s" repeatCount="indefinite" path="M270,211.0 C267.0,211.0 267.0,211.0 264,211.0"></animateMotion></circle><path class="n8n-edge" d="M474,211.0 C471.0,211.0 471.0,211.0 468,211.0"></path><circle class="n8n-edge-pulse" r="4" data-from="Check Real Inventory Sheet" data-to="In Stock?"><animateMotion dur="2.6s" repeatCount="indefinite" path="M474,211.0 C471.0,211.0 471.0,211.0 468,211.0"></animateMotion></circle><path class="n8n-edge" d="M678,211.0 C675.0,211.0 675.0,92.0 672,92.0"></path><circle class="n8n-edge-pulse" r="4" data-from="In Stock?" data-to="WhatsApp: Confirm + Offer Reserve"><animateMotion dur="2.6s" repeatCount="indefinite" path="M678,211.0 C675.0,211.0 675.0,92.0 672,92.0"></animateMotion></circle><path class="n8n-edge n8n-edge-alt" d="M678,211.0 C675.0,211.0 675.0,330.0 672,330.0"></path><circle class="n8n-edge-pulse n8n-edge-alt" r="4" data-from="In Stock?" data-to="WhatsApp: Offer Alternative / Waitlist"><animateMotion dur="3.0s" repeatCount="indefinite" path="M678,211.0 C675.0,211.0 675.0,330.0 672,330.0"></animateMotion></circle><path class="n8n-edge" d="M882,92.0 C879.0,92.0 879.0,92.0 876,92.0"></path><circle class="n8n-edge-pulse" r="4" data-from="WhatsApp: Confirm + Offer Reserve" data-to="Reserved"><animateMotion dur="2.6s" repeatCount="indefinite" path="M882,92.0 C879.0,92.0 879.0,92.0 876,92.0"></animateMotion></circle><path class="n8n-edge" d="M882,330.0 C879.0,330.0 879.0,330.0 876,330.0"></path><circle class="n8n-edge-pulse" r="4" data-from="WhatsApp: Offer Alternative / Waitlist" data-to="In Stock? — Skip"><animateMotion dur="2.6s" repeatCount="indefinite" path="M882,330.0 C879.0,330.0 879.0,330.0 876,330.0"></animateMotion></circle>
+          <g class="n8n-node n8n-node-trigger" data-name="Customer Asks: In Stock?" transform="translate(60,179)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">⚡</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Customer Asks: In</tspan><tspan x="48" dy="16">Stock?</tspan></text>
+        </g><g class="n8n-node n8n-node-action" data-name="Check Real Inventory Sheet" transform="translate(264,179)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">🔍</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Check Real</tspan><tspan x="48" dy="16">Inventory Sheet</tspan></text>
+        </g><g class="n8n-node n8n-node-condition" data-name="In Stock?" transform="translate(468,179)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">🔀</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">In Stock?</tspan></text>
+        </g><g class="n8n-node n8n-node-action" data-name="WhatsApp: Confirm + Offer Reserve" transform="translate(672,60)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">💬</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">WhatsApp: Confirm</tspan><tspan x="48" dy="16">+ Offer Reserve</tspan></text>
+        </g><g class="n8n-node n8n-node-done" data-name="Reserved" transform="translate(876,60)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">✅</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Reserved</tspan></text>
+        </g><g class="n8n-node n8n-node-action" data-name="WhatsApp: Offer Alternative / Waitlist" transform="translate(672,298)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">💬</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">WhatsApp: Offer</tspan><tspan x="48" dy="16">Alternative / Wa…</tspan></text>
+        </g><g class="n8n-node n8n-node-done" data-name="In Stock? — Skip" transform="translate(876,298)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">✅</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">In Stock? — Skip</tspan></text>
+        </g>
+        </svg>
+      </div>
+      <div class="workflow-canvas-live-caption"></div>
+      <script type="application/json" class="workflow-canvas-data">{"viewBox": "0 0 1146 422", "nodes": {"Customer Asks: In Stock?": {"x": 60, "y": 179, "w": 210, "h": 64}, "Check Real Inventory Sheet": {"x": 264, "y": 179, "w": 210, "h": 64}, "In Stock?": {"x": 468, "y": 179, "w": 210, "h": 64}, "WhatsApp: Confirm + Offer Reserve": {"x": 672, "y": 60, "w": 210, "h": 64}, "Reserved": {"x": 876, "y": 60, "w": 210, "h": 64}, "WhatsApp: Offer Alternative / Waitlist": {"x": 672, "y": 298, "w": 210, "h": 64}, "In Stock? \u2014 Skip": {"x": 876, "y": 298, "w": 210, "h": 64}}, "walk": ["Customer Asks: In Stock?", "Check Real Inventory Sheet", "In Stock?", "WhatsApp: Confirm + Offer Reserve", "Reserved"]}</script>
+    </div></div>
+      <p class="process-runner-caption workflow-dual-caption">Stock Check-and-Reserve — Customer asks if something's in stock on WhatsApp — the bot checks the real inventory sheet and lets them reserve it.</p>
     </div>
   </div>
 </section>
@@ -184,23 +230,23 @@
           <a class="btn btn-primary" href="https://wa.me/911234567890?text=Hi!%20I'd%20like%20a%20free%20consultation%20for%20my%20business." target="_blank" rel="noopener">Get Free Consultation</a>
           <a class="btn btn-ghost" href="/pricing/">See Pricing</a>
         </div>
-      </div>
     </section>
 <footer class="site-footer">
   <div class="container">
     <div>© AsliKaam — Digital Partner of MSMEs Automation</div>
   </div>
 </footer>
-<script src="/assets/js/config.js?v=1789305599"></script>
-<script src="/assets/js/gsap-loader.js?v=1789305599"></script>
-<script src="/assets/js/particle-text.js?v=1789305599"></script>
-<script src="/assets/js/currency-particles.js?v=1789305599"></script>
-<script src="/assets/js/shatter-visual.js?v=1789305599"></script>
-<script src="/assets/js/cinematic.js?v=1789305599"></script>
-<script src="/assets/js/global-ui.js?v=1789305599"></script>
-<script src="/assets/js/use-case-switcher.js?v=1789305599"></script>
-<script src="/assets/js/home-rotator.js?v=1789305599"></script>
-<script src="/assets/js/card-burst-nav.js?v=1789305599"></script>
-<script src="/assets/js/process-runner.js?v=1789305599"></script>
+<script src="/assets/js/config.js?v=1789306184"></script>
+<script src="/assets/js/gsap-loader.js?v=1789306184"></script>
+<script src="/assets/js/particle-text.js?v=1789306184"></script>
+<script src="/assets/js/currency-particles.js?v=1789306184"></script>
+<script src="/assets/js/shatter-visual.js?v=1789306184"></script>
+<script src="/assets/js/cinematic.js?v=1789306184"></script>
+<script src="/assets/js/global-ui.js?v=1789306184"></script>
+<script src="/assets/js/use-case-switcher.js?v=1789306184"></script>
+<script src="/assets/js/home-rotator.js?v=1789306184"></script>
+<script src="/assets/js/card-burst-nav.js?v=1789306184"></script>
+<script src="/assets/js/process-runner.js?v=1789306184"></script>
+<script src="/assets/js/workflow-canvas.js?v=1789306184"></script>
 </body>
 </html>

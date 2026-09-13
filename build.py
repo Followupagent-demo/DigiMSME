@@ -192,6 +192,7 @@ def foot(lang="en"):
 <script src="/assets/js/home-rotator.js"></script>
 <script src="/assets/js/card-burst-nav.js"></script>
 <script src="/assets/js/process-runner.js"></script>
+<script src="/assets/js/workflow-canvas.js"></script>
 </body>
 </html>
 """
@@ -490,6 +491,29 @@ def consultation_cta_section(lang="en"):
           <a class="btn btn-primary" href="{wa_href}" target="_blank" rel="noopener">{"मुफ़्त कंसल्टेशन लें" if is_hi else "Get Free Consultation"}</a>
           <a class="btn btn-ghost" href="/pricing/">{"प्राइसिंग देखें" if is_hi else "See Pricing"}</a>
         </div>
+    </section>"""
+
+
+def automation_showcase_section(lang="en"):
+    """The capstone after the four Loss Points: those scenes showed the
+    basics fixed one moment at a time (search, enquiry, quote, payment).
+    This stitches those same moments — plus what happens after payment —
+    into one continuous automation, shown as the real n8n-style workflow
+    that runs it. render_workflow_dual() picks the view: a full
+    horizontal canvas the visitor can zoom through on desktop, or the
+    same run as a tap-to-play vertical list on phone."""
+    is_hi = lang == "hi"
+    return f"""<section class="section-pad" id="automation-showcase">
+      <div class="container center">
+        <div class="eyebrow">{"पर हम और भी ऑटोमेट कर सकते हैं" if is_hi else "Though We Can Automate More"}</div>
+        <h2 style="max-width:820px; margin-left:auto; margin-right:auto;">{"जी हां, कर सकते हैं!" if is_hi else "Yes, we can!"}</h2>
+        <p class="lead" style="max-width:680px; margin:0 auto;">{"ऊपर आपने चार अलग-अलग पल ठीक होते देखे — सर्च, पूछताछ, कोटेशन, पेमेंट। असल में ये सब एक ही लगातार चलने वाला सिस्टम है, शुरू से आख़िर तक। यह रहा वही — एक असली n8n ऑटोमेशन, पेमेंट के बाद भी जारी रहते हुए।" if is_hi else "Above, you saw four separate moments get fixed — search, enquiry, quote, payment. In practice, they're one continuous system, start to finish. Here it is — a real n8n automation, running past payment too."}</p>
+      </div>
+      <div class="container" style="margin-top:28px;">
+        <p class="lead center" style="max-width:640px; margin:0 auto 18px; font-size:0.92rem; color:var(--muted);">{"डेस्कटॉप पर पूरा प्रोसेस कैनवस देखें, हर स्टेप पर ज़ूम करते हुए। फ़ोन पर वही रन एक टैप-टू-प्ले लिस्ट की तरह।" if is_hi else "On desktop, watch the full process canvas zoom through every step. On phone, the same run as a tap-to-play list."}</p>
+        {render_workflow_dual("master-flow.json",
+            caption=("खोज से लेकर हर 6 घंटे में खुद अपडेट होती वेबसाइट, फिर बातचीत, स्टॉक/स्लॉट चेक (अगर ज़रूरत हो), कीमत, बातचीत में मोलभाव, पेमेंट, इनवॉइस, रीकंसिलिएशन, और आख़िर में अपसेल या रेफ़रल — एक पूरा, असली सिस्टम।" if is_hi else
+                     "From discovery to a website that updates itself every 6 hours, through the conversation, stock and time-slot checks where needed, pricing, negotiation, payment, invoicing, reconciliation, and an upsell or referral at the end — one complete, real system."))}
       </div>
     </section>"""
 
@@ -753,7 +777,7 @@ def build_home(lang="en"):
             "accent": "red",
         }, "raw", extra_body=rotating_search_screen(search_presets, use_fixed=False, searchers=searcher_captions), shatter="#ff6b6b"),
         scene({
-            "eyebrow": "फिक्स" if is_hi else "Fixed",
+            "eyebrow": "बेसिक्स ठीक किए" if is_hi else "Let's Fix the Basics",
             "title": "वही बिज़नेस। अब यही चुना जाता है।" if is_hi else "Same business. Now it's the one they tap.",
             "body": "दुकान में कुछ नहीं बदला — न मालिक, न कीमत, न क्वालिटी। बस वो पंद्रह सेकंड बदले, जिनमें कोई तय करता है कि आप असल में खुले हैं। बस इतना ही फ़र्क़ है। अब देखिए आगे क्या होता है।" if is_hi else
                     "Nothing about the shop changed — not the owner, the price, or the quality. Just the fifteen seconds it takes someone to decide you're actually open. That's it. Here's what happens next.",
@@ -881,7 +905,7 @@ def build_home(lang="en"):
                    "Every industry loses this deal in its own specific way — flip a card to see yours, then open the full demo.",
         lang=lang,
     )
-    body = nav("/hi/" if is_hi else "/", lang) + hero + cinematic_wrap(scenes, len(scenes)) + picker_section + consultation_cta_section(lang) + leak_calc + type_explode + f"""
+    body = nav("/hi/" if is_hi else "/", lang) + hero + cinematic_wrap(scenes, len(scenes)) + automation_showcase_section(lang) + picker_section + consultation_cta_section(lang) + leak_calc + type_explode + f"""
 <section class="section-pad">
   <div class="container">
     <div class="eyebrow">{"AsliKaam क्यों" if is_hi else "Why AsliKaam"}</div>
@@ -1257,7 +1281,7 @@ def build_negotiation_agent_demo():
     <div class="eyebrow">⚡ Real Workflow, Not a Mockup</div>
     <h2>The story above, as the actual automation that runs it</h2>
     <p class="lead" style="max-width:680px;">Built in n8n, the open-source workflow engine. Tap play below and watch it run end to end.</p>
-    {render_process_runner(na_wf_file, caption=f"{esc(NEGOTIATION_AGENT['name'])} — {esc(NEGOTIATION_AGENT['blurb'])}")}
+    {render_workflow_dual(na_wf_file, caption=f"{esc(NEGOTIATION_AGENT['name'])} — {esc(NEGOTIATION_AGENT['blurb'])}")}
   </div>
 </section>"""
     body = nav("/demos/") + f"""
@@ -1309,7 +1333,7 @@ def build_module_demo_page(mod):
     <div class="eyebrow">⚡ Real Workflow, Not a Mockup</div>
     <h2>The story above, as the actual automation that runs it</h2>
     <p class="lead" style="max-width:680px;">Built in n8n, the open-source workflow engine. Tap play below and watch it run end to end — this is what "{esc(mod['name'])}" actually is, not a diagram standing in for one.</p>
-    {render_process_runner(wf_file, caption=f"{esc(mod['name'])} — {esc(mod['blurb'])}")}
+    {render_workflow_dual(wf_file, caption=f"{esc(mod['name'])} — {esc(mod['blurb'])}")}
   </div>
 </section>"""
     blog_post = MODULE_BLOG_BY_ID.get(mod["id"])
@@ -1475,23 +1499,28 @@ N8N_NODE_STYLE = {
 }
 
 
-def render_process_runner(filename, caption="", compact=False):
-    """Renders a real n8n workflow export (assets_src/n8n-workflows/*.json)
-    as a tap-to-play vertical process walkthrough — not a diagram to
-    scroll or a file to download. Walks the workflow's own connection
-    graph from its trigger along the primary path, so the steps that
-    light up on tap are read straight from an actual, working automation,
-    not a stand-in for one. Where a step branches (an IF node), the
-    untaken side is shown as a small "otherwise" note rather than being
-    animated. compact=True renders a smaller version for the module grid
-    cards; both are tap-to-play, phone-friendly, and scroll-free."""
+def _wf_node_icon(n):
+    icon, cls = N8N_NODE_STYLE.get(n["type"], ("⚙️", "n8n-node-action"))
+    name = n["name"]
+    if name.startswith("AI:") or name.startswith("AI "):
+        icon, cls = "🧠", "n8n-node-ai"
+    elif "WhatsApp" in name:
+        icon = "💬"
+    elif "Email" in name:
+        icon = "✉️"
+    elif "Alert" in name:
+        icon = "🔔"
+    elif "Check" in name or "Sentiment" in name:
+        icon = "🔍"
+    return icon, cls
+
+
+def _wf_load(filename):
     path = os.path.join(ASSETS_SRC, "n8n-workflows", filename)
     with open(path, encoding="utf-8") as f:
         wf = json.load(f)
-
     nodes_by_name = {n["name"]: n for n in wf["nodes"]}
     connections = wf.get("connections", {})
-
     incoming = set()
     for out in connections.values():
         for branch in out.get("main", []):
@@ -1499,22 +1528,13 @@ def render_process_runner(filename, caption="", compact=False):
                 incoming.add(conn["node"])
     start_candidates = [n for n in wf["nodes"] if n["name"] not in incoming]
     start = min(start_candidates or wf["nodes"], key=lambda n: n["position"][0])
+    return wf, nodes_by_name, connections, start
 
-    def node_icon_cls(n):
-        icon, cls = N8N_NODE_STYLE.get(n["type"], ("⚙️", "n8n-node-action"))
-        name = n["name"]
-        if name.startswith("AI:") or name.startswith("AI "):
-            icon, cls = "🧠", "n8n-node-ai"
-        elif "WhatsApp" in name:
-            icon = "💬"
-        elif "Email" in name:
-            icon = "✉️"
-        elif "Alert" in name:
-            icon = "🔔"
-        elif "Check" in name or "Sentiment" in name:
-            icon = "🔍"
-        return icon, cls
 
+def _wf_primary_path(nodes_by_name, connections, start):
+    """Walks the workflow's connection graph from its trigger along the
+    primary (first) branch of every node. Returns [(node, alt_name), ...]
+    where alt_name is the untaken side of an IF node, or None."""
     path_nodes = []
     seen = set()
     cur = start["name"]
@@ -1528,10 +1548,25 @@ def render_process_runner(filename, caption="", compact=False):
         alt_name = branches[1][0]["node"] if len(branches) > 1 and branches[1] else None
         path_nodes.append((n, alt_name))
         cur = branches[0][0]["node"] if branches and branches[0] else None
+    return path_nodes
+
+
+def render_process_runner(filename, caption="", compact=False):
+    """Renders a real n8n workflow export (assets_src/n8n-workflows/*.json)
+    as a tap-to-play vertical process walkthrough — not a diagram to
+    scroll or a file to download. Walks the workflow's own connection
+    graph from its trigger along the primary path, so the steps that
+    light up on tap are read straight from an actual, working automation,
+    not a stand-in for one. Where a step branches (an IF node), the
+    untaken side is shown as a small "otherwise" note rather than being
+    animated. compact=True renders a smaller version for the module grid
+    cards; both are tap-to-play, phone-friendly, and scroll-free."""
+    wf, nodes_by_name, connections, start = _wf_load(filename)
+    path_nodes = _wf_primary_path(nodes_by_name, connections, start)
 
     steps_html = ""
     for n, alt_name in path_nodes:
-        icon, cls = node_icon_cls(n)
+        icon, cls = _wf_node_icon(n)
         step_cls = cls.replace("n8n-node-", "process-step-")
         alt_html = (f'<span class="process-step-alt">↳ otherwise: {esc(alt_name)}</span>'
                     if alt_name else "")
@@ -1550,6 +1585,121 @@ def render_process_runner(filename, caption="", compact=False):
       <div class="process-runner-status" aria-live="polite"></div>
       <div class="process-steps">{steps_html}</div>
       <button type="button" class="process-runner-replay" hidden>↻ Replay</button>
+      {cap_html}
+    </div>"""
+
+
+def _render_workflow_canvas(filename):
+    """Desktop-only companion to render_process_runner: the FULL node
+    graph (every node, every branch) laid out horizontally like a real
+    n8n canvas. Idle, it's a static overview. On tap, a virtual camera
+    (the SVG viewBox) zooms into each node in the same primary-path order
+    as the mobile view, pulses the edge it just crossed, then pulls back
+    out to show the whole thing lit up — driven by plain viewBox
+    interpolation in workflow-canvas.js, no canvas/WebGL dependency."""
+    wf, nodes_by_name, connections, start = _wf_load(filename)
+    path_nodes = _wf_primary_path(nodes_by_name, connections, start)
+    walk_names = [n["name"] for n, _ in path_nodes]
+
+    nodes = {n["id"]: n for n in wf["nodes"]}
+    name_to_id = {n["name"]: n["id"] for n in wf["nodes"]}
+    xs = [n["position"][0] for n in nodes.values()]
+    ys = [n["position"][1] for n in nodes.values()]
+    SCALE, PAD, NODE_W, NODE_H = 0.85, 60, 210, 64
+    min_x, min_y = min(xs), min(ys)
+
+    def px(x):
+        return round((x - min_x) * SCALE) + PAD
+
+    def py(y):
+        return round((y - min_y) * SCALE) + PAD
+
+    width = px(max(xs)) + NODE_W + PAD
+    height = py(max(ys)) + NODE_H + PAD
+
+    def wrap_two_lines(text, width=17):
+        words = text.split(" ")
+        line1, i = "", 0
+        while i < len(words) and len(line1) + len(words[i]) + 1 <= width:
+            line1 = (line1 + " " + words[i]).strip()
+            i += 1
+        line2 = " ".join(words[i:])
+        if len(line2) > width:
+            line2 = line2[:width - 1] + "…"
+        return line1, line2
+
+    boxes = ""
+    node_rects = {}
+    for n in nodes.values():
+        x, y = px(n["position"][0]), py(n["position"][1])
+        node_rects[n["name"]] = {"x": x, "y": y, "w": NODE_W, "h": NODE_H}
+        icon, cls = _wf_node_icon(n)
+        l1, l2 = wrap_two_lines(n["name"])
+        label_html = f'<tspan x="48" dy="0">{esc(l1)}</tspan>'
+        if l2:
+            label_html += f'<tspan x="48" dy="16">{esc(l2)}</tspan>'
+        boxes += f"""<g class="n8n-node {cls}" data-name="{esc(n['name'])}" transform="translate({x},{y})">
+          <rect width="{NODE_W}" height="{NODE_H}" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">{icon}</text>
+          <text x="48" y="27" class="n8n-node-label">{label_html}</text>
+        </g>"""
+
+    paths = ""
+    for src_name, out in connections.items():
+        src_id = name_to_id.get(src_name)
+        if src_id is None:
+            continue
+        src = nodes[src_id]
+        sx, sy = px(src["position"][0]) + NODE_W, py(src["position"][1]) + NODE_H / 2
+        branches = out.get("main", [])
+        for branch_i, branch in enumerate(branches):
+            for conn in branch:
+                dst_name = conn["node"]
+                dst = nodes.get(name_to_id.get(dst_name))
+                if not dst:
+                    continue
+                dx, dy = px(dst["position"][0]), py(dst["position"][1]) + NODE_H / 2
+                mid = (sx + dx) / 2
+                branch_cls = " n8n-edge-alt" if branch_i == 1 else ""
+                paths += (f'<path class="n8n-edge{branch_cls}" '
+                          f'd="M{sx},{sy} C{mid},{sy} {mid},{dy} {dx},{dy}"></path>'
+                          f'<circle class="n8n-edge-pulse{branch_cls}" r="4" data-from="{esc(src_name)}" data-to="{esc(dst_name)}">'
+                          f'<animateMotion dur="{2.6 + branch_i * 0.4}s" repeatCount="indefinite" '
+                          f'path="M{sx},{sy} C{mid},{sy} {mid},{dy} {dx},{dy}"></animateMotion></circle>')
+
+    canvas_data = json.dumps({
+        "viewBox": f"0 0 {width} {height}",
+        "nodes": node_rects,
+        "walk": walk_names,
+    }).replace("</", "<\\/")
+
+    return f"""<div class="workflow-canvas">
+      <div class="workflow-canvas-toolbar">
+        <button type="button" class="workflow-canvas-start">▶ Tap to see how this runs</button>
+        <button type="button" class="workflow-canvas-replay" hidden>↻ Replay</button>
+        <div class="workflow-canvas-status" aria-live="polite"></div>
+      </div>
+      <div class="workflow-canvas-frame">
+        <svg class="workflow-canvas-svg" viewBox="0 0 {width} {height}" preserveAspectRatio="xMidYMid meet">
+          {paths}
+          {boxes}
+        </svg>
+      </div>
+      <div class="workflow-canvas-live-caption"></div>
+      <script type="application/json" class="workflow-canvas-data">{canvas_data}</script>
+    </div>"""
+
+
+def render_workflow_dual(filename, caption=""):
+    """Combines the mobile-friendly vertical tap-to-run list with a
+    desktop-only horizontal n8n-style zoom canvas — both parse the same
+    workflow file, both driven by their own tap-to-play button, and CSS
+    (not JS/UA-sniffing) decides which one a given viewport actually
+    shows, so there's no flash of the wrong layout."""
+    cap_html = f'<p class="process-runner-caption workflow-dual-caption">{esc(caption)}</p>' if caption else ""
+    return f"""<div class="workflow-dual">
+      <div class="workflow-mobile-view">{render_process_runner(filename)}</div>
+      <div class="workflow-desktop-view">{_render_workflow_canvas(filename)}</div>
       {cap_html}
     </div>"""
 
@@ -1682,7 +1832,7 @@ def build_agentic():
     <div class="eyebrow">⚡ Real Workflow, Not a Mockup</div>
     <h2>This is what actually runs — not a made-up diagram</h2>
     <p class="lead" style="max-width:680px;">Built in n8n, the open-source workflow engine — no proprietary black box. Tap play below and watch it run end to end.</p>
-    {render_process_runner("invoice-payment-reminder.json",
+    {render_workflow_dual("invoice-payment-reminder.json",
         caption="Invoice + Payment Reminders — the tiered 7/14/30-day WhatsApp follow-up, checking payment status before every send so a paid invoice never gets chased.")}
   </div>
 </section>

@@ -13,7 +13,7 @@
 <meta property="og:url" content="https://tiny-sky-5603.innndemolog.workers.dev/agentic-use-cases/">
 <meta property="og:locale" content="en_IN">
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="/assets/css/style.css?v=1789305599">
+<link rel="stylesheet" href="/assets/css/style.css?v=1789306184">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -109,7 +109,8 @@
     <div class="eyebrow">⚡ Real Workflow, Not a Mockup</div>
     <h2>This is what actually runs — not a made-up diagram</h2>
     <p class="lead" style="max-width:680px;">Built in n8n, the open-source workflow engine — no proprietary black box. Tap play below and watch it run end to end.</p>
-    <div class="process-runner">
+    <div class="workflow-dual">
+      <div class="workflow-mobile-view"><div class="process-runner">
       <button type="button" class="process-runner-start">▶ Tap to see how this runs</button>
       <div class="process-runner-status" aria-live="polite"></div>
       <div class="process-steps"><div class="process-step process-step-trigger">
@@ -198,7 +199,92 @@
           </span>
         </div></div>
       <button type="button" class="process-runner-replay" hidden>↻ Replay</button>
-      <p class="process-runner-caption">Invoice + Payment Reminders — the tiered 7/14/30-day WhatsApp follow-up, checking payment status before every send so a paid invoice never gets chased.</p>
+      
+    </div></div>
+      <div class="workflow-desktop-view"><div class="workflow-canvas">
+      <div class="workflow-canvas-toolbar">
+        <button type="button" class="workflow-canvas-start">▶ Tap to see how this runs</button>
+        <button type="button" class="workflow-canvas-replay" hidden>↻ Replay</button>
+        <div class="workflow-canvas-status" aria-live="polite"></div>
+      </div>
+      <div class="workflow-canvas-frame">
+        <svg class="workflow-canvas-svg" viewBox="0 0 2982 592" preserveAspectRatio="xMidYMid meet">
+          <path class="n8n-edge" d="M270,381.0 C267.0,381.0 267.0,381.0 264,381.0"></path><circle class="n8n-edge-pulse" r="4" data-from="New Invoice / Booking Created" data-to="Wait 7 Days"><animateMotion dur="2.6s" repeatCount="indefinite" path="M270,381.0 C267.0,381.0 267.0,381.0 264,381.0"></animateMotion></circle><path class="n8n-edge" d="M474,381.0 C471.0,381.0 471.0,381.0 468,381.0"></path><circle class="n8n-edge-pulse" r="4" data-from="Wait 7 Days" data-to="Check Payment Status"><animateMotion dur="2.6s" repeatCount="indefinite" path="M474,381.0 C471.0,381.0 471.0,381.0 468,381.0"></animateMotion></circle><path class="n8n-edge" d="M678,381.0 C675.0,381.0 675.0,381.0 672,381.0"></path><circle class="n8n-edge-pulse" r="4" data-from="Check Payment Status" data-to="Still Unpaid?"><animateMotion dur="2.6s" repeatCount="indefinite" path="M678,381.0 C675.0,381.0 675.0,381.0 672,381.0"></animateMotion></circle><path class="n8n-edge" d="M882,381.0 C879.0,381.0 879.0,245.0 876,245.0"></path><circle class="n8n-edge-pulse" r="4" data-from="Still Unpaid?" data-to="WhatsApp: Gentle Reminder (Day 7)"><animateMotion dur="2.6s" repeatCount="indefinite" path="M882,381.0 C879.0,381.0 879.0,245.0 876,245.0"></animateMotion></circle><path class="n8n-edge n8n-edge-alt" d="M882,381.0 C879.0,381.0 879.0,500.0 876,500.0"></path><circle class="n8n-edge-pulse n8n-edge-alt" r="4" data-from="Still Unpaid?" data-to="Paid — Stop (Day 7)"><animateMotion dur="3.0s" repeatCount="indefinite" path="M882,381.0 C879.0,381.0 879.0,500.0 876,500.0"></animateMotion></circle><path class="n8n-edge" d="M1086,245.0 C1083.0,245.0 1083.0,245.0 1080,245.0"></path><circle class="n8n-edge-pulse" r="4" data-from="WhatsApp: Gentle Reminder (Day 7)" data-to="Wait 7 More Days"><animateMotion dur="2.6s" repeatCount="indefinite" path="M1086,245.0 C1083.0,245.0 1083.0,245.0 1080,245.0"></animateMotion></circle><path class="n8n-edge" d="M1290,245.0 C1287.0,245.0 1287.0,245.0 1284,245.0"></path><circle class="n8n-edge-pulse" r="4" data-from="Wait 7 More Days" data-to="Check Payment Status (Day 14)"><animateMotion dur="2.6s" repeatCount="indefinite" path="M1290,245.0 C1287.0,245.0 1287.0,245.0 1284,245.0"></animateMotion></circle><path class="n8n-edge" d="M1494,245.0 C1491.0,245.0 1491.0,245.0 1488,245.0"></path><circle class="n8n-edge-pulse" r="4" data-from="Check Payment Status (Day 14)" data-to="Still Unpaid? (Day 14)"><animateMotion dur="2.6s" repeatCount="indefinite" path="M1494,245.0 C1491.0,245.0 1491.0,245.0 1488,245.0"></animateMotion></circle><path class="n8n-edge" d="M1698,245.0 C1695.0,245.0 1695.0,160.0 1692,160.0"></path><circle class="n8n-edge-pulse" r="4" data-from="Still Unpaid? (Day 14)" data-to="WhatsApp: Firm Reminder (Day 14)"><animateMotion dur="2.6s" repeatCount="indefinite" path="M1698,245.0 C1695.0,245.0 1695.0,160.0 1692,160.0"></animateMotion></circle><path class="n8n-edge n8n-edge-alt" d="M1698,245.0 C1695.0,245.0 1695.0,330.0 1692,330.0"></path><circle class="n8n-edge-pulse n8n-edge-alt" r="4" data-from="Still Unpaid? (Day 14)" data-to="Paid — Stop (Day 14)"><animateMotion dur="3.0s" repeatCount="indefinite" path="M1698,245.0 C1695.0,245.0 1695.0,330.0 1692,330.0"></animateMotion></circle><path class="n8n-edge" d="M1902,160.0 C1899.0,160.0 1899.0,160.0 1896,160.0"></path><circle class="n8n-edge-pulse" r="4" data-from="WhatsApp: Firm Reminder (Day 14)" data-to="Wait 16 More Days"><animateMotion dur="2.6s" repeatCount="indefinite" path="M1902,160.0 C1899.0,160.0 1899.0,160.0 1896,160.0"></animateMotion></circle><path class="n8n-edge" d="M2106,160.0 C2103.0,160.0 2103.0,160.0 2100,160.0"></path><circle class="n8n-edge-pulse" r="4" data-from="Wait 16 More Days" data-to="Check Payment Status (Day 30)"><animateMotion dur="2.6s" repeatCount="indefinite" path="M2106,160.0 C2103.0,160.0 2103.0,160.0 2100,160.0"></animateMotion></circle><path class="n8n-edge" d="M2310,160.0 C2307.0,160.0 2307.0,160.0 2304,160.0"></path><circle class="n8n-edge-pulse" r="4" data-from="Check Payment Status (Day 30)" data-to="Still Unpaid? (Day 30)"><animateMotion dur="2.6s" repeatCount="indefinite" path="M2310,160.0 C2307.0,160.0 2307.0,160.0 2304,160.0"></animateMotion></circle><path class="n8n-edge" d="M2514,160.0 C2511.0,160.0 2511.0,92.0 2508,92.0"></path><circle class="n8n-edge-pulse" r="4" data-from="Still Unpaid? (Day 30)" data-to="WhatsApp: Final Notice (Day 30)"><animateMotion dur="2.6s" repeatCount="indefinite" path="M2514,160.0 C2511.0,160.0 2511.0,92.0 2508,92.0"></animateMotion></circle><path class="n8n-edge n8n-edge-alt" d="M2514,160.0 C2511.0,160.0 2511.0,245.0 2508,245.0"></path><circle class="n8n-edge-pulse n8n-edge-alt" r="4" data-from="Still Unpaid? (Day 30)" data-to="Paid — Stop (Day 30)"><animateMotion dur="3.0s" repeatCount="indefinite" path="M2514,160.0 C2511.0,160.0 2511.0,245.0 2508,245.0"></animateMotion></circle><path class="n8n-edge" d="M2718,92.0 C2715.0,92.0 2715.0,92.0 2712,92.0"></path><circle class="n8n-edge-pulse" r="4" data-from="WhatsApp: Final Notice (Day 30)" data-to="Alert Owner"><animateMotion dur="2.6s" repeatCount="indefinite" path="M2718,92.0 C2715.0,92.0 2715.0,92.0 2712,92.0"></animateMotion></circle>
+          <g class="n8n-node n8n-node-trigger" data-name="New Invoice / Booking Created" transform="translate(60,349)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">⚡</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">New Invoice /</tspan><tspan x="48" dy="16">Booking Created</tspan></text>
+        </g><g class="n8n-node n8n-node-wait" data-name="Wait 7 Days" transform="translate(264,349)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">⏱</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Wait 7 Days</tspan></text>
+        </g><g class="n8n-node n8n-node-action" data-name="Check Payment Status" transform="translate(468,349)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">🔍</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Check Payment</tspan><tspan x="48" dy="16">Status</tspan></text>
+        </g><g class="n8n-node n8n-node-condition" data-name="Still Unpaid?" transform="translate(672,349)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">🔀</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Still Unpaid?</tspan></text>
+        </g><g class="n8n-node n8n-node-action" data-name="WhatsApp: Gentle Reminder (Day 7)" transform="translate(876,213)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">💬</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">WhatsApp: Gentle</tspan><tspan x="48" dy="16">Reminder (Day 7)</tspan></text>
+        </g><g class="n8n-node n8n-node-wait" data-name="Wait 7 More Days" transform="translate(1080,213)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">⏱</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Wait 7 More Days</tspan></text>
+        </g><g class="n8n-node n8n-node-action" data-name="Check Payment Status (Day 14)" transform="translate(1284,213)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">🔍</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Check Payment</tspan><tspan x="48" dy="16">Status (Day 14)</tspan></text>
+        </g><g class="n8n-node n8n-node-condition" data-name="Still Unpaid? (Day 14)" transform="translate(1488,213)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">🔀</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Still Unpaid?</tspan><tspan x="48" dy="16">(Day 14)</tspan></text>
+        </g><g class="n8n-node n8n-node-action" data-name="WhatsApp: Firm Reminder (Day 14)" transform="translate(1692,128)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">💬</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">WhatsApp: Firm</tspan><tspan x="48" dy="16">Reminder (Day 14)</tspan></text>
+        </g><g class="n8n-node n8n-node-wait" data-name="Wait 16 More Days" transform="translate(1896,128)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">⏱</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Wait 16 More Days</tspan></text>
+        </g><g class="n8n-node n8n-node-action" data-name="Check Payment Status (Day 30)" transform="translate(2100,128)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">🔍</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Check Payment</tspan><tspan x="48" dy="16">Status (Day 30)</tspan></text>
+        </g><g class="n8n-node n8n-node-condition" data-name="Still Unpaid? (Day 30)" transform="translate(2304,128)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">🔀</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Still Unpaid?</tspan><tspan x="48" dy="16">(Day 30)</tspan></text>
+        </g><g class="n8n-node n8n-node-action" data-name="WhatsApp: Final Notice (Day 30)" transform="translate(2508,60)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">💬</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">WhatsApp: Final</tspan><tspan x="48" dy="16">Notice (Day 30)</tspan></text>
+        </g><g class="n8n-node n8n-node-action" data-name="Alert Owner" transform="translate(2712,60)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">🔔</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Alert Owner</tspan></text>
+        </g><g class="n8n-node n8n-node-done" data-name="Paid — Stop (Day 7)" transform="translate(876,468)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">✅</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Paid — Stop (Day</tspan><tspan x="48" dy="16">7)</tspan></text>
+        </g><g class="n8n-node n8n-node-done" data-name="Paid — Stop (Day 14)" transform="translate(1692,298)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">✅</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Paid — Stop (Day</tspan><tspan x="48" dy="16">14)</tspan></text>
+        </g><g class="n8n-node n8n-node-done" data-name="Paid — Stop (Day 30)" transform="translate(2508,213)">
+          <rect width="210" height="64" rx="12"></rect>
+          <text x="16" y="27" class="n8n-node-icon">✅</text>
+          <text x="48" y="27" class="n8n-node-label"><tspan x="48" dy="0">Paid — Stop (Day</tspan><tspan x="48" dy="16">30)</tspan></text>
+        </g>
+        </svg>
+      </div>
+      <div class="workflow-canvas-live-caption"></div>
+      <script type="application/json" class="workflow-canvas-data">{"viewBox": "0 0 2982 592", "nodes": {"New Invoice / Booking Created": {"x": 60, "y": 349, "w": 210, "h": 64}, "Wait 7 Days": {"x": 264, "y": 349, "w": 210, "h": 64}, "Check Payment Status": {"x": 468, "y": 349, "w": 210, "h": 64}, "Still Unpaid?": {"x": 672, "y": 349, "w": 210, "h": 64}, "WhatsApp: Gentle Reminder (Day 7)": {"x": 876, "y": 213, "w": 210, "h": 64}, "Wait 7 More Days": {"x": 1080, "y": 213, "w": 210, "h": 64}, "Check Payment Status (Day 14)": {"x": 1284, "y": 213, "w": 210, "h": 64}, "Still Unpaid? (Day 14)": {"x": 1488, "y": 213, "w": 210, "h": 64}, "WhatsApp: Firm Reminder (Day 14)": {"x": 1692, "y": 128, "w": 210, "h": 64}, "Wait 16 More Days": {"x": 1896, "y": 128, "w": 210, "h": 64}, "Check Payment Status (Day 30)": {"x": 2100, "y": 128, "w": 210, "h": 64}, "Still Unpaid? (Day 30)": {"x": 2304, "y": 128, "w": 210, "h": 64}, "WhatsApp: Final Notice (Day 30)": {"x": 2508, "y": 60, "w": 210, "h": 64}, "Alert Owner": {"x": 2712, "y": 60, "w": 210, "h": 64}, "Paid \u2014 Stop (Day 7)": {"x": 876, "y": 468, "w": 210, "h": 64}, "Paid \u2014 Stop (Day 14)": {"x": 1692, "y": 298, "w": 210, "h": 64}, "Paid \u2014 Stop (Day 30)": {"x": 2508, "y": 213, "w": 210, "h": 64}}, "walk": ["New Invoice / Booking Created", "Wait 7 Days", "Check Payment Status", "Still Unpaid?", "WhatsApp: Gentle Reminder (Day 7)", "Wait 7 More Days", "Check Payment Status (Day 14)", "Still Unpaid? (Day 14)", "WhatsApp: Firm Reminder (Day 14)", "Wait 16 More Days", "Check Payment Status (Day 30)", "Still Unpaid? (Day 30)", "WhatsApp: Final Notice (Day 30)", "Alert Owner"]}</script>
+    </div></div>
+      <p class="process-runner-caption workflow-dual-caption">Invoice + Payment Reminders — the tiered 7/14/30-day WhatsApp follow-up, checking payment status before every send so a paid invoice never gets chased.</p>
     </div>
   </div>
 </section>
@@ -1070,27 +1156,27 @@
           <a class="btn btn-primary" href="https://wa.me/911234567890?text=Hi!%20I'd%20like%20a%20free%20consultation%20for%20my%20business." target="_blank" rel="noopener">Get Free Consultation</a>
           <a class="btn btn-ghost" href="/pricing/">See Pricing</a>
         </div>
-      </div>
     </section>
 <footer class="site-footer">
   <div class="container">
     <div>© AsliKaam — Digital Partner of MSMEs Automation</div>
   </div>
 </footer>
-<script src="/assets/js/config.js?v=1789305599"></script>
-<script src="/assets/js/gsap-loader.js?v=1789305599"></script>
-<script src="/assets/js/particle-text.js?v=1789305599"></script>
-<script src="/assets/js/currency-particles.js?v=1789305599"></script>
-<script src="/assets/js/shatter-visual.js?v=1789305599"></script>
-<script src="/assets/js/cinematic.js?v=1789305599"></script>
-<script src="/assets/js/global-ui.js?v=1789305599"></script>
-<script src="/assets/js/agentic-filter.js?v=1789305599"></script>
-<script src="/assets/js/agentic-brain.js?v=1789305599"></script>
-<script src="/assets/js/industry-particle-grid.js?v=1789305599"></script>
-<script src="/assets/js/guardrail-slider.js?v=1789305599"></script>
-<script src="/assets/js/use-case-switcher.js?v=1789305599"></script>
-<script src="/assets/js/home-rotator.js?v=1789305599"></script>
-<script src="/assets/js/card-burst-nav.js?v=1789305599"></script>
-<script src="/assets/js/process-runner.js?v=1789305599"></script>
+<script src="/assets/js/config.js?v=1789306184"></script>
+<script src="/assets/js/gsap-loader.js?v=1789306184"></script>
+<script src="/assets/js/particle-text.js?v=1789306184"></script>
+<script src="/assets/js/currency-particles.js?v=1789306184"></script>
+<script src="/assets/js/shatter-visual.js?v=1789306184"></script>
+<script src="/assets/js/cinematic.js?v=1789306184"></script>
+<script src="/assets/js/global-ui.js?v=1789306184"></script>
+<script src="/assets/js/agentic-filter.js?v=1789306184"></script>
+<script src="/assets/js/agentic-brain.js?v=1789306184"></script>
+<script src="/assets/js/industry-particle-grid.js?v=1789306184"></script>
+<script src="/assets/js/guardrail-slider.js?v=1789306184"></script>
+<script src="/assets/js/use-case-switcher.js?v=1789306184"></script>
+<script src="/assets/js/home-rotator.js?v=1789306184"></script>
+<script src="/assets/js/card-burst-nav.js?v=1789306184"></script>
+<script src="/assets/js/process-runner.js?v=1789306184"></script>
+<script src="/assets/js/workflow-canvas.js?v=1789306184"></script>
 </body>
 </html>

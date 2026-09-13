@@ -1,0 +1,448 @@
+{
+  "name": "AsliKaam — Master End-to-End Automation",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "AI Updates Website & Listings (Every 6h)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "Customer Finds You (Google Search)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        280,
+        300
+      ],
+      "webhookId": "master-flow-2"
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "First WhatsApp Message",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        560,
+        300
+      ],
+      "webhookId": "master-flow-3"
+    },
+    {
+      "parameters": {},
+      "id": "n4",
+      "name": "AI: Handles Conversation",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        840,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n5",
+      "name": "Needs Stock Check?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n6",
+      "name": "AI: Check Stock & Reserve",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1400,
+        130
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n7",
+      "name": "Skip — No Stock Needed",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        470
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n8",
+      "name": "Needs Time Slot Check?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n9",
+      "name": "AI: Check Availability & Book Slot",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1960,
+        130
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n10",
+      "name": "Skip — No Booking Needed",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1960,
+        470
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n11",
+      "name": "AI: Generates Price / Quote",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        2240,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n12",
+      "name": "AI: Negotiates Within Limits",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        2520,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n13",
+      "name": "WhatsApp: Send Payment Link",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        2800,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n14",
+      "name": "Payment Received?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        3080,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n15",
+      "name": "Auto-Generate Invoice",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        3360,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n16",
+      "name": "WhatsApp: Payment Reminder",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        3360,
+        470
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n17",
+      "name": "Reconcile Payment vs Invoice",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        3640,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n18",
+      "name": "Upsell / Referral Opportunity?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        3920,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n19",
+      "name": "WhatsApp: Send Upsell or Referral Offer",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        4200,
+        130
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n20",
+      "name": "Done — No Upsell This Time",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        4200,
+        470
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n21",
+      "name": "Done — Automation Complete",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        4480,
+        130
+      ]
+    }
+  ],
+  "connections": {
+    "AI Updates Website & Listings (Every 6h)": {
+      "main": [
+        [
+          {
+            "node": "Customer Finds You (Google Search)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Customer Finds You (Google Search)": {
+      "main": [
+        [
+          {
+            "node": "First WhatsApp Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "First WhatsApp Message": {
+      "main": [
+        [
+          {
+            "node": "AI: Handles Conversation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: Handles Conversation": {
+      "main": [
+        [
+          {
+            "node": "Needs Stock Check?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Needs Stock Check?": {
+      "main": [
+        [
+          {
+            "node": "AI: Check Stock & Reserve",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Skip — No Stock Needed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: Check Stock & Reserve": {
+      "main": [
+        [
+          {
+            "node": "Needs Time Slot Check?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Needs Time Slot Check?": {
+      "main": [
+        [
+          {
+            "node": "AI: Check Availability & Book Slot",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Skip — No Booking Needed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: Check Availability & Book Slot": {
+      "main": [
+        [
+          {
+            "node": "AI: Generates Price / Quote",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: Generates Price / Quote": {
+      "main": [
+        [
+          {
+            "node": "AI: Negotiates Within Limits",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: Negotiates Within Limits": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp: Send Payment Link",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp: Send Payment Link": {
+      "main": [
+        [
+          {
+            "node": "Payment Received?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Payment Received?": {
+      "main": [
+        [
+          {
+            "node": "Auto-Generate Invoice",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "WhatsApp: Payment Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auto-Generate Invoice": {
+      "main": [
+        [
+          {
+            "node": "Reconcile Payment vs Invoice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reconcile Payment vs Invoice": {
+      "main": [
+        [
+          {
+            "node": "Upsell / Referral Opportunity?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upsell / Referral Opportunity?": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp: Send Upsell or Referral Offer",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Done — No Upsell This Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp: Send Upsell or Referral Offer": {
+      "main": [
+        [
+          {
+            "node": "Done — Automation Complete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
