@@ -2209,7 +2209,7 @@ BLOG_POSTS = [
     },
     {
         "slug": "grow-wedding-planner-2027",
-        "title": "India's Wedding Industry Is Headed Past $228 Billion by 2030 — Most Planners Still Lose the Booking in a DM",
+        "title": "India's Wedding Industry Is Headed Past $238 Billion by 2030 — Most Planners Still Lose the Booking in a DM",
         "dek": "A high-value inquiry lands in the DMs — a real date, a real budget — and gets buried under a hundred comments before anyone replies.",
         "tag": "Wedding Planner / Banquet",
         "read_time": "4 min read",
@@ -2222,7 +2222,7 @@ BLOG_POSTS = [
             {"type": "h2", "text": "Heading into the next wedding season"},
             {"type": "p", "text": "Nothing about the actual planning work needs to change. What needs to change is making sure a genuine, high-value inquiry never gets buried again — because by 2027, the planners capturing this growth will be the ones who never let that happen in the first place."},
         ],
-        "title_hi": "भारत की वेडिंग इंडस्ट्री 2030 तक $228 बिलियन को पार करने की ओर बढ़ रही है — ज़्यादातर प्लानर अब भी बुकिंग एक DM में खो देते हैं",
+        "title_hi": "भारत की वेडिंग इंडस्ट्री 2030 तक $238 बिलियन को पार करने की ओर बढ़ रही है — ज़्यादातर प्लानर अब भी बुकिंग एक DM में खो देते हैं",
         "dek_hi": "एक हाई-वैल्यू इन्क्वायरी DM में आती है — असली तारीख, असली बजट — और किसी के जवाब देने से पहले सैकड़ों कमेंट्स के नीचे दब जाती है।",
         "tag_hi": "वेडिंग प्लानर / बैंक्वेट",
         "body_hi": [
