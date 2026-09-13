@@ -420,34 +420,62 @@ def scene(stage, kind, extra_body="", contact=None, status="Online", shatter=Non
     </div>"""
 
 
-def picker_scene(stage_eyebrow="The Reveal", stage_title="See your own leak, live", stage_body="Pick your industry — the demo adapts to your exact mechanism.", lang="en"):
+def industry_picker_section(stage_eyebrow="The Reveal", stage_title="See your own leak, live", stage_body="Pick your industry — the demo adapts to your exact mechanism.", lang="en"):
+    """A normal, freely-scrolling section (not one of the pinned cinematic
+    scenes) — it needs to hold a real, full-height grid of large flip
+    cards with multiple use cases per industry, which doesn't fit inside
+    a fixed 100vh pinned frame without clipping."""
     is_hi = lang == "hi"
-    explore = "देखें →" if is_hi else "Explore →"
+    explore = "पूरा डेमो देखें →" if is_hi else "See the full demo →"
     cards = ""
     for ind in INDUSTRIES:
         name = ind["name_hi"] if is_hi else ind["name"]
         href = f"/demos/{ind['slug']}.html"
-        cards += f"""<div class="flip-card picker-flip-card">
+        mod_ids = INDUSTRY_MODULES.get(ind["slug"], [])
+        uses = [ind["solution"]] + [MODULE_BY_ID[mid]["name"] for mid in mod_ids]
+        uses_html = "".join(f"<li>{esc(u)}</li>" for u in uses)
+        cards += f"""<div class="flip-card industry-picker-card">
           <div class="flip-card-inner">
-            <div class="picker-chip flip-card-front">
-              <span class="icon">{ind['icon']}</span>{esc(name)}
+            <div class="card industry-card flip-card-front">
+              <span class="icon" style="font-size:28px;">{ind['icon']}</span>
+              <h3>{esc(name)}</h3>
+              <p>{esc(ind['use_case_hi'] if is_hi else ind['use_case'])}</p>
             </div>
-            <a class="picker-chip flip-card-back" href="{href}">
-              <span class="picker-leak">{esc(ind['leak_label'])}</span>
-              <span class="picker-explore">{explore}</span>
-            </a>
+            <div class="card industry-card flip-card-back">
+              <span class="picker-leak-big">{esc(ind['leak_label'])}</span>
+              <ul class="picker-uses">{uses_html}</ul>
+              <a class="btn btn-primary btn-block" href="{href}">{explore}</a>
+            </div>
           </div>
         </div>"""
-    return f"""<div class="scene" data-accent="reveal">
+    return f"""<section class="section-pad">
       <div class="container">
         <div class="scene-copy center" style="margin: 0 auto 32px; max-width:640px;">
           <span class="eyebrow">{stage_eyebrow}</span>
           <h2>{stage_title}</h2>
           <p style="margin:0 auto;">{stage_body}</p>
         </div>
-        <div class="picker-grid">{cards}</div>
+        <div class="grid grid-3 industry-picker-grid">{cards}</div>
       </div>
-    </div>"""
+    </section>"""
+
+
+def consultation_cta_section(lang="en"):
+    is_hi = lang == "hi"
+    wa_text = "Hi!%20I'd%20like%20a%20free%20consultation%20for%20my%20business." if lang == "en" \
+        else "Namaste!%20Mujhe%20apne%20business%20ke%20liye%20muft%20consultation%20chahiye."
+    wa_href = f"https://wa.me/911234567890?text={wa_text}"
+    return f"""<section class="section-pad" style="background: var(--bg-alt);">
+      <div class="container center">
+        <div class="eyebrow">{"मुफ़्त कंसल्टेशन" if is_hi else "Free Consultation"}</div>
+        <h2 style="max-width:760px; margin-left:auto; margin-right:auto;">{"रोहन जैसे कई ग्राहक अभी आपको ढूंढ रहे हैं — और आपके प्रतियोगी तक पहुंच रहे हैं।" if is_hi else "Many customers like Rohan are searching for you right now — and landing on your competitor instead."}</h2>
+        <p class="lead" style="max-width:600px; margin:0 auto 24px;">{"मुफ़्त कंसल्टेशन लें — हम आपको बिल्कुल बताएंगे कि आप कहां ग्राहक खो रहे हैं, और उसे ठीक करने का पूरा रोडमैप देंगे।" if is_hi else "Get a free consultation — we'll show you exactly where your business is losing customers, and hand you a roadmap to fix it."}</p>
+        <div class="row-cta center" style="justify-content:center;">
+          <a class="btn btn-primary" href="{wa_href}" target="_blank" rel="noopener">{"मुफ़्त कंसल्टेशन लें" if is_hi else "Get Free Consultation"}</a>
+          <a class="btn btn-ghost" href="/pricing/">{"प्राइसिंग देखें" if is_hi else "See Pricing"}</a>
+        </div>
+      </div>
+    </section>"""
 
 
 def payoff_scene(lang="en"):
@@ -701,15 +729,6 @@ def build_home(lang="en"):
                     "One tap on a payment link does what a dozen follow-up messages couldn't — the same mechanism, whether it's a small job or a six-figure order.",
             "accent": "green",
         }, "raw", extra_body=rotating_payment_screen(payment_presets, paid=True), shatter="#25d366"),
-
-        picker_scene(
-            stage_eyebrow="अब आपकी बारी" if is_hi else "Your Turn",
-            stage_title="वही चार पल। आपका नुकसान रोहन जैसा बिल्कुल नहीं दिखता।" if is_hi else "Same four moments. Your leak looks nothing like Rohan's.",
-            stage_body="हर इंडस्ट्री की अपनी असली, अलग समस्या है — कार्ड पलटें और देखें आपकी इंडस्ट्री में यह ठीक कैसे होता है, फिर पूरा डेमो खोलें।" if is_hi else
-                       "Every industry loses this deal in its own specific way — flip a card to see yours, then open the full demo.",
-            lang=lang,
-        ),
-        payoff_scene(lang),
     ]
     hero_wa_text = "Hi!%20I'd%20like%20to%20talk%20about%20my%20business." if lang == "en" \
         else "Namaste!%20Mujhe%20apne%20business%20ke%20baare%20mein%20baat%20karni%20hai."
@@ -780,7 +799,14 @@ def build_home(lang="en"):
   </div>
 </section>
 """
-    body = nav("/hi/" if is_hi else "/", lang) + hero + cinematic_wrap(scenes, len(scenes)) + leak_calc + type_explode + f"""
+    picker_section = industry_picker_section(
+        stage_eyebrow="अब आपकी बारी" if is_hi else "Your Turn",
+        stage_title="वही चार पल। आपका नुकसान रोहन जैसा बिल्कुल नहीं दिखता।" if is_hi else "Same four moments. Your leak looks nothing like Rohan's.",
+        stage_body="हर इंडस्ट्री की अपनी असली, अलग समस्या है — कार्ड पलटें और देखें आपकी इंडस्ट्री में यह ठीक कैसे होता है, फिर पूरा डेमो खोलें।" if is_hi else
+                   "Every industry loses this deal in its own specific way — flip a card to see yours, then open the full demo.",
+        lang=lang,
+    )
+    body = nav("/hi/" if is_hi else "/", lang) + hero + cinematic_wrap(scenes, len(scenes)) + picker_section + consultation_cta_section(lang) + leak_calc + type_explode + f"""
 <section class="section-pad">
   <div class="container">
     <div class="eyebrow">{"AsliKaam क्यों" if is_hi else "Why AsliKaam"}</div>
