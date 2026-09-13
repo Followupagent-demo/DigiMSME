@@ -1246,6 +1246,18 @@ def build_negotiation_agent_demo():
         else:
             scenes.append(scene(stage, "stat"))
     scenes.append(payoff_scene())
+    na_wf_file = N8N_WORKFLOW_FILE.get(NEGOTIATION_AGENT["id"], f"{NEGOTIATION_AGENT['id']}.json")
+    na_wf_path = os.path.join(ASSETS_SRC, "n8n-workflows", na_wf_file)
+    na_workflow_section = ""
+    if os.path.exists(na_wf_path):
+        na_workflow_section = f"""<section class="section-pad-sm" style="border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="eyebrow">⚡ Real Workflow, Not a Mockup</div>
+    <h2>The story above, as the actual automation that runs it</h2>
+    <p class="lead" style="max-width:680px;">Built in n8n, the open-source workflow engine. Download it below and it opens in any n8n instance, node for node.</p>
+    {render_n8n_workflow(na_wf_file, caption=f"{esc(NEGOTIATION_AGENT['name'])} — {esc(NEGOTIATION_AGENT['blurb'])}")}
+  </div>
+</section>"""
     body = nav("/demos/") + f"""
 <section class="page-hero section-pad-sm">
   <div class="container">
@@ -1255,6 +1267,7 @@ def build_negotiation_agent_demo():
   </div>
 </section>
 {cinematic_wrap(scenes, len(scenes))}
+{na_workflow_section}
 {deployment_modes_section()}
 <section class="section-pad-sm">
   <div class="container center">
@@ -1283,6 +1296,18 @@ def build_module_demo_page(mod):
         payoff_scene(),
     ]
     applicable = ", ".join(INDUSTRY_BY_SLUG[s]["name"] for s in mod["industries"] if s in INDUSTRY_BY_SLUG)
+    wf_file = N8N_WORKFLOW_FILE.get(mod["id"], f"{mod['id']}.json")
+    wf_path = os.path.join(ASSETS_SRC, "n8n-workflows", wf_file)
+    workflow_section = ""
+    if os.path.exists(wf_path):
+        workflow_section = f"""<section class="section-pad-sm" style="border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="eyebrow">⚡ Real Workflow, Not a Mockup</div>
+    <h2>The story above, as the actual automation that runs it</h2>
+    <p class="lead" style="max-width:680px;">Built in n8n, the open-source workflow engine. Download it below and it opens in any n8n instance, node for node — this is what "{esc(mod['name'])}" actually is, not a diagram standing in for one.</p>
+    {render_n8n_workflow(wf_file, caption=f"{esc(mod['name'])} — {esc(mod['blurb'])}")}
+  </div>
+</section>"""
     body = nav("/demos/") + f"""
 <section class="page-hero section-pad-sm">
   <div class="container">
@@ -1293,6 +1318,7 @@ def build_module_demo_page(mod):
   </div>
 </section>
 {cinematic_wrap(scenes, len(scenes))}
+{workflow_section}
 <section class="section-pad-sm">
   <div class="container center">
     <a class="btn btn-primary" href="/pricing/">Add this to a Custom Pack</a>
@@ -1449,9 +1475,9 @@ def render_n8n_workflow(filename, caption="", compact=False):
     xs = [n["position"][0] for n in nodes.values()]
     ys = [n["position"][1] for n in nodes.values()]
     if compact:
-        SCALE, PAD, NODE_W, NODE_H = 0.42, 18, 96, 34
+        SCALE, PAD, NODE_W, NODE_H = 0.55, 20, 148, 46
     else:
-        SCALE, PAD, NODE_W, NODE_H = 0.72, 40, 150, 50
+        SCALE, PAD, NODE_W, NODE_H = 0.85, 44, 190, 58
     min_x, min_y = min(xs), min(ys)
 
     def px(x):
@@ -1479,7 +1505,7 @@ def render_n8n_workflow(filename, caption="", compact=False):
         return icon, cls
 
     boxes = ""
-    def wrap_two_lines(text, width=17):
+    def wrap_two_lines(text, width=15):
         words = text.split(" ")
         line1 = ""
         i = 0
@@ -1491,23 +1517,27 @@ def render_n8n_workflow(filename, caption="", compact=False):
             line2 = line2[:width - 1] + "…"
         return line1, line2
 
+    def short_label(text, width=15):
+        return text if len(text) <= width else text[:width - 1] + "…"
+
     for n in nodes.values():
         x, y = px(n["position"][0]), py(n["position"][1])
         icon, cls = node_icon_cls(n)
         if compact:
             boxes += f"""<g class="n8n-node {cls}" transform="translate({x},{y})">
               <rect width="{NODE_W}" height="{NODE_H}" rx="8"></rect>
-              <text x="{NODE_W/2}" y="{NODE_H/2 + 5}" text-anchor="middle" class="n8n-node-icon">{icon}</text>
+              <text x="12" y="{NODE_H/2 + 5}" class="n8n-node-icon">{icon}</text>
+              <text x="34" y="{NODE_H/2 + 5}" class="n8n-node-label">{esc(short_label(n['name']))}</text>
             </g>"""
         else:
             l1, l2 = wrap_two_lines(n["name"])
-            label_html = f'<tspan x="40" dy="0">{esc(l1)}</tspan>'
+            label_html = f'<tspan x="46" dy="0">{esc(l1)}</tspan>'
             if l2:
-                label_html += f'<tspan x="40" dy="13">{esc(l2)}</tspan>'
+                label_html += f'<tspan x="46" dy="15">{esc(l2)}</tspan>'
             boxes += f"""<g class="n8n-node {cls}" transform="translate({x},{y})">
               <rect width="{NODE_W}" height="{NODE_H}" rx="12"></rect>
-              <text x="14" y="21" class="n8n-node-icon">{icon}</text>
-              <text x="40" y="21" class="n8n-node-label">{label_html}</text>
+              <text x="16" y="24" class="n8n-node-icon">{icon}</text>
+              <text x="46" y="24" class="n8n-node-label">{label_html}</text>
             </g>"""
 
     paths = ""

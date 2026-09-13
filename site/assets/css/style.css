@@ -704,8 +704,15 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 }
 
 /* ---------- Real n8n workflow diagram — Agentic Use Cases ---------- */
-.n8n-workflow-wrap { margin-top: 20px; }
+/* min-width: 0 overrides the browser's default "don't shrink below
+   content's intrinsic width" behavior for flex/grid children — without
+   it, a wide-but-scrollable diagram forces its parent .card (a CSS
+   Grid item) to grow to fit the diagram instead of clipping it,
+   blowing out the whole grid row. */
+.card:has(.n8n-workflow-wrap) { min-width: 0; }
+.n8n-workflow-wrap { margin-top: 20px; min-width: 0; }
 .n8n-workflow-scroll {
+  min-width: 0;
   overflow-x: auto; overflow-y: hidden; border: 1px solid var(--border); border-radius: 16px;
   background:
     radial-gradient(circle at 10% 20%, rgba(37,211,102,0.06), transparent 40%),
@@ -713,7 +720,13 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
     #0a0d11;
   padding: 8px;
 }
-.n8n-workflow-svg { display: block; min-width: 100%; }
+/* The base `svg { max-width: 100% }` rule would otherwise shrink this
+   whole diagram — text included — down to fit its container, no matter
+   what font-size is set below. It needs to render at its true pixel
+   size (matching the width/height attributes computed in build.py) so
+   .n8n-workflow-scroll's horizontal scroll actually has something to
+   scroll, instead of an invisibly-squashed diagram. */
+.n8n-workflow-svg { display: block; max-width: none; width: auto; height: auto; }
 .n8n-node rect {
   fill: #10151b; stroke: var(--border); stroke-width: 1.5;
   transition: stroke .2s;
@@ -724,8 +737,8 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 .n8n-node-ai rect { stroke: #b98aff; filter: drop-shadow(0 0 6px rgba(185,138,255,0.4)); }
 .n8n-node-wait rect { stroke: var(--muted); stroke-dasharray: 3 3; }
 .n8n-node-done rect { stroke: var(--accent-dim); fill: rgba(37,211,102,0.08); }
-.n8n-node-icon { font-size: 16px; }
-.n8n-node-label { fill: var(--fg); font-size: 9.5px; font-family: inherit; }
+.n8n-node-icon { font-size: 18px; }
+.n8n-node-label { fill: var(--fg); font-size: 12px; font-weight: 600; font-family: inherit; }
 .n8n-edge { fill: none; stroke: var(--border); stroke-width: 1.5; }
 .n8n-edge-alt { stroke-dasharray: 4 4; opacity: 0.6; }
 .n8n-edge-pulse { fill: var(--accent); filter: drop-shadow(0 0 4px rgba(37,211,102,0.8)); }
@@ -733,7 +746,8 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 .n8n-caption { color: var(--muted); font-size: 0.85rem; margin-top: 12px; max-width: 640px; }
 .n8n-download { margin-top: 12px; }
 .n8n-compact .n8n-workflow-scroll { border-radius: 10px; padding: 6px; }
-.n8n-compact .n8n-node-icon { font-size: 15px; }
+.n8n-compact .n8n-node-icon { font-size: 16px; }
+.n8n-compact .n8n-node-label { font-size: 10.5px; font-weight: 600; }
 .n8n-download-mini { display: inline-block; margin-top: 8px; font-size: 0.74rem; color: var(--muted); }
 .n8n-download-mini:hover { color: var(--accent); }
 @media (prefers-reduced-motion: reduce) {

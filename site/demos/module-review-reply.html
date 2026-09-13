@@ -13,7 +13,7 @@
 <meta property="og:url" content="https://tiny-sky-5603.innndemolog.workers.dev/demos/module-review-reply.html">
 <meta property="og:locale" content="en_IN">
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="/assets/css/style.css?v=1789303640">
+<link rel="stylesheet" href="/assets/css/style.css?v=1789303988">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -116,6 +116,47 @@
   <p class="container fallback-note" style="padding:16px 24px; color:var(--muted); font-size:0.8rem;">Scroll to move through each step.</p>
 </section>
 
+<section class="section-pad-sm" style="border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="eyebrow">⚡ Real Workflow, Not a Mockup</div>
+    <h2>The story above, as the actual automation that runs it</h2>
+    <p class="lead" style="max-width:680px;">Built in n8n, the open-source workflow engine. Download it below and it opens in any n8n instance, node for node — this is what "Review Request + AI-Drafted Reply" actually is, not a diagram standing in for one.</p>
+    <div class="n8n-workflow-wrap">
+      <div class="n8n-workflow-scroll">
+        <svg class="n8n-workflow-svg" viewBox="0 0 1298 146" width="1298" height="146">
+          <path class="n8n-edge" d="M234,73.0 C241.0,73.0 241.0,73.0 248,73.0"></path><circle class="n8n-edge-pulse" r="3"><animateMotion dur="2.6s" repeatCount="indefinite" path="M234,73.0 C241.0,73.0 241.0,73.0 248,73.0"></animateMotion></circle><path class="n8n-edge" d="M438,73.0 C445.0,73.0 445.0,73.0 452,73.0"></path><circle class="n8n-edge-pulse" r="3"><animateMotion dur="2.6s" repeatCount="indefinite" path="M438,73.0 C445.0,73.0 445.0,73.0 452,73.0"></animateMotion></circle><path class="n8n-edge" d="M642,73.0 C649.0,73.0 649.0,73.0 656,73.0"></path><circle class="n8n-edge-pulse" r="3"><animateMotion dur="2.6s" repeatCount="indefinite" path="M642,73.0 C649.0,73.0 649.0,73.0 656,73.0"></animateMotion></circle><path class="n8n-edge" d="M846,73.0 C853.0,73.0 853.0,73.0 860,73.0"></path><circle class="n8n-edge-pulse" r="3"><animateMotion dur="2.6s" repeatCount="indefinite" path="M846,73.0 C853.0,73.0 853.0,73.0 860,73.0"></animateMotion></circle><path class="n8n-edge" d="M1050,73.0 C1057.0,73.0 1057.0,73.0 1064,73.0"></path><circle class="n8n-edge-pulse" r="3"><animateMotion dur="2.6s" repeatCount="indefinite" path="M1050,73.0 C1057.0,73.0 1057.0,73.0 1064,73.0"></animateMotion></circle>
+          <g class="n8n-node n8n-node-trigger" transform="translate(44,44)">
+              <rect width="190" height="58" rx="12"></rect>
+              <text x="16" y="24" class="n8n-node-icon">⚡</text>
+              <text x="46" y="24" class="n8n-node-label"><tspan x="46" dy="0">Service</tspan><tspan x="46" dy="15">Completed</tspan></text>
+            </g><g class="n8n-node n8n-node-action" transform="translate(248,44)">
+              <rect width="190" height="58" rx="12"></rect>
+              <text x="16" y="24" class="n8n-node-icon">💬</text>
+              <text x="46" y="24" class="n8n-node-label"><tspan x="46" dy="0">WhatsApp:</tspan><tspan x="46" dy="15">Review Request</tspan></text>
+            </g><g class="n8n-node n8n-node-trigger" transform="translate(452,44)">
+              <rect width="190" height="58" rx="12"></rect>
+              <text x="16" y="24" class="n8n-node-icon">⚡</text>
+              <text x="46" y="24" class="n8n-node-label"><tspan x="46" dy="0">New Google</tspan><tspan x="46" dy="15">Review Received</tspan></text>
+            </g><g class="n8n-node n8n-node-ai" transform="translate(656,44)">
+              <rect width="190" height="58" rx="12"></rect>
+              <text x="16" y="24" class="n8n-node-icon">🧠</text>
+              <text x="46" y="24" class="n8n-node-label"><tspan x="46" dy="0">AI: Draft Reply</tspan><tspan x="46" dy="15">to Review</tspan></text>
+            </g><g class="n8n-node n8n-node-action" transform="translate(860,44)">
+              <rect width="190" height="58" rx="12"></rect>
+              <text x="16" y="24" class="n8n-node-icon">🌐</text>
+              <text x="46" y="24" class="n8n-node-label"><tspan x="46" dy="0">Send for Owner</tspan><tspan x="46" dy="15">Approve-and-Po…</tspan></text>
+            </g><g class="n8n-node n8n-node-done" transform="translate(1064,44)">
+              <rect width="190" height="58" rx="12"></rect>
+              <text x="16" y="24" class="n8n-node-icon">✅</text>
+              <text x="46" y="24" class="n8n-node-label"><tspan x="46" dy="0">Posted</tspan></text>
+            </g>
+        </svg>
+      </div>
+      <p class="n8n-caption">Review Request + AI-Drafted Reply — A WhatsApp review request goes out after service; AI drafts a reply to every Google review for a quick human approve-and-post.</p>
+      <a class="btn btn-ghost n8n-download" href="/assets/n8n-workflows/review-reply.json?v=1789303988" download>⬇ Download real n8n workflow (.json)</a>
+    </div>
+  </div>
+</section>
 <section class="section-pad-sm">
   <div class="container center">
     <a class="btn btn-primary" href="/pricing/">Add this to a Custom Pack</a>
@@ -126,15 +167,15 @@
     <div>© AsliKaam — Digital Partner of MSMEs Automation</div>
   </div>
 </footer>
-<script src="/assets/js/config.js?v=1789303640"></script>
-<script src="/assets/js/gsap-loader.js?v=1789303640"></script>
-<script src="/assets/js/particle-text.js?v=1789303640"></script>
-<script src="/assets/js/currency-particles.js?v=1789303640"></script>
-<script src="/assets/js/shatter-visual.js?v=1789303640"></script>
-<script src="/assets/js/cinematic.js?v=1789303640"></script>
-<script src="/assets/js/global-ui.js?v=1789303640"></script>
-<script src="/assets/js/use-case-switcher.js?v=1789303640"></script>
-<script src="/assets/js/home-rotator.js?v=1789303640"></script>
-<script src="/assets/js/card-burst-nav.js?v=1789303640"></script>
+<script src="/assets/js/config.js?v=1789303988"></script>
+<script src="/assets/js/gsap-loader.js?v=1789303988"></script>
+<script src="/assets/js/particle-text.js?v=1789303988"></script>
+<script src="/assets/js/currency-particles.js?v=1789303988"></script>
+<script src="/assets/js/shatter-visual.js?v=1789303988"></script>
+<script src="/assets/js/cinematic.js?v=1789303988"></script>
+<script src="/assets/js/global-ui.js?v=1789303988"></script>
+<script src="/assets/js/use-case-switcher.js?v=1789303988"></script>
+<script src="/assets/js/home-rotator.js?v=1789303988"></script>
+<script src="/assets/js/card-burst-nav.js?v=1789303988"></script>
 </body>
 </html>
