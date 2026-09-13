@@ -455,9 +455,9 @@ def payoff_scene(lang="en"):
     return f"""<div class="scene" data-accent="payoff">
       <div class="container">
         <div class="scene-copy center" style="margin:0 auto;">
-          <span class="eyebrow">{"नतीजा" if is_hi else "The Payoff"}</span>
-          <h2>{"एक फिक्स। फिर यह बढ़ता ही जाता है।" if is_hi else "One fix. Then it compounds."}</h2>
-          <p style="margin:0 auto 24px;">{"अपनी इंडस्ट्री का असली मैकेनिज़्म देखें, फिर हमसे व्हाट्सएप पर बात करें।" if is_hi else "See the exact mechanism for your industry, then talk to us on WhatsApp."}</p>
+          <span class="eyebrow">{"नतीजा" if is_hi else "The Result"}</span>
+          <h2>{"एक बार सही तरीके से ठीक करें। फिर यह हर दिन आपके लिए काम करता है।" if is_hi else "Fix it right, once. Then it just keeps working for you."}</h2>
+          <p style="margin:0 auto 24px;">{"अपनी इंडस्ट्री में यह असल में कैसे काम करता है, देखें — फिर हमसे व्हाट्सएप पर सीधे बात करें।" if is_hi else "See exactly how this works for your business, then talk to us directly on WhatsApp."}</p>
           <div class="row-cta center" style="justify-content:center;">
             <a class="btn btn-primary" href="{"/hi/industries/" if is_hi else "/industries/"}">{"इंडस्ट्रीज़ देखें" if is_hi else "Explore Industries"}</a>
             <a class="btn btn-ghost" href="/pricing/">{"प्राइसिंग देखें" if is_hi else "See Pricing"}</a>
@@ -711,12 +711,19 @@ def build_home(lang="en"):
         ),
         payoff_scene(lang),
     ]
+    hero_wa_text = "Hi!%20I'd%20like%20to%20talk%20about%20my%20business." if lang == "en" \
+        else "Namaste!%20Mujhe%20apne%20business%20ke%20baare%20mein%20baat%20karni%20hai."
+    hero_wa_href = f"https://wa.me/911234567890?text={hero_wa_text}"
     hero = f"""<section class="home-hero" id="home-hero">
   <div class="home-hero-grid"></div>
   <div class="container home-hero-inner">
-    <h1 class="home-hero-title">{BRAND}.</h1>
-    <p class="home-hero-sub">{"आपकी मौजूदा ट्रैफिक में हो रहे नुकसान को हम बंद करते हैं।" if is_hi else "We fix the leaks in the traffic you're already paying for."}</p>
-    <p class="home-hero-tag">{"MSMEs के लिए एक डिजिटल स्टूडियो — कोई और SaaS डैशबोर्ड नहीं।" if is_hi else "A digital studio for MSMEs, not another SaaS dashboard."}</p>
+    <h1 class="home-hero-title" style="font-size:clamp(2.4rem, 6vw, 4.2rem);">{"आपके बिज़नेस को सिर्फ़ एक वेबसाइट से कहीं ज़्यादा चाहिए।" if is_hi else "Your Business Deserves More Than Just a Website."}</h1>
+    <p class="home-hero-sub">{"हम आपको ग्राहकों तक पहुंचाते हैं, हर पूछताछ का जल्दी जवाब देते हैं, और ज़्यादा पूछताछ को असली बिक्री में बदलते हैं — एक बार का सेटअप, आसान सालाना सपोर्ट।" if is_hi else "We help more customers find you, answer them fast, and turn more of those enquiries into sales — one-time setup, simple annual support."}</p>
+    <p class="home-hero-tag">{"कोई महीने का बिल नहीं। कोई उलझा हुआ प्लान नहीं। जो हम बनाते हैं, वो आपका है।" if is_hi else "No monthly bills. No confusing plans. You own what we build for you."}</p>
+    <div class="row-cta center" style="justify-content:center; margin-top:22px;">
+      <a class="btn btn-primary" href="{"/hi/industries/" if is_hi else "/industries/"}">{"समाधान देखें" if is_hi else "Explore Solutions"}</a>
+      <a class="btn btn-ghost" href="{hero_wa_href}" target="_blank" rel="noopener">{"बात करें" if is_hi else "Talk to Us"}</a>
+    </div>
   </div>
   <div class="home-hero-arrow" aria-hidden="true">↓</div>
 </section>
@@ -777,9 +784,9 @@ def build_home(lang="en"):
 <section class="section-pad">
   <div class="container">
     <div class="eyebrow">{"AsliKaam क्यों" if is_hi else "Why AsliKaam"}</div>
-    <h2>{"एक स्टूडियो, कोई SaaS नहीं" if is_hi else "A studio, not a SaaS"}</h2>
-    <p class="lead">{"कम क्लाइंट्स, पूरा काम शुरू से आख़िर तक — वेबसाइट, गूगल प्रेज़ेंस, व्हाट्सएप-आधारित क्लाइंट हैंडलिंग — हम ख़ुद बनाते और चलाते हैं, किसी डैशबोर्ड के हवाले नहीं करते। हम आपको नया ट्रैफिक नहीं बेच रहे। हम उस ट्रैफिक में हो रहे नुकसान को बंद कर रहे हैं, जिसके लिए आप पहले से पैसे ख़र्च कर रहे हैं।" if is_hi else "A handful of clients at a time, real work delivered end to end — website, Google presence, WhatsApp-run client handling — built and personally run by us, not handed off to a dashboard. We're not selling you new traffic. We're closing the leak in the traffic you're already paying for."}</p>
-    <p class="lead" style="margin-top:6px;">{"और हम इसे किराए पर नहीं देते। एक बार का डेवलपमेंट, फिर सालाना सपोर्ट — कोई महीने-दर-महीने SaaS बिल नहीं।" if is_hi else "And we don't rent it to you. One-time development, then annual support — no month-to-month SaaS bill."}</p>
+    <h2>{"आपके लिए बना। आपका अपना।" if is_hi else "Built for You. Owned by You."}</h2>
+    <p class="lead">{"हम ख़ुद आपकी वेबसाइट बनाते हैं, गूगल पर आपकी लिस्टिंग सही करते हैं, और व्हाट्सएप पर ग्राहकों के सवालों का जवाब देना आसान बनाते हैं — किसी उलझे हुए डैशबोर्ड में आपको अकेला नहीं छोड़ते। ज़्यादा ग्राहक आपको ढूंढ पाएं, जल्दी जवाब मिले, और ज़्यादा पूछताछ असली बिक्री बने — यही पूरा काम है।" if is_hi else "We personally build your website, fix your Google listing, and make it easy to answer every customer on WhatsApp — not hand you a dashboard and leave you to figure it out. More customers find you, they get answered fast, more of them become paying customers. That's the whole job."}</p>
+    <p class="lead" style="margin-top:6px;">{"और हम इसे किराए पर नहीं देते। एक बार पैसे देकर बनवाएं, फिर एक छोटी सालाना फीस इसे चालू रखती है — कभी कोई महीने का बिल नहीं।" if is_hi else "And you don't rent it from us. You pay once to build it — then a small yearly fee keeps it running. No monthly bill, ever."}</p>
     <div class="row-cta">
       <a class="btn btn-primary" href="{"/hi/industries/" if is_hi else "/industries/"}">{"अपनी इंडस्ट्री खोजें" if is_hi else "Find your industry"}</a>
       <a class="btn btn-ghost" href="/pricing/">{"प्राइसिंग देखें" if is_hi else "See pricing"}</a>
