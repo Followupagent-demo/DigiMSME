@@ -51,10 +51,91 @@
   // entirely for prefers-reduced-motion so it never blocks navigation
   // for anyone who's asked for less motion.
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Purely decorative — a fresh 24-node n8n-style mesh built from
+  // scratch each time the transition fires, so a viewer sees an actual
+  // dense automation system (dim connective mesh + one bright primary
+  // path with a traveling pulse) rather than the same static image
+  // twice. A left-to-right wave of node activations (staggered via
+  // per-node CSS animation-delay) gives the sense of a signal moving
+  // through 20+ agents before landing on the next step.
+  var TRANSITION_ICONS = ["⚡", "🔍", "💬", "🧠", "📄", "🔔", "💳", "🌐", "✅", "🔀",
+    "⏱", "🧍", "📊", "🔗", "📥", "📤", "🕒", "🛠", "📈", "🔒", "💡", "🗂", "🧾", "📬"];
+  var TRANSITION_TYPES = ["trigger", "action", "ai", "condition", "done", "wait", "action", "ai"];
+
+  function buildTransitionCanvas(totalMs) {
+    var cols = 6, rows = 4, W = 1000, H = 440;
+    var colGap = W / (cols + 1), rowGap = H / (rows + 1);
+    var nodes = [];
+    for (var c = 0; c < cols; c++) {
+      for (var r = 0; r < rows; r++) {
+        var idx = nodes.length;
+        nodes.push({
+          x: Math.round(colGap * (c + 1) + (Math.random() * 26 - 13)),
+          y: Math.round(rowGap * (r + 1) + (Math.random() * 18 - 9)),
+          col: c,
+          icon: TRANSITION_ICONS[idx % TRANSITION_ICONS.length],
+          type: TRANSITION_TYPES[idx % TRANSITION_TYPES.length],
+        });
+      }
+    }
+    var waveMs = totalMs * 0.68;
+    var perCol = waveMs / cols;
+
+    // dim connective mesh — every node links to one or two nodes in
+    // the next column, so the whole thing reads as a dense pipeline
+    var meshSvg = "";
+    for (var c2 = 0; c2 < cols - 1; c2++) {
+      var thisCol = nodes.filter(function (n) { return n.col === c2; });
+      var nextCol = nodes.filter(function (n) { return n.col === c2 + 1; });
+      thisCol.forEach(function (a, i) {
+        var linkCount = Math.random() > 0.45 ? 2 : 1;
+        for (var k = 0; k < linkCount; k++) {
+          var b = nextCol[(i + k) % nextCol.length];
+          var mx = (a.x + b.x) / 2;
+          var path = "M" + a.x + "," + a.y + " Q" + mx + "," + a.y + " " + b.x + "," + b.y;
+          meshSvg += '<path class="hero-orch-edge cyb-transition-edge" d="' + path + '"></path>';
+        }
+      });
+    }
+
+    // one primary path (middle node of each column), with a pulse
+    // that travels the full width in sync with the activation wave
+    var primary = [];
+    for (var c3 = 0; c3 < cols; c3++) {
+      var colNodes = nodes.filter(function (n) { return n.col === c3; });
+      primary.push(colNodes[Math.floor(colNodes.length / 2)]);
+    }
+    var primarySvg = "";
+    for (var i2 = 0; i2 < primary.length - 1; i2++) {
+      var a2 = primary[i2], b2 = primary[i2 + 1];
+      var mx2 = (a2.x + b2.x) / 2;
+      var path2 = "M" + a2.x + "," + a2.y + " Q" + mx2 + "," + a2.y + " " + b2.x + "," + b2.y;
+      var dur = Math.max(0.35, perCol / 1000).toFixed(2);
+      var begin = ((i2 * perCol) / 1000).toFixed(2);
+      primarySvg += '<path class="hero-orch-edge" style="opacity:0.85" d="' + path2 + '"></path>' +
+        '<circle r="5" class="hero-orch-pulse"><animateMotion dur="' + dur + 's" begin="' + begin +
+        's" fill="freeze" path="' + path2 + '"></animateMotion></circle>';
+    }
+
+    var nodesSvg = nodes.map(function (n) {
+      var delay = Math.round(n.col * perCol + Math.random() * (perCol * 0.5));
+      return '<g class="hero-orch-group cyb-transition-node" style="animation-delay:' + delay + 'ms">' +
+        '<circle cx="' + n.x + '" cy="' + n.y + '" r="26" class="hero-orch-glow hero-orch-' + n.type + '"></circle>' +
+        '<circle cx="' + n.x + '" cy="' + n.y + '" r="18" class="hero-orch-node hero-orch-' + n.type + '"></circle>' +
+        '<text x="' + n.x + '" y="' + (n.y + 6) + '" class="hero-orch-icon" text-anchor="middle">' + n.icon + "</text></g>";
+    }).join("");
+
+    return '<svg class="cyb-transition-canvas" viewBox="0 0 ' + W + ' ' + H +
+      '" preserveAspectRatio="xMidYMid meet" aria-hidden="true">' + meshSvg + primarySvg + nodesSvg + "</svg>";
+  }
+
   function showTransition(label, callback) {
     var overlay = document.getElementById("cyb-transition");
     var labelEl = document.getElementById("cyb-transition-label");
+    var canvasWrap = document.getElementById("cyb-transition-canvas-wrap");
     if (!overlay || !labelEl || reduceMotion) { callback(); return; }
+    var totalMs = 3200;
+    if (canvasWrap) canvasWrap.innerHTML = buildTransitionCanvas(totalMs);
     labelEl.textContent = label;
     labelEl.classList.remove("is-zooming");
     // force reflow so the zoom keyframe restarts every time
@@ -64,7 +145,7 @@
     setTimeout(function () {
       overlay.hidden = true;
       callback();
-    }, 3200);
+    }, totalMs);
   }
 
   function wireSingleSelect(stepName, stateKey, labelFn) {

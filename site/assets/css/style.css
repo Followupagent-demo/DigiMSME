@@ -942,35 +942,46 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 @media (max-width: 640px) { .cyb-page-bg { opacity: 0.22; } }
 @media (prefers-reduced-motion: reduce) { .cyb-page-bg { animation: none; } }
 
-/* Between-step "pulling this from the automation universe" transition —
-   a brief full-screen overlay with a zooming label, over the same
-   ambient backdrop, before the next step reveals. */
+/* Between-step "pulling this from a universe of 20+ automation agents"
+   transition — a dense, freshly-generated n8n-style node mesh fills
+   the overlay each time, with a wave of nodes lighting up left to
+   right and one primary path pulsing all the way through, before the
+   next step reveals. Purely decorative (not a real workflow), reusing
+   the same node/edge visual language as hero_orchestration_bg() and
+   the real workflow canvases so it reads as "the same kind of system"
+   rather than a generic loading spinner. */
 .cyb-transition {
   position: fixed; inset: 0; z-index: 50;
   display: flex; align-items: center; justify-content: center;
-  background: rgba(10,13,17,0.82); backdrop-filter: blur(2px);
+  background: rgba(6,8,11,0.92); backdrop-filter: blur(2px);
 }
 .cyb-transition[hidden] { display: none; }
-.cyb-transition-inner { text-align: center; padding: 20px; }
-.cyb-transition-icon {
-  display: block; font-size: 2.4rem; margin-bottom: 14px;
-  animation: cyb-transition-spin 1.8s linear infinite;
+.cyb-transition-inner { text-align: center; padding: 20px; width: min(980px, 94vw); }
+.cyb-transition-canvas-wrap { margin: 0 auto 18px; }
+.cyb-transition-canvas { width: 100%; height: auto; max-height: 52vh; display: block; }
+.cyb-transition-node { opacity: 0.1; animation: cyb-node-activate 900ms ease-out forwards; }
+.cyb-transition-node, .cyb-transition-node * { transform-box: fill-box; transform-origin: center; }
+@keyframes cyb-node-activate {
+  0% { opacity: 0.1; transform: scale(0.8); }
+  55% { opacity: 1; transform: scale(1.15); }
+  100% { opacity: 0.92; transform: scale(1); }
 }
-@keyframes cyb-transition-spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+.cyb-transition-edge { opacity: 0.3; }
 .cyb-transition-label {
-  font-size: clamp(1.3rem, 4vw, 2rem); font-weight: 800; color: var(--fg); max-width: 600px;
-  opacity: 0; transform: scale(0.4);
+  font-size: clamp(1.1rem, 3vw, 1.6rem); font-weight: 800; color: var(--fg); max-width: 700px;
+  margin: 0 auto; opacity: 0; transform: scale(0.5);
 }
 .cyb-transition-label.is-zooming {
-  animation: cyb-transition-zoom 0.6s cubic-bezier(.2,.9,.3,1.3) forwards;
+  animation: cyb-transition-zoom 0.5s cubic-bezier(.2,.9,.3,1.3) forwards;
 }
 @keyframes cyb-transition-zoom {
-  0% { opacity: 0; transform: scale(0.3); }
-  70% { opacity: 1; transform: scale(1.08); }
+  0% { opacity: 0; transform: scale(0.4); }
+  70% { opacity: 1; transform: scale(1.06); }
   100% { opacity: 1; transform: scale(1); }
 }
+@media (max-width: 640px) { .cyb-transition-canvas { max-height: 38vh; } }
 @media (prefers-reduced-motion: reduce) {
-  .cyb-transition-icon { animation: none; }
+  .cyb-transition-node { animation: none; opacity: 0.85; }
   .cyb-transition-label.is-zooming { animation: none; opacity: 1; transform: scale(1); }
 }
 

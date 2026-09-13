@@ -1718,7 +1718,7 @@ def build_check_your_business():
 
 <div class="cyb-transition" id="cyb-transition" hidden aria-live="polite">
   <div class="cyb-transition-inner">
-    <span class="cyb-transition-icon">⚙️</span>
+    <div class="cyb-transition-canvas-wrap" id="cyb-transition-canvas-wrap"></div>
     <div class="cyb-transition-label" id="cyb-transition-label"></div>
   </div>
 </div>
