@@ -703,53 +703,78 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
   .flip-card { height: 300px; }
 }
 
-/* ---------- Real n8n workflow diagram — Agentic Use Cases ---------- */
-/* min-width: 0 overrides the browser's default "don't shrink below
-   content's intrinsic width" behavior for flex/grid children — without
-   it, a wide-but-scrollable diagram forces its parent .card (a CSS
-   Grid item) to grow to fit the diagram instead of clipping it,
-   blowing out the whole grid row. */
-.card:has(.n8n-workflow-wrap) { min-width: 0; }
-.n8n-workflow-wrap { margin-top: 20px; min-width: 0; }
-.n8n-workflow-scroll {
-  min-width: 0;
-  overflow-x: auto; overflow-y: hidden; border: 1px solid var(--border); border-radius: 16px;
+/* ---------- Process Runner — tap-to-play automation walkthrough ---------- */
+/* Replaces the old scrolling SVG diagram: no horizontal scroll (bad on
+   phone) and no download link (not needed). A vertical, always-readable
+   step list that animates in sequence on tap, so it reads as "watching
+   the automation actually run" rather than a static picture of one. */
+.process-runner {
+  margin-top: 20px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
   background:
-    radial-gradient(circle at 10% 20%, rgba(37,211,102,0.06), transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(80,180,255,0.05), transparent 40%),
+    radial-gradient(circle at 12% 0%, rgba(37,211,102,0.07), transparent 45%),
     #0a0d11;
-  padding: 8px;
+  padding: 20px;
 }
-/* The base `svg { max-width: 100% }` rule would otherwise shrink this
-   whole diagram — text included — down to fit its container, no matter
-   what font-size is set below. It needs to render at its true pixel
-   size (matching the width/height attributes computed in build.py) so
-   .n8n-workflow-scroll's horizontal scroll actually has something to
-   scroll, instead of an invisibly-squashed diagram. */
-.n8n-workflow-svg { display: block; max-width: none; width: auto; height: auto; }
-.n8n-node rect {
-  fill: #10151b; stroke: var(--border); stroke-width: 1.5;
-  transition: stroke .2s;
+.process-runner-compact { padding: 14px; border-radius: 12px; margin-top: 16px; }
+.process-runner-start, .process-runner-replay {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 13px 18px; border-radius: 999px; border: 1px solid var(--accent-dim);
+  background: rgba(37,211,102,0.08); color: var(--accent); font-weight: 700; font-size: 0.92rem;
+  cursor: pointer; transition: background .2s, transform .15s;
 }
-.n8n-node-trigger rect { stroke: var(--accent); filter: drop-shadow(0 0 6px rgba(37,211,102,0.45)); }
-.n8n-node-condition rect { stroke: #e6b93d; filter: drop-shadow(0 0 5px rgba(230,185,61,0.35)); }
-.n8n-node-action rect { stroke: #4db8ff; filter: drop-shadow(0 0 5px rgba(77,184,255,0.3)); }
-.n8n-node-ai rect { stroke: #b98aff; filter: drop-shadow(0 0 6px rgba(185,138,255,0.4)); }
-.n8n-node-wait rect { stroke: var(--muted); stroke-dasharray: 3 3; }
-.n8n-node-done rect { stroke: var(--accent-dim); fill: rgba(37,211,102,0.08); }
-.n8n-node-icon { font-size: 18px; }
-.n8n-node-label { fill: var(--fg); font-size: 12px; font-weight: 600; font-family: inherit; }
-.n8n-edge { fill: none; stroke: var(--border); stroke-width: 1.5; }
-.n8n-edge-alt { stroke-dasharray: 4 4; opacity: 0.6; }
-.n8n-edge-pulse { fill: var(--accent); filter: drop-shadow(0 0 4px rgba(37,211,102,0.8)); }
-.n8n-edge-pulse.n8n-edge-alt { fill: var(--muted); filter: none; }
-.n8n-caption { color: var(--muted); font-size: 0.85rem; margin-top: 12px; max-width: 640px; }
-.n8n-download { margin-top: 12px; }
-.n8n-compact .n8n-workflow-scroll { border-radius: 10px; padding: 6px; }
-.n8n-compact .n8n-node-icon { font-size: 16px; }
-.n8n-compact .n8n-node-label { font-size: 10.5px; font-weight: 600; }
-.n8n-download-mini { display: inline-block; margin-top: 8px; font-size: 0.74rem; color: var(--muted); }
-.n8n-download-mini:hover { color: var(--accent); }
+.process-runner-compact .process-runner-start,
+.process-runner-compact .process-runner-replay { padding: 10px 14px; font-size: 0.8rem; }
+.process-runner-start:hover, .process-runner-replay:hover { background: rgba(37,211,102,0.16); transform: translateY(-1px); }
+.process-runner-replay { margin-top: 16px; background: transparent; color: var(--muted); border-color: var(--border); }
+.process-runner-replay:hover { color: var(--accent); border-color: var(--accent-dim); }
+.process-runner-start[hidden], .process-runner-replay[hidden] { display: none; }
+.process-runner-status {
+  min-height: 0; font-size: 0.78rem; font-weight: 600; color: var(--accent);
+  margin-top: 10px; letter-spacing: .01em;
+}
+.process-runner-status:empty { margin-top: 0; }
+.process-steps { list-style: none; margin: 18px 0 0; padding: 0; }
+.process-runner-compact .process-steps { margin-top: 14px; }
+.process-step { position: relative; display: flex; align-items: flex-start; gap: 12px; padding: 0 0 22px 0; }
+.process-runner-compact .process-step { padding-bottom: 16px; gap: 10px; }
+.process-step:last-child { padding-bottom: 0; }
+.process-step::before {
+  content: ""; position: absolute; left: 15px; top: 32px; bottom: -4px; width: 2px;
+  background: var(--border); transition: background .35s ease;
+}
+.process-runner-compact .process-step::before { left: 12px; top: 26px; }
+.process-step:last-child::before { display: none; }
+.process-step.is-active::before { background: var(--accent-dim); }
+.process-step-dot {
+  flex: none; width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: #10151b; border: 1.5px solid var(--border);
+  font-size: 15px; opacity: .55; transform: scale(.88);
+  transition: opacity .25s ease, transform .25s ease, border-color .25s ease, box-shadow .25s ease, background .25s ease;
+}
+.process-runner-compact .process-step-dot { width: 24px; height: 24px; font-size: 12px; }
+.process-step.is-active .process-step-dot {
+  opacity: 1; transform: scale(1); border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(37,211,102,0.12), 0 0 12px rgba(37,211,102,0.35);
+  animation: process-step-pop .4s ease;
+}
+@keyframes process-step-pop { 0% { transform: scale(.7); } 60% { transform: scale(1.18); } 100% { transform: scale(1); } }
+.process-step-body { padding-top: 5px; opacity: .8; transition: opacity .3s ease; }
+.process-step.is-active .process-step-body { opacity: 1; }
+.process-step-label { font-weight: 600; font-size: 0.94rem; color: var(--fg); }
+.process-runner-compact .process-step-label { font-size: 0.8rem; }
+.process-step-alt {
+  display: block; margin-top: 5px; font-size: 0.76rem; color: var(--muted);
+  border-left: 2px dashed var(--border); padding-left: 8px;
+}
+.process-step-condition.is-active .process-step-dot { border-color: #e6b93d; box-shadow: 0 0 0 4px rgba(230,185,61,0.12), 0 0 12px rgba(230,185,61,0.35); }
+.process-step-action.is-active .process-step-dot { border-color: #4db8ff; box-shadow: 0 0 0 4px rgba(77,184,255,0.12), 0 0 12px rgba(77,184,255,0.35); }
+.process-step-ai.is-active .process-step-dot { border-color: #b98aff; box-shadow: 0 0 0 4px rgba(185,138,255,0.12), 0 0 12px rgba(185,138,255,0.35); }
+.process-step-wait.is-active .process-step-dot { border-color: var(--muted); box-shadow: none; }
+.process-step-done.is-active .process-step-dot { border-color: var(--accent-dim); background: rgba(37,211,102,0.18); }
+.process-runner-caption { color: var(--muted); font-size: 0.85rem; margin-top: 16px; max-width: 640px; }
 @media (prefers-reduced-motion: reduce) {
-  .n8n-edge-pulse animateMotion, .n8n-edge-pulse { display: none; }
+  .process-step, .process-step-dot, .process-step-body, .process-step::before { transition: none !important; animation: none !important; }
 }

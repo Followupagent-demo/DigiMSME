@@ -190,6 +190,7 @@ def foot(lang="en"):
 <script src="/assets/js/use-case-switcher.js"></script>
 <script src="/assets/js/home-rotator.js"></script>
 <script src="/assets/js/card-burst-nav.js"></script>
+<script src="/assets/js/process-runner.js"></script>
 </body>
 </html>
 """
@@ -1254,8 +1255,8 @@ def build_negotiation_agent_demo():
   <div class="container">
     <div class="eyebrow">⚡ Real Workflow, Not a Mockup</div>
     <h2>The story above, as the actual automation that runs it</h2>
-    <p class="lead" style="max-width:680px;">Built in n8n, the open-source workflow engine. Download it below and it opens in any n8n instance, node for node.</p>
-    {render_n8n_workflow(na_wf_file, caption=f"{esc(NEGOTIATION_AGENT['name'])} — {esc(NEGOTIATION_AGENT['blurb'])}")}
+    <p class="lead" style="max-width:680px;">Built in n8n, the open-source workflow engine. Tap play below and watch it run end to end.</p>
+    {render_process_runner(na_wf_file, caption=f"{esc(NEGOTIATION_AGENT['name'])} — {esc(NEGOTIATION_AGENT['blurb'])}")}
   </div>
 </section>"""
     body = nav("/demos/") + f"""
@@ -1274,6 +1275,8 @@ def build_negotiation_agent_demo():
     <a class="btn btn-primary" href="/pricing/">Add this to a Custom Pack</a>
   </div>
 </section>
+
+{consultation_cta_section()}
 """ + foot()
     write(f"demos/module-{NEGOTIATION_AGENT['id']}.html", head(f"{NEGOTIATION_AGENT['name']} — {BRAND}",
         NEGOTIATION_AGENT["blurb"], f"/demos/module-{NEGOTIATION_AGENT['id']}.html") + body)
@@ -1304,8 +1307,8 @@ def build_module_demo_page(mod):
   <div class="container">
     <div class="eyebrow">⚡ Real Workflow, Not a Mockup</div>
     <h2>The story above, as the actual automation that runs it</h2>
-    <p class="lead" style="max-width:680px;">Built in n8n, the open-source workflow engine. Download it below and it opens in any n8n instance, node for node — this is what "{esc(mod['name'])}" actually is, not a diagram standing in for one.</p>
-    {render_n8n_workflow(wf_file, caption=f"{esc(mod['name'])} — {esc(mod['blurb'])}")}
+    <p class="lead" style="max-width:680px;">Built in n8n, the open-source workflow engine. Tap play below and watch it run end to end — this is what "{esc(mod['name'])}" actually is, not a diagram standing in for one.</p>
+    {render_process_runner(wf_file, caption=f"{esc(mod['name'])} — {esc(mod['blurb'])}")}
   </div>
 </section>"""
     body = nav("/demos/") + f"""
@@ -1324,6 +1327,8 @@ def build_module_demo_page(mod):
     <a class="btn btn-primary" href="/pricing/">Add this to a Custom Pack</a>
   </div>
 </section>
+
+{consultation_cta_section()}
 """ + foot()
     write(f"demos/module-{mod['id']}.html", head(f"{mod['name']} Demo — {BRAND}",
         mod["blurb"], f"/demos/module-{mod['id']}.html") + body)
@@ -1456,38 +1461,30 @@ N8N_NODE_STYLE = {
 }
 
 
-def render_n8n_workflow(filename, caption="", compact=False):
+def render_process_runner(filename, caption="", compact=False):
     """Renders a real n8n workflow export (assets_src/n8n-workflows/*.json)
-    as a node-graph diagram — not a decorative mockup. Node positions and
-    labels come straight from the workflow file itself, so the picture on
-    the page is an accurate rendering of an actual, importable n8n
-    workflow, not a stand-in for one. A visitor can download the exact
-    file and drop it into their own n8n instance.
-    compact=True renders a smaller card-sized version (for the module
-    grid) instead of the full showcase size."""
+    as a tap-to-play vertical process walkthrough — not a diagram to
+    scroll or a file to download. Walks the workflow's own connection
+    graph from its trigger along the primary path, so the steps that
+    light up on tap are read straight from an actual, working automation,
+    not a stand-in for one. Where a step branches (an IF node), the
+    untaken side is shown as a small "otherwise" note rather than being
+    animated. compact=True renders a smaller version for the module grid
+    cards; both are tap-to-play, phone-friendly, and scroll-free."""
     path = os.path.join(ASSETS_SRC, "n8n-workflows", filename)
     with open(path, encoding="utf-8") as f:
         wf = json.load(f)
 
-    nodes = {n["id"]: n for n in wf["nodes"]}
-    name_to_id = {n["name"]: n["id"] for n in wf["nodes"]}
+    nodes_by_name = {n["name"]: n for n in wf["nodes"]}
+    connections = wf.get("connections", {})
 
-    xs = [n["position"][0] for n in nodes.values()]
-    ys = [n["position"][1] for n in nodes.values()]
-    if compact:
-        SCALE, PAD, NODE_W, NODE_H = 0.55, 20, 148, 46
-    else:
-        SCALE, PAD, NODE_W, NODE_H = 0.85, 44, 190, 58
-    min_x, min_y = min(xs), min(ys)
-
-    def px(x):
-        return round((x - min_x) * SCALE) + PAD
-
-    def py(y):
-        return round((y - min_y) * SCALE) + PAD
-
-    width = px(max(xs)) + NODE_W + PAD
-    height = py(max(ys)) + NODE_H + PAD
+    incoming = set()
+    for out in connections.values():
+        for branch in out.get("main", []):
+            for conn in branch:
+                incoming.add(conn["node"])
+    start_candidates = [n for n in wf["nodes"] if n["name"] not in incoming]
+    start = min(start_candidates or wf["nodes"], key=lambda n: n["position"][0])
 
     def node_icon_cls(n):
         icon, cls = N8N_NODE_STYLE.get(n["type"], ("⚙️", "n8n-node-action"))
@@ -1504,85 +1501,42 @@ def render_n8n_workflow(filename, caption="", compact=False):
             icon = "🔍"
         return icon, cls
 
-    boxes = ""
-    def wrap_two_lines(text, width=15):
-        words = text.split(" ")
-        line1 = ""
-        i = 0
-        while i < len(words) and len(line1) + len(words[i]) + 1 <= width:
-            line1 = (line1 + " " + words[i]).strip()
-            i += 1
-        line2 = " ".join(words[i:])
-        if len(line2) > width:
-            line2 = line2[:width - 1] + "…"
-        return line1, line2
-
-    def short_label(text, width=15):
-        return text if len(text) <= width else text[:width - 1] + "…"
-
-    for n in nodes.values():
-        x, y = px(n["position"][0]), py(n["position"][1])
-        icon, cls = node_icon_cls(n)
-        if compact:
-            boxes += f"""<g class="n8n-node {cls}" transform="translate({x},{y})">
-              <rect width="{NODE_W}" height="{NODE_H}" rx="8"></rect>
-              <text x="12" y="{NODE_H/2 + 5}" class="n8n-node-icon">{icon}</text>
-              <text x="34" y="{NODE_H/2 + 5}" class="n8n-node-label">{esc(short_label(n['name']))}</text>
-            </g>"""
-        else:
-            l1, l2 = wrap_two_lines(n["name"])
-            label_html = f'<tspan x="46" dy="0">{esc(l1)}</tspan>'
-            if l2:
-                label_html += f'<tspan x="46" dy="15">{esc(l2)}</tspan>'
-            boxes += f"""<g class="n8n-node {cls}" transform="translate({x},{y})">
-              <rect width="{NODE_W}" height="{NODE_H}" rx="12"></rect>
-              <text x="16" y="24" class="n8n-node-icon">{icon}</text>
-              <text x="46" y="24" class="n8n-node-label">{label_html}</text>
-            </g>"""
-
-    paths = ""
-    for src_name, out in wf.get("connections", {}).items():
-        src_id = name_to_id.get(src_name)
-        if src_id is None:
-            continue
-        src = nodes[src_id]
-        sx, sy = px(src["position"][0]) + NODE_W, py(src["position"][1]) + NODE_H / 2
+    path_nodes = []
+    seen = set()
+    cur = start["name"]
+    while cur and cur not in seen:
+        seen.add(cur)
+        n = nodes_by_name.get(cur)
+        if not n:
+            break
+        out = connections.get(cur, {})
         branches = out.get("main", [])
-        for branch_i, branch in enumerate(branches):
-            for conn in branch:
-                dst = nodes.get(name_to_id.get(conn["node"]))
-                if not dst:
-                    continue
-                dx, dy = px(dst["position"][0]), py(dst["position"][1]) + NODE_H / 2
-                mid = (sx + dx) / 2
-                branch_cls = " n8n-edge-alt" if branch_i == 1 else ""
-                paths += (f'<path class="n8n-edge{branch_cls}" '
-                          f'd="M{sx},{sy} C{mid},{sy} {mid},{dy} {dx},{dy}"></path>'
-                          f'<circle class="n8n-edge-pulse{branch_cls}" r="3">'
-                          f'<animateMotion dur="{2.6 + branch_i * 0.4}s" repeatCount="indefinite" '
-                          f'path="M{sx},{sy} C{mid},{sy} {mid},{dy} {dx},{dy}"></animateMotion></circle>')
+        alt_name = branches[1][0]["node"] if len(branches) > 1 and branches[1] else None
+        path_nodes.append((n, alt_name))
+        cur = branches[0][0]["node"] if branches and branches[0] else None
 
-    dl_href = f"/assets/n8n-workflows/{filename}"
-    if compact:
-        return f"""<div class="n8n-workflow-wrap n8n-compact">
-          <div class="n8n-workflow-scroll">
-            <svg class="n8n-workflow-svg" viewBox="0 0 {width} {height}" width="{width}" height="{height}">
-              {paths}
-              {boxes}
-            </svg>
-          </div>
-          <a class="n8n-download-mini" href="{dl_href}" download>⬇ .json</a>
+    steps_html = ""
+    for n, alt_name in path_nodes:
+        icon, cls = node_icon_cls(n)
+        step_cls = cls.replace("n8n-node-", "process-step-")
+        alt_html = (f'<span class="process-step-alt">↳ otherwise: {esc(alt_name)}</span>'
+                    if alt_name else "")
+        steps_html += f"""<div class="process-step {step_cls}">
+          <span class="process-step-dot"><span class="process-step-icon">{icon}</span></span>
+          <span class="process-step-body">
+            <span class="process-step-label">{esc(n['name'])}</span>
+            {alt_html}
+          </span>
         </div>"""
-    cap_html = f'<p class="n8n-caption">{esc(caption)}</p>' if caption else ""
-    return f"""<div class="n8n-workflow-wrap">
-      <div class="n8n-workflow-scroll">
-        <svg class="n8n-workflow-svg" viewBox="0 0 {width} {height}" width="{width}" height="{height}">
-          {paths}
-          {boxes}
-        </svg>
-      </div>
+
+    compact_cls = " process-runner-compact" if compact else ""
+    cap_html = f'<p class="process-runner-caption">{esc(caption)}</p>' if caption else ""
+    return f"""<div class="process-runner{compact_cls}">
+      <button type="button" class="process-runner-start">▶ Tap to see how this runs</button>
+      <div class="process-runner-status" aria-live="polite"></div>
+      <div class="process-steps">{steps_html}</div>
+      <button type="button" class="process-runner-replay" hidden>↻ Replay</button>
       {cap_html}
-      <a class="btn btn-ghost n8n-download" href="{dl_href}" download>⬇ Download real n8n workflow (.json)</a>
     </div>"""
 
 
@@ -1680,7 +1634,7 @@ def build_agentic():
             applicable += f" +{more} more"
         wf_file = N8N_WORKFLOW_FILE.get(mod["id"], f"{mod['id']}.json")
         wf_path = os.path.join(ASSETS_SRC, "n8n-workflows", wf_file)
-        diagram = render_n8n_workflow(wf_file, compact=True) if os.path.exists(wf_path) else ""
+        diagram = render_process_runner(wf_file, compact=True) if os.path.exists(wf_path) else ""
         return f"""<div class="card industry-card">
           {diagram}
           <h3>{esc(mod['name'])}</h3>
@@ -1713,8 +1667,8 @@ def build_agentic():
   <div class="container">
     <div class="eyebrow">⚡ Real Workflow, Not a Mockup</div>
     <h2>This is what actually runs — not a made-up diagram</h2>
-    <p class="lead" style="max-width:680px;">Built in n8n, the open-source workflow engine — no proprietary black box. Download the file below and it opens in any n8n instance, node for node.</p>
-    {render_n8n_workflow("invoice-payment-reminder.json",
+    <p class="lead" style="max-width:680px;">Built in n8n, the open-source workflow engine — no proprietary black box. Tap play below and watch it run end to end.</p>
+    {render_process_runner("invoice-payment-reminder.json",
         caption="Invoice + Payment Reminders — the tiered 7/14/30-day WhatsApp follow-up, checking payment status before every send so a paid invoice never gets chased.")}
   </div>
 </section>
@@ -1774,6 +1728,8 @@ def build_agentic():
     </div>
   </div>
 </section>
+
+{consultation_cta_section()}
 """ + foot()
     write("agentic-use-cases/index.html", head(f"Agentic Use Cases — {BRAND}",
         "Can AI actually increase your sales? Non-Agentic and Agentic automations, honestly scoped — no invented prices.", "/agentic-use-cases/") + body)
