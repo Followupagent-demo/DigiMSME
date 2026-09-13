@@ -1227,11 +1227,14 @@ def build_pricing():
     packs_html = ""
     for p in PRICING_PACKS:
         items = "".join(f"<li>{esc(i)}</li>" for i in p["includes"])
+        price_note = f'<div class="price-note">{esc(p["price_note"])}</div>' if p.get("price_note") else ""
+        support_note = f' <span class="price-note-inline">{esc(p["support_note"])}</span>' if p.get("support_note") else ""
         packs_html += f"""<div class="card price-card">
           <span class="tag">{p['tag']}</span>
           <h3>{p['name']}</h3>
           <div class="price">{p['price']}</div>
-          <div class="price-support">+ {p['support_price']}</div>
+          {price_note}
+          <div class="price-support">+ {p['support_price']}{support_note}</div>
           <ul>{items}</ul>
         </div>"""
 
@@ -1260,12 +1263,24 @@ def build_pricing():
         industry_chips += f'<button type="button" class="use-case-chip" data-slug="{ind["slug"]}" data-name="{esc(ind["name"])}">{ind["icon"]} {ind["name"]}</button>'
     industry_modules_json = json.dumps(INDUSTRY_MODULES)
 
+    review_wa_href = "https://wa.me/911234567890?text=Hi!%20I'd%20like%20a%20free%20review%20of%20my%20business."
     body = nav("/pricing/") + f"""
 <section class="page-hero">
   <div class="container">
     <div class="eyebrow">Pricing</div>
     <h1>Pay for one-time development. Not a SaaS subscription.</h1>
-    <p class="lead">Go Digital starts real work moving at ₹35,999, built once for your business — plus ₹8,999/yr for support that keeps it updated, secure and running. Growth and Expansion scale with you the same way — quoted once we know what you already have.</p>
+    <p class="lead">Go Digital starts at ₹2,999/month, billed yearly — plus ₹750/month for support that keeps it updated, secure and running. Growth and Expansion scale with you the same way — quoted once we know what you already have.</p>
+  </div>
+</section>
+
+<section class="section-pad-sm" style="padding-top:0;">
+  <div class="container">
+    <div class="card" style="text-align:center; border-color:var(--accent-dim);">
+      <div class="eyebrow">Free Consultation &amp; Planning</div>
+      <h2 style="margin-bottom:10px;">Not sure which pack fits? Get My Business Reviewed — Free.</h2>
+      <p class="lead" style="max-width:600px; margin:0 auto 20px;">No cost, no obligation. We'll look at your website, Google listing, and how you currently handle enquiries — then hand you a clear plan for what to fix first.</p>
+      <a class="btn btn-primary" href="{review_wa_href}" target="_blank" rel="noopener">Get My Business Reviewed</a>
+    </div>
   </div>
 </section>
 
