@@ -11,10 +11,14 @@
  * effect is a pure function of t: driving t with scroll position makes it
  * reverse cleanly when the user scrolls back up.
  *
- * The source element's real text stays in the DOM (just painted
- * transparent) so screen readers, SEO, and the no-JS fallback are
- * unaffected — this only ever runs after GSAP has loaded and this script
- * is only invoked from cinematic.js's gsap:ready path.
+ * The source element's real text stays in the DOM so screen readers, SEO,
+ * and the no-JS fallback are unaffected — this only ever runs after GSAP
+ * has loaded and this script is only invoked from cinematic.js's
+ * gsap:ready path. Crucially, the canvas is only shown WHILE t is
+ * actually mid-transition: the instant a scene is fully assembled (t
+ * back down near 0) the canvas is hidden and the real, normally
+ * anti-aliased text is shown instead — a "held, readable" scene must
+ * never sit there rendered as a sparse dot-grid.
  */
 (function () {
   function easeOutCubic(x) { return 1 - Math.pow(1 - x, 3); }
@@ -79,7 +83,7 @@
       return;
     }
 
-    var stride = Math.max(1, Math.round(this.stride * dpr));
+    var stride = Math.max(1, Math.round(Math.max(1, this.stride - 1) * dpr));
     var particles = [];
     for (var y = 0; y < imgH; y += stride) {
       for (var x = 0; x < imgW; x += stride) {
@@ -104,8 +108,8 @@
     canvas.height = imgH;
     canvas.style.width = rect.width + "px";
     canvas.style.height = rect.height + "px";
+    canvas.style.display = "none";
 
-    el.classList.add("ptxt-source");
     el.parentNode.insertBefore(canvas, el.nextSibling);
 
     this.particles = particles;
@@ -116,16 +120,37 @@
     this.ctx = canvas.getContext("2d");
     this.ctx.scale(dpr, dpr);
     this.built = true;
+    this.showingReal = true;
     this.setProgress(0);
   };
+
+  // Below this, treat the scene as "at rest" — show the real, normally
+  // rendered (fully anti-aliased) text and hide the particle canvas
+  // entirely, rather than a dot-grid rendition of a static state.
+  var REST_THRESHOLD = 0.04;
 
   ParticleText.prototype.setProgress = function (t) {
     if (!this.built) return;
     t = Math.max(0, Math.min(1, t));
+
+    if (t < REST_THRESHOLD) {
+      if (!this.showingReal) {
+        this.canvas.style.display = "none";
+        this.el.style.color = "";
+        this.showingReal = true;
+      }
+      return;
+    }
+
+    if (this.showingReal) {
+      this.canvas.style.display = "block";
+      this.el.style.color = "transparent";
+      this.showingReal = false;
+    }
+
     var ctx = this.ctx;
     ctx.clearRect(0, 0, this.rectW, this.rectH);
     var baseAlpha = 1 - t;
-    if (baseAlpha <= 0.01) return;
     ctx.fillStyle = this.color;
     var particles = this.particles;
     for (var i = 0; i < particles.length; i++) {

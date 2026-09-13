@@ -129,8 +129,12 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 .scene.is-visible { opacity: 1; transform: none; }
 /* Opacity here is driven per scroll-frame by cinematic.js once GSAP is
    active (a continuous function of scroll position, not a fixed-duration
-   animation) — no CSS transition, so it never lags behind the scrub. */
-.js-pin-active .scene { position: absolute; inset: 0; min-height: 0; height: 100vh; opacity: 0; pointer-events: none; transform: none; }
+   animation). `transition: none` explicitly cancels the base .scene
+   rule's 0.6s opacity/transform transition above — without this, the
+   browser was still smoothing every scrub-driven opacity change over
+   0.6s on its own, lagging up to half a second behind the real scroll
+   position even though the JS value itself was already correct. */
+.js-pin-active .scene { position: absolute; inset: 0; min-height: 0; height: 100vh; opacity: 0; pointer-events: none; transform: none; transition: none; }
 .js-pin-active .cinematic-pin { height: 100vh; overflow: hidden; }
 
 .scene-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; width: 100%; }
@@ -141,12 +145,16 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 .scene-copy h2 { margin-bottom: 10px; position: relative; }
 .scene-copy p { color: var(--muted); max-width: 480px; }
 
-/* Canvas particle-text overlay (particle-text.js): the real heading text
-   is painted transparent and a canvas sits exactly over it, redrawn each
-   scroll frame as scattered/reassembling pixels. Only created once GSAP
-   is active — the no-JS fallback never gets a .ptxt-source class, so its
-   text is never hidden. */
-.scene-copy h2.ptxt-source { color: transparent !important; }
+/* Canvas particle-text overlay (particle-text.js): while a scene is
+   actually mid-transition, the real heading is painted transparent and a
+   canvas sits exactly over it, redrawn each scroll frame as
+   scattered/reassembling pixels — but the instant it's back at rest,
+   particle-text.js hides the canvas and restores the real text's color
+   inline, so a held/readable scene always shows normal, fully
+   anti-aliased text, never a dot-grid. Both are managed via inline
+   styles from JS, not CSS classes, so this rule only needs to position
+   the canvas; it's only ever created once GSAP is active, so the no-JS
+   fallback never has a canvas or a hidden heading at all. */
 .ptxt-canvas { position: absolute; left: 0; top: 0; pointer-events: none; }
 
 /* Phrase fragments for the "falls into place, turns red" reveal on loss
