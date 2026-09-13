@@ -876,7 +876,7 @@ def use_case_panel(key, pain, fix, visible=False, contact=None):
     return f"""<div class="use-case-panel" data-usecase="{key}"{hidden_attr}>
   <div class="grid grid-2" style="align-items:start;">
     <div>
-      <span class="eyebrow">Today</span>
+      <span class="eyebrow eyebrow-loss">Today</span>
       <h3 style="margin-bottom:10px;">{pain['title']}</h3>
       {pain_visual}
     </div>

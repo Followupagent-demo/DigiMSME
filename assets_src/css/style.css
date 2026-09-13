@@ -177,6 +177,8 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 
 .scene-copy { position: relative; }
 .scene-copy .eyebrow { margin-bottom: 10px; }
+.scene[data-accent="red"] .scene-copy .eyebrow { color: var(--danger); }
+.eyebrow-loss { color: var(--danger); }
 .scene-copy h2 { margin-bottom: 10px; position: relative; }
 .scene-copy p { color: var(--muted); max-width: 480px; }
 
