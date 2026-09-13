@@ -1,0 +1,172 @@
+{
+  "name": "AsliKaam — Negative Review Alert + Recovery Agent",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "New Review Received",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        220,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "Sentiment: Negative?",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "Negative?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n4",
+      "name": "Alert Owner Immediately",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        940,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n5",
+      "name": "AI: Draft Apology + Recovery Offer",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n6",
+      "name": "Send for Approval Within the Hour",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1420,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n7",
+      "name": "Negative? — Done",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1660,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n8",
+      "name": "Positive — No Action",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        940,
+        440
+      ]
+    }
+  ],
+  "connections": {
+    "New Review Received": {
+      "main": [
+        [
+          {
+            "node": "Sentiment: Negative?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sentiment: Negative?": {
+      "main": [
+        [
+          {
+            "node": "Negative?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Negative?": {
+      "main": [
+        [
+          {
+            "node": "Alert Owner Immediately",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Positive — No Action",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Alert Owner Immediately": {
+      "main": [
+        [
+          {
+            "node": "AI: Draft Apology + Recovery Offer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: Draft Apology + Recovery Offer": {
+      "main": [
+        [
+          {
+            "node": "Send for Approval Within the Hour",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send for Approval Within the Hour": {
+      "main": [
+        [
+          {
+            "node": "Negative? — Done",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "asli-kaam-aslikaam-—-negative-review-alert-+-recovery-agent"
+  }
+}

@@ -1,0 +1,238 @@
+{
+  "name": "AsliKaam — Instant-Response + Negotiation Agent",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "WhatsApp Message Received",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        220,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "AI: Draft Instant Reply",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "Send Quote",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n4",
+      "name": "Customer Names Competitor Price?",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        940,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n5",
+      "name": "Within Approved Match Limit?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n6",
+      "name": "Match Price + Send Payment Link",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1420,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n7",
+      "name": "Wait for Payment",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        1660,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n8",
+      "name": "Confirm + Trigger Referral Follow-up",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1900,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n9",
+      "name": "Closed",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2140,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n10",
+      "name": "Alert Owner — Needs Manual Call",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1420,
+        440
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n11",
+      "name": "Within Approved Match Limit? — Skip",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1660,
+        440
+      ]
+    }
+  ],
+  "connections": {
+    "WhatsApp Message Received": {
+      "main": [
+        [
+          {
+            "node": "AI: Draft Instant Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: Draft Instant Reply": {
+      "main": [
+        [
+          {
+            "node": "Send Quote",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Quote": {
+      "main": [
+        [
+          {
+            "node": "Customer Names Competitor Price?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Customer Names Competitor Price?": {
+      "main": [
+        [
+          {
+            "node": "Within Approved Match Limit?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Within Approved Match Limit?": {
+      "main": [
+        [
+          {
+            "node": "Match Price + Send Payment Link",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Alert Owner — Needs Manual Call",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Match Price + Send Payment Link": {
+      "main": [
+        [
+          {
+            "node": "Wait for Payment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for Payment": {
+      "main": [
+        [
+          {
+            "node": "Confirm + Trigger Referral Follow-up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Confirm + Trigger Referral Follow-up": {
+      "main": [
+        [
+          {
+            "node": "Closed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Alert Owner — Needs Manual Call": {
+      "main": [
+        [
+          {
+            "node": "Within Approved Match Limit? — Skip",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "asli-kaam-aslikaam-—-instant-response-+-negotiation-agent"
+  }
+}

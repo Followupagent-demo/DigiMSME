@@ -1,0 +1,110 @@
+{
+  "name": "AsliKaam — Claim / Document Auto-Email Dispatch",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "Claim / Document Ready",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        220,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "AI: Generate Document Summary",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "Email: Send to Right Address",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n4",
+      "name": "WhatsApp: Status Update to Customer",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        940,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n5",
+      "name": "Dispatched",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Claim / Document Ready": {
+      "main": [
+        [
+          {
+            "node": "AI: Generate Document Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: Generate Document Summary": {
+      "main": [
+        [
+          {
+            "node": "Email: Send to Right Address",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email: Send to Right Address": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp: Status Update to Customer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp: Status Update to Customer": {
+      "main": [
+        [
+          {
+            "node": "Dispatched",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "asli-kaam-aslikaam-—-claim-/-document-auto-email-dispatch"
+  }
+}

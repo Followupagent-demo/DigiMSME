@@ -1,0 +1,172 @@
+{
+  "name": "AsliKaam — AI Quotation Drafting Agent",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "Customer Requirement Received",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        220,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "AI: Draft Formatted Quote",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "Send to Owner for Approval",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n4",
+      "name": "Approved?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        940,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n5",
+      "name": "Send Quote to Customer",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n6",
+      "name": "Sent",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1420,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n7",
+      "name": "Return for Edits",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        440
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n8",
+      "name": "Approved? — Skip",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1420,
+        440
+      ]
+    }
+  ],
+  "connections": {
+    "Customer Requirement Received": {
+      "main": [
+        [
+          {
+            "node": "AI: Draft Formatted Quote",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: Draft Formatted Quote": {
+      "main": [
+        [
+          {
+            "node": "Send to Owner for Approval",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send to Owner for Approval": {
+      "main": [
+        [
+          {
+            "node": "Approved?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approved?": {
+      "main": [
+        [
+          {
+            "node": "Send Quote to Customer",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Return for Edits",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Quote to Customer": {
+      "main": [
+        [
+          {
+            "node": "Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Return for Edits": {
+      "main": [
+        [
+          {
+            "node": "Approved? — Skip",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "asli-kaam-aslikaam-—-ai-quotation-drafting-agent"
+  }
+}

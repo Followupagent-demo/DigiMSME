@@ -1,0 +1,150 @@
+{
+  "name": "AsliKaam — Stock Check-and-Reserve",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "Customer Asks: In Stock?",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        220,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "Check Real Inventory Sheet",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "In Stock?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n4",
+      "name": "WhatsApp: Confirm + Offer Reserve",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        940,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n5",
+      "name": "Reserved",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n6",
+      "name": "WhatsApp: Offer Alternative / Waitlist",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        940,
+        440
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n7",
+      "name": "In Stock? — Skip",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        440
+      ]
+    }
+  ],
+  "connections": {
+    "Customer Asks: In Stock?": {
+      "main": [
+        [
+          {
+            "node": "Check Real Inventory Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Real Inventory Sheet": {
+      "main": [
+        [
+          {
+            "node": "In Stock?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "In Stock?": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp: Confirm + Offer Reserve",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "WhatsApp: Offer Alternative / Waitlist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp: Confirm + Offer Reserve": {
+      "main": [
+        [
+          {
+            "node": "Reserved",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp: Offer Alternative / Waitlist": {
+      "main": [
+        [
+          {
+            "node": "In Stock? — Skip",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "asli-kaam-aslikaam-—-stock-check-and-reserve"
+  }
+}

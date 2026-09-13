@@ -1,0 +1,128 @@
+{
+  "name": "AsliKaam — Reorder / Repeat-Purchase Nudge",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "Check Customer Reorder Cycles",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        220,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "Due for Reorder?",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "Due Now?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n4",
+      "name": "WhatsApp: Reorder Nudge",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        940,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n5",
+      "name": "Sent",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n6",
+      "name": "Not Due Yet",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        940,
+        440
+      ]
+    }
+  ],
+  "connections": {
+    "Check Customer Reorder Cycles": {
+      "main": [
+        [
+          {
+            "node": "Due for Reorder?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Due for Reorder?": {
+      "main": [
+        [
+          {
+            "node": "Due Now?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Due Now?": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp: Reorder Nudge",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Not Due Yet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp: Reorder Nudge": {
+      "main": [
+        [
+          {
+            "node": "Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "asli-kaam-aslikaam-—-reorder-/-repeat-purchase-nudge"
+  }
+}

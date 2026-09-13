@@ -1422,6 +1422,7 @@ def build_pricing():
 
 N8N_NODE_STYLE = {
     "n8n-nodes-base.webhook": ("⚡", "n8n-node-trigger"),
+    "n8n-nodes-base.scheduleTrigger": ("🕒", "n8n-node-trigger"),
     "n8n-nodes-base.wait": ("⏱", "n8n-node-wait"),
     "n8n-nodes-base.httpRequest": ("🌐", "n8n-node-action"),
     "n8n-nodes-base.if": ("🔀", "n8n-node-condition"),
@@ -1429,13 +1430,15 @@ N8N_NODE_STYLE = {
 }
 
 
-def render_n8n_workflow(filename, caption=""):
+def render_n8n_workflow(filename, caption="", compact=False):
     """Renders a real n8n workflow export (assets_src/n8n-workflows/*.json)
     as a node-graph diagram — not a decorative mockup. Node positions and
     labels come straight from the workflow file itself, so the picture on
     the page is an accurate rendering of an actual, importable n8n
     workflow, not a stand-in for one. A visitor can download the exact
-    file and drop it into their own n8n instance."""
+    file and drop it into their own n8n instance.
+    compact=True renders a smaller card-sized version (for the module
+    grid) instead of the full showcase size."""
     path = os.path.join(ASSETS_SRC, "n8n-workflows", filename)
     with open(path, encoding="utf-8") as f:
         wf = json.load(f)
@@ -1445,9 +1448,10 @@ def render_n8n_workflow(filename, caption=""):
 
     xs = [n["position"][0] for n in nodes.values()]
     ys = [n["position"][1] for n in nodes.values()]
-    SCALE = 0.72
-    PAD = 40
-    NODE_W, NODE_H = 150, 50
+    if compact:
+        SCALE, PAD, NODE_W, NODE_H = 0.42, 18, 96, 34
+    else:
+        SCALE, PAD, NODE_W, NODE_H = 0.72, 40, 150, 50
     min_x, min_y = min(xs), min(ys)
 
     def px(x):
@@ -1462,11 +1466,15 @@ def render_n8n_workflow(filename, caption=""):
     def node_icon_cls(n):
         icon, cls = N8N_NODE_STYLE.get(n["type"], ("⚙️", "n8n-node-action"))
         name = n["name"]
-        if "WhatsApp" in name:
+        if name.startswith("AI:") or name.startswith("AI "):
+            icon, cls = "🧠", "n8n-node-ai"
+        elif "WhatsApp" in name:
             icon = "💬"
+        elif "Email" in name:
+            icon = "✉️"
         elif "Alert" in name:
             icon = "🔔"
-        elif "Check" in name:
+        elif "Check" in name or "Sentiment" in name:
             icon = "🔍"
         return icon, cls
 
@@ -1486,15 +1494,21 @@ def render_n8n_workflow(filename, caption=""):
     for n in nodes.values():
         x, y = px(n["position"][0]), py(n["position"][1])
         icon, cls = node_icon_cls(n)
-        l1, l2 = wrap_two_lines(n["name"])
-        label_html = f'<tspan x="40" dy="0">{esc(l1)}</tspan>'
-        if l2:
-            label_html += f'<tspan x="40" dy="13">{esc(l2)}</tspan>'
-        boxes += f"""<g class="n8n-node {cls}" transform="translate({x},{y})">
-          <rect width="{NODE_W}" height="{NODE_H}" rx="12"></rect>
-          <text x="14" y="21" class="n8n-node-icon">{icon}</text>
-          <text x="40" y="21" class="n8n-node-label">{label_html}</text>
-        </g>"""
+        if compact:
+            boxes += f"""<g class="n8n-node {cls}" transform="translate({x},{y})">
+              <rect width="{NODE_W}" height="{NODE_H}" rx="8"></rect>
+              <text x="{NODE_W/2}" y="{NODE_H/2 + 5}" text-anchor="middle" class="n8n-node-icon">{icon}</text>
+            </g>"""
+        else:
+            l1, l2 = wrap_two_lines(n["name"])
+            label_html = f'<tspan x="40" dy="0">{esc(l1)}</tspan>'
+            if l2:
+                label_html += f'<tspan x="40" dy="13">{esc(l2)}</tspan>'
+            boxes += f"""<g class="n8n-node {cls}" transform="translate({x},{y})">
+              <rect width="{NODE_W}" height="{NODE_H}" rx="12"></rect>
+              <text x="14" y="21" class="n8n-node-icon">{icon}</text>
+              <text x="40" y="21" class="n8n-node-label">{label_html}</text>
+            </g>"""
 
     paths = ""
     for src_name, out in wf.get("connections", {}).items():
@@ -1519,6 +1533,16 @@ def render_n8n_workflow(filename, caption=""):
                           f'path="M{sx},{sy} C{mid},{sy} {mid},{dy} {dx},{dy}"></animateMotion></circle>')
 
     dl_href = f"/assets/n8n-workflows/{filename}"
+    if compact:
+        return f"""<div class="n8n-workflow-wrap n8n-compact">
+          <div class="n8n-workflow-scroll">
+            <svg class="n8n-workflow-svg" viewBox="0 0 {width} {height}" width="{width}" height="{height}">
+              {paths}
+              {boxes}
+            </svg>
+          </div>
+          <a class="n8n-download-mini" href="{dl_href}" download>⬇ .json</a>
+        </div>"""
     cap_html = f'<p class="n8n-caption">{esc(caption)}</p>' if caption else ""
     return f"""<div class="n8n-workflow-wrap">
       <div class="n8n-workflow-scroll">
@@ -1612,6 +1636,9 @@ def guardrail_slider_section():
 </section>"""
 
 
+N8N_WORKFLOW_FILE = {"invoice-reminder": "invoice-payment-reminder.json"}
+
+
 def build_agentic():
     non_agentic = [m for m in MODULES if not m["agentic"]]
     agentic = [m for m in MODULES if m["agentic"]]
@@ -1621,7 +1648,11 @@ def build_agentic():
         more = len(mod["industries"]) - 4
         if more > 0:
             applicable += f" +{more} more"
+        wf_file = N8N_WORKFLOW_FILE.get(mod["id"], f"{mod['id']}.json")
+        wf_path = os.path.join(ASSETS_SRC, "n8n-workflows", wf_file)
+        diagram = render_n8n_workflow(wf_file, compact=True) if os.path.exists(wf_path) else ""
         return f"""<div class="card industry-card">
+          {diagram}
           <h3>{esc(mod['name'])}</h3>
           <p>{esc(mod['blurb'])}</p>
           <p style="font-size:0.78rem; color:var(--muted); margin:0;">Works well for: {esc(applicable)}</p>

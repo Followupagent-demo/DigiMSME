@@ -1,0 +1,150 @@
+{
+  "name": "AsliKaam — Abandoned-Inquiry Win-Back Nudge",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "Inquiry Received",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        220,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "Wait — A Few Days Silence",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "Still No Reply From Customer?",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n4",
+      "name": "Silent?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        940,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n5",
+      "name": "WhatsApp: Fresh Win-Back Nudge",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n6",
+      "name": "Sent",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1420,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n7",
+      "name": "Already Replied",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        440
+      ]
+    }
+  ],
+  "connections": {
+    "Inquiry Received": {
+      "main": [
+        [
+          {
+            "node": "Wait — A Few Days Silence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait — A Few Days Silence": {
+      "main": [
+        [
+          {
+            "node": "Still No Reply From Customer?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Still No Reply From Customer?": {
+      "main": [
+        [
+          {
+            "node": "Silent?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Silent?": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp: Fresh Win-Back Nudge",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Already Replied",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp: Fresh Win-Back Nudge": {
+      "main": [
+        [
+          {
+            "node": "Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "asli-kaam-aslikaam-—-abandoned-inquiry-win-back-nudge"
+  }
+}

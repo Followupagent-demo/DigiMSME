@@ -721,6 +721,7 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 .n8n-node-trigger rect { stroke: var(--accent); filter: drop-shadow(0 0 6px rgba(37,211,102,0.45)); }
 .n8n-node-condition rect { stroke: #e6b93d; filter: drop-shadow(0 0 5px rgba(230,185,61,0.35)); }
 .n8n-node-action rect { stroke: #4db8ff; filter: drop-shadow(0 0 5px rgba(77,184,255,0.3)); }
+.n8n-node-ai rect { stroke: #b98aff; filter: drop-shadow(0 0 6px rgba(185,138,255,0.4)); }
 .n8n-node-wait rect { stroke: var(--muted); stroke-dasharray: 3 3; }
 .n8n-node-done rect { stroke: var(--accent-dim); fill: rgba(37,211,102,0.08); }
 .n8n-node-icon { font-size: 16px; }
@@ -731,6 +732,10 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 .n8n-edge-pulse.n8n-edge-alt { fill: var(--muted); filter: none; }
 .n8n-caption { color: var(--muted); font-size: 0.85rem; margin-top: 12px; max-width: 640px; }
 .n8n-download { margin-top: 12px; }
+.n8n-compact .n8n-workflow-scroll { border-radius: 10px; padding: 6px; }
+.n8n-compact .n8n-node-icon { font-size: 15px; }
+.n8n-download-mini { display: inline-block; margin-top: 8px; font-size: 0.74rem; color: var(--muted); }
+.n8n-download-mini:hover { color: var(--accent); }
 @media (prefers-reduced-motion: reduce) {
   .n8n-edge-pulse animateMotion, .n8n-edge-pulse { display: none; }
 }

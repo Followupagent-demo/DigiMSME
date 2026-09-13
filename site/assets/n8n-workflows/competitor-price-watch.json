@@ -1,0 +1,128 @@
+{
+  "name": "AsliKaam — Competitor Price-Watch Alert",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "Periodic Price Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        220,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "Check Competitor Public Listings",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "Price Changed?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n4",
+      "name": "Alert Owner Immediately",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        940,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n5",
+      "name": "Alerted",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n6",
+      "name": "No Change",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        940,
+        440
+      ]
+    }
+  ],
+  "connections": {
+    "Periodic Price Check": {
+      "main": [
+        [
+          {
+            "node": "Check Competitor Public Listings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Competitor Public Listings": {
+      "main": [
+        [
+          {
+            "node": "Price Changed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Price Changed?": {
+      "main": [
+        [
+          {
+            "node": "Alert Owner Immediately",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Change",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Alert Owner Immediately": {
+      "main": [
+        [
+          {
+            "node": "Alerted",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "asli-kaam-aslikaam-—-competitor-price-watch-alert"
+  }
+}

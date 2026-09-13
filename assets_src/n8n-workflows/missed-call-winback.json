@@ -1,0 +1,66 @@
+{
+  "name": "AsliKaam — Missed-Call Instant Win-Back",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "Missed Call Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        220,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "WhatsApp: Auto Pick Up Conversation",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "Sent — Before They Try Someone Else",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        700,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Missed Call Webhook": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp: Auto Pick Up Conversation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp: Auto Pick Up Conversation": {
+      "main": [
+        [
+          {
+            "node": "Sent — Before They Try Someone Else",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "asli-kaam-aslikaam-—-missed-call-instant-win-back"
+  }
+}

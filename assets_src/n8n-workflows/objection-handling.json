@@ -1,0 +1,150 @@
+{
+  "name": "AsliKaam — FAQ + Objection-Handling Agent",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "Customer Message Received",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        220,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "AI: Match Known FAQ / Objection",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "Known Question?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n4",
+      "name": "AI: Send Consistent Answer",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        940,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n5",
+      "name": "Answered",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n6",
+      "name": "Escalate — Genuinely New",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        940,
+        440
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n7",
+      "name": "Known Question? — Skip",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        440
+      ]
+    }
+  ],
+  "connections": {
+    "Customer Message Received": {
+      "main": [
+        [
+          {
+            "node": "AI: Match Known FAQ / Objection",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: Match Known FAQ / Objection": {
+      "main": [
+        [
+          {
+            "node": "Known Question?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Known Question?": {
+      "main": [
+        [
+          {
+            "node": "AI: Send Consistent Answer",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Escalate — Genuinely New",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: Send Consistent Answer": {
+      "main": [
+        [
+          {
+            "node": "Answered",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Escalate — Genuinely New": {
+      "main": [
+        [
+          {
+            "node": "Known Question? — Skip",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "asli-kaam-aslikaam-—-faq-+-objection-handling-agent"
+  }
+}

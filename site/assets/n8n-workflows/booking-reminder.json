@@ -1,0 +1,216 @@
+{
+  "name": "AsliKaam — Booking Confirmation + No-Show Reminder",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "New Booking Created",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        220,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "WhatsApp: Booking Confirmed",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "Wait Until Day Before Slot",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n4",
+      "name": "WhatsApp: Reminder — Slot Tomorrow",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        940,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n5",
+      "name": "Wait Until Slot Time",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n6",
+      "name": "Check Attendance Status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1420,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n7",
+      "name": "No-Show?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1660,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n8",
+      "name": "Log No-Show + Notify Owner",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1900,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n9",
+      "name": "Logged",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2140,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n10",
+      "name": "Attended — Close",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1900,
+        440
+      ]
+    }
+  ],
+  "connections": {
+    "New Booking Created": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp: Booking Confirmed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp: Booking Confirmed": {
+      "main": [
+        [
+          {
+            "node": "Wait Until Day Before Slot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait Until Day Before Slot": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp: Reminder — Slot Tomorrow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp: Reminder — Slot Tomorrow": {
+      "main": [
+        [
+          {
+            "node": "Wait Until Slot Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait Until Slot Time": {
+      "main": [
+        [
+          {
+            "node": "Check Attendance Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Attendance Status": {
+      "main": [
+        [
+          {
+            "node": "No-Show?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No-Show?": {
+      "main": [
+        [
+          {
+            "node": "Log No-Show + Notify Owner",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Attended — Close",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log No-Show + Notify Owner": {
+      "main": [
+        [
+          {
+            "node": "Logged",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "asli-kaam-aslikaam-—-booking-confirmation-+-no-show-reminder"
+  }
+}

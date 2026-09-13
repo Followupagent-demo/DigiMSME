@@ -1,0 +1,132 @@
+{
+  "name": "AsliKaam — Review Request + AI-Drafted Reply",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "Service Completed",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        220,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "WhatsApp: Review Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "New Google Review Received",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n4",
+      "name": "AI: Draft Reply to Review",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        940,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n5",
+      "name": "Send for Owner Approve-and-Post",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n6",
+      "name": "Posted",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1420,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Service Completed": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp: Review Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp: Review Request": {
+      "main": [
+        [
+          {
+            "node": "New Google Review Received",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New Google Review Received": {
+      "main": [
+        [
+          {
+            "node": "AI: Draft Reply to Review",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: Draft Reply to Review": {
+      "main": [
+        [
+          {
+            "node": "Send for Owner Approve-and-Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send for Owner Approve-and-Post": {
+      "main": [
+        [
+          {
+            "node": "Posted",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "asli-kaam-aslikaam-—-review-request-+-ai-drafted-reply"
+  }
+}
