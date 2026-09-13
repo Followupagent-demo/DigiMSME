@@ -16,4 +16,5 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://asli-kaam.pages.dev/sitemap.xml
+Sitemap: https://tiny-sky-5603.innndemolog.workers.dev/sitemap.xml
+Sitemap: https://tiny-sky-5603.innndemolog.workers.dev/sitemap-market-pulse.xml

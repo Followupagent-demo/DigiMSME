@@ -2042,6 +2042,7 @@ User-agent: CCBot
 Allow: /
 
 Sitemap: {SITE_URL}/sitemap.xml
+Sitemap: {SITE_URL}/sitemap-market-pulse.xml
 """
     write("robots.txt", robots)
 

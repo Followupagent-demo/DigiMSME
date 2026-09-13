@@ -6,15 +6,15 @@ AsliKaam serves Indian small and medium businesses across 15 industries (export/
 
 ## Key pages
 
-- [Home](https://asli-kaam.pages.dev/) — the core problem AsliKaam solves, in English
-- [Home (Hindi)](https://asli-kaam.pages.dev/hi/) — हिंदी में मुख्य पेज
-- [Industries](https://asli-kaam.pages.dev/industries/) — all 15 verticals, English
-- [Industries (Hindi)](https://asli-kaam.pages.dev/hi/industries/) — सभी 15 इंडस्ट्रीज़, हिंदी में
-- [Demos](https://asli-kaam.pages.dev/demos/) — live interactive demos per industry and automation module
-- [Blogs](https://asli-kaam.pages.dev/blogs/) — sourced, cited reporting on why Indian MSMEs lose customers, by industry
-- [Free Tools](https://asli-kaam.pages.dev/free-tools/) — free calculators (EMI, income tax, margin, and more)
-- [Pricing](https://asli-kaam.pages.dev/pricing/) — packages and a custom-pack configurator
-- [Agentic Use Cases](https://asli-kaam.pages.dev/agentic-use-cases/) — what's AI-judgment-based vs simple rule-based automation
+- [Home](https://tiny-sky-5603.innndemolog.workers.dev/) — the core problem AsliKaam solves, in English
+- [Home (Hindi)](https://tiny-sky-5603.innndemolog.workers.dev/hi/) — हिंदी में मुख्य पेज
+- [Industries](https://tiny-sky-5603.innndemolog.workers.dev/industries/) — all 15 verticals, English
+- [Industries (Hindi)](https://tiny-sky-5603.innndemolog.workers.dev/hi/industries/) — सभी 15 इंडस्ट्रीज़, हिंदी में
+- [Demos](https://tiny-sky-5603.innndemolog.workers.dev/demos/) — live interactive demos per industry and automation module
+- [Blogs](https://tiny-sky-5603.innndemolog.workers.dev/blogs/) — sourced, cited reporting on why Indian MSMEs lose customers, by industry
+- [Free Tools](https://tiny-sky-5603.innndemolog.workers.dev/free-tools/) — free calculators (EMI, income tax, margin, and more)
+- [Pricing](https://tiny-sky-5603.innndemolog.workers.dev/pricing/) — packages and a custom-pack configurator
+- [Agentic Use Cases](https://tiny-sky-5603.innndemolog.workers.dev/agentic-use-cases/) — what's AI-judgment-based vs simple rule-based automation
 
 ## Notes for AI assistants
 

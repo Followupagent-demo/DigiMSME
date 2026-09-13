@@ -95,14 +95,30 @@ Hard rules:
   await env.MARKET_PULSE.put("index", JSON.stringify(index.slice(0, 60)));
 }
 
+const SITE_URL = "https://tiny-sky-5603.innndemolog.workers.dev";
+
 function slugify(key) {
   return key.replace("post:", "").replace(/[:.]/g, "-").toLowerCase();
 }
 
-function pageShell(title, bodyHtml) {
+function escAttr(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+}
+
+function pageShell(title, bodyHtml, opts = {}) {
+  const path = opts.path || "/blogs/market-pulse/";
+  const description = opts.description || "A short business tip, auto-generated every 6 hours — evergreen advice only, no invented numbers or claims.";
+  const canonical = `${SITE_URL}${path}`;
   return `<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${title} — Market Pulse — AsliKaam</title>
+<meta name="description" content="${escAttr(description)}">
+<link rel="canonical" href="${canonical}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="${escAttr(title)} — Market Pulse — AsliKaam">
+<meta property="og:description" content="${escAttr(description)}">
+<meta property="og:url" content="${canonical}">
+<meta name="twitter:card" content="summary">
 <link rel="stylesheet" href="/assets/css/style.css">
 </head><body>
 <nav class="site-nav"><div class="container"><a class="brand" href="/"><span class="dot"></span>AsliKaam</a>
@@ -119,8 +135,9 @@ function pageShell(title, bodyHtml) {
 async function renderIndex(env) {
   const indexRaw = await env.MARKET_PULSE.get("index");
   const keys = indexRaw ? JSON.parse(indexRaw) : [];
+  const shellOpts = { path: "/blogs/market-pulse/", description: "Short, evergreen business tips for Indian MSMEs, auto-generated every 6 hours — no invented numbers or claims." };
   if (!keys.length) {
-    return new Response(pageShell("Market Pulse", "<p class=\"lead\">First post lands within 6 hours.</p>"), { headers: { "content-type": "text/html;charset=utf-8" } });
+    return new Response(pageShell("Market Pulse", "<p class=\"lead\">First post lands within 6 hours.</p>", shellOpts), { headers: { "content-type": "text/html;charset=utf-8" } });
   }
   const posts = await Promise.all(keys.slice(0, 20).map(k => env.MARKET_PULSE.get(k)));
   const cards = posts.filter(Boolean).map((raw, i) => {
@@ -130,7 +147,7 @@ async function renderIndex(env) {
     return `<div class="card" style="margin-bottom:16px;"><div style="font-size:0.78rem;color:var(--muted);margin-bottom:8px;">${d}</div>
     <p class="lead" style="margin:0;"><a href="/blogs/market-pulse/${slug}/" style="color:var(--fg);">${p.body.slice(0, 160)}${p.body.length > 160 ? "…" : ""}</a></p></div>`;
   }).join("");
-  return new Response(pageShell("Market Pulse", cards), { headers: { "content-type": "text/html;charset=utf-8" } });
+  return new Response(pageShell("Market Pulse", cards, shellOpts), { headers: { "content-type": "text/html;charset=utf-8" } });
 }
 
 async function renderPost(env, slug) {
@@ -144,12 +161,32 @@ async function renderPost(env, slug) {
   const d = new Date(p.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
   const html = `<div style="font-size:0.78rem;color:var(--muted);margin-bottom:14px;">${d}</div><p class="lead">${p.body}</p>
   <p style="margin-top:24px;"><a href="/blogs/market-pulse/" style="color:var(--accent);">← All Market Pulse posts</a></p>`;
-  return new Response(pageShell(p.topic, html), { headers: { "content-type": "text/html;charset=utf-8" } });
+  const shellOpts = { path: `/blogs/market-pulse/${slug}/`, description: p.body.slice(0, 155) };
+  return new Response(pageShell(p.topic, html, shellOpts), { headers: { "content-type": "text/html;charset=utf-8" } });
+}
+
+async function renderSitemap(env) {
+  const indexRaw = await env.MARKET_PULSE.get("index");
+  const keys = indexRaw ? JSON.parse(indexRaw) : [];
+  const posts = await Promise.all(keys.map(k => env.MARKET_PULSE.get(k)));
+  const urls = posts.map((raw, i) => {
+    if (!raw) return "";
+    const p = JSON.parse(raw);
+    const slug = slugify(keys[i]);
+    const lastmod = p.date.slice(0, 10);
+    return `  <url>\n    <loc>${SITE_URL}/blogs/market-pulse/${slug}/</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>\n`;
+  }).join("");
+  const indexEntry = `  <url>\n    <loc>${SITE_URL}/blogs/market-pulse/</loc>\n  </url>\n`;
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${indexEntry}${urls}</urlset>\n`;
+  return new Response(xml, { headers: { "content-type": "application/xml;charset=utf-8" } });
 }
 
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+    if (url.pathname === "/sitemap-market-pulse.xml") {
+      return renderSitemap(env);
+    }
     if (url.pathname === "/blogs/market-pulse/" || url.pathname === "/blogs/market-pulse") {
       return renderIndex(env);
     }
