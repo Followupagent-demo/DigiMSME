@@ -111,7 +111,7 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
   padding: 24px;
 }
 .industry-card { display: flex; flex-direction: column; gap: 12px; transition: border-color .15s, transform .15s; }
-.industry-card:hover { border-color: var(--accent-dim); transform: translateY(-2px); }
+.industry-card:not(.flip-card-front):not(.flip-card-back):hover { border-color: var(--accent-dim); transform: translateY(-2px); }
 .industry-card .icon { width: 40px; height: 40px; color: var(--accent); }
 .industry-card h3 { margin: 0; font-size: 1.05rem; }
 .industry-card p { color: var(--muted); font-size: 0.9rem; margin: 0; }
