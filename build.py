@@ -6,7 +6,9 @@ as-is. Re-run this script and re-zip whenever data.py or templates below change.
 """
 import json
 import os
+import re
 import shutil
+import time
 from data import (
     BRAND, TAGLINE, TAGLINE_HI, SITE_URL, NAV, NAV_HI, INDUSTRIES, PRICING_PACKS,
     CUSTOM_HAVE, CUSTOM_ADDONS,
@@ -15,6 +17,13 @@ from data import (
 
 INDUSTRY_BY_SLUG = {i["slug"]: i for i in INDUSTRIES}
 MODULE_BY_ID = {m["id"]: m for m in MODULES}
+
+# Bumped on every build — appended to every /assets/* URL so a browser
+# that already cached an old CSS/JS file (especially one it saw before an
+# earlier fix to the cache-control policy — the URL itself changes now, so
+# stale caches can't mask a shipped fix behind a query-string-less URL it
+# already has, no matter how long that old response told it to keep it.
+ASSET_VERSION = str(int(time.time()))
 
 # A distinct realistic customer name per industry, for chat_screen headers.
 CUSTOMER_NAMES = {
@@ -1758,6 +1767,32 @@ Blog stats are cited to real, verifiable sources (government reports, market res
     write("llms.txt", llms)
 
 
+ASSET_URL_RE = re.compile(r'((?:src|href)="/assets/[^"?]+)"')
+
+
+def apply_cache_busting():
+    """Appends ?v={ASSET_VERSION} to every /assets/* reference in every
+    generated page. Filenames themselves aren't content-hashed, so without
+    this, a browser that already cached an old CSS/JS file — including
+    one it fetched back when /assets/* still had a year-long immutable
+    cache-control — has no reason to ever re-fetch it, no matter how many
+    real fixes ship afterward. The query string changes on every build, so
+    it's a different URL to the browser regardless of what cache policy
+    that old cached copy was served under. Must run last, after every
+    other page (and every post-write script-tag injector) has run."""
+    for root, _dirs, files in os.walk(SITE):
+        for fname in files:
+            if not fname.endswith(".html"):
+                continue
+            full = os.path.join(root, fname)
+            with open(full, "r", encoding="utf-8") as f:
+                html = f.read()
+            new_html = ASSET_URL_RE.sub(lambda m: f'{m.group(1)}?v={ASSET_VERSION}"', html)
+            if new_html != html:
+                with open(full, "w", encoding="utf-8") as f:
+                    f.write(new_html)
+
+
 def build_headers_and_redirects():
     # Cloudflare Pages/Workers picks these up automatically from the output
     # root. Asset filenames here aren't content-hashed (still plain names
@@ -1881,6 +1916,7 @@ def main():
     build_404()
     build_headers_and_redirects()
     build_sitemap_and_robots()
+    apply_cache_busting()
 
     print(f"Built site into {SITE}")
 

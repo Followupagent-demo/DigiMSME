@@ -11,8 +11,25 @@
     opts = opts || {};
     this.container = container;
     this.count = opts.count || 12;
+    // Money floating outside, not yet collected, reads as a problem (red);
+    // it turns to the "collected" color (green) exactly as it vacuums
+    // into the card, rather than being one flat color throughout.
+    this.colorFar = opts.colorFar || "#ff6b6b";
+    this.colorNear = opts.colorNear || "#25d366";
     this.built = false;
     this._build();
+  }
+
+  function lerpColor(a, b, t) {
+    function hexToRgb(hex) {
+      var n = parseInt(hex.replace("#", ""), 16);
+      return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+    }
+    var ca = hexToRgb(a), cb = hexToRgb(b);
+    var r = Math.round(ca[0] + (cb[0] - ca[0]) * t);
+    var g = Math.round(ca[1] + (cb[1] - ca[1]) * t);
+    var bch = Math.round(ca[2] + (cb[2] - ca[2]) * t);
+    return "rgb(" + r + "," + g + "," + bch + ")";
   }
 
   CurrencyParticles.prototype._build = function () {
@@ -62,8 +79,8 @@
 
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillStyle = "#25d366";
     var eased = Math.pow(t, 1.6);
+    ctx.fillStyle = lerpColor(this.colorFar, this.colorNear, eased);
     var particles = this.particles;
     for (var i = 0; i < particles.length; i++) {
       var p = particles[i];
