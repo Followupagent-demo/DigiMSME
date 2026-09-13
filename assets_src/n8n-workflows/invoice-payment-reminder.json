@@ -1,0 +1,273 @@
+{
+  "name": "AsliKaam — Invoice + Payment Reminders",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "invoice-created",
+        "options": {}
+      },
+      "id": "n1",
+      "name": "New Invoice / Booking Created",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [220, 380],
+      "webhookId": "invoice-created"
+    },
+    {
+      "parameters": {
+        "unit": "days",
+        "amount": 7
+      },
+      "id": "n2",
+      "name": "Wait 7 Days",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [460, 380]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.invoice_status_url }}",
+        "options": {}
+      },
+      "id": "n3",
+      "name": "Check Payment Status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [700, 380]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            { "value1": "={{ $json.paid }}", "value2": false }
+          ]
+        }
+      },
+      "id": "n4",
+      "name": "Still Unpaid?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [940, 380]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v20.0/{{ $env.WHATSAPP_PHONE_ID }}/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "messaging_product", "value": "whatsapp" },
+            { "name": "to", "value": "={{ $json.customer_phone }}" },
+            { "name": "type", "value": "template" },
+            { "name": "template.name", "value": "invoice_reminder_gentle" },
+            { "name": "template.language.code", "value": "en" }
+          ]
+        }
+      },
+      "id": "n5",
+      "name": "WhatsApp: Gentle Reminder (Day 7)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1180, 220]
+    },
+    {
+      "parameters": {
+        "unit": "days",
+        "amount": 7
+      },
+      "id": "n6",
+      "name": "Wait 7 More Days",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [1420, 220]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.invoice_status_url }}",
+        "options": {}
+      },
+      "id": "n7",
+      "name": "Check Payment Status (Day 14)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1660, 220]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            { "value1": "={{ $json.paid }}", "value2": false }
+          ]
+        }
+      },
+      "id": "n8",
+      "name": "Still Unpaid? (Day 14)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1900, 220]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v20.0/{{ $env.WHATSAPP_PHONE_ID }}/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "messaging_product", "value": "whatsapp" },
+            { "name": "to", "value": "={{ $json.customer_phone }}" },
+            { "name": "type", "value": "template" },
+            { "name": "template.name", "value": "invoice_reminder_firm" },
+            { "name": "template.language.code", "value": "en" }
+          ]
+        }
+      },
+      "id": "n9",
+      "name": "WhatsApp: Firm Reminder (Day 14)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [2140, 120]
+    },
+    {
+      "parameters": {
+        "unit": "days",
+        "amount": 16
+      },
+      "id": "n10",
+      "name": "Wait 16 More Days",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [2380, 120]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.invoice_status_url }}",
+        "options": {}
+      },
+      "id": "n11",
+      "name": "Check Payment Status (Day 30)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [2620, 120]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            { "value1": "={{ $json.paid }}", "value2": false }
+          ]
+        }
+      },
+      "id": "n12",
+      "name": "Still Unpaid? (Day 30)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [2860, 120]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v20.0/{{ $env.WHATSAPP_PHONE_ID }}/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "messaging_product", "value": "whatsapp" },
+            { "name": "to", "value": "={{ $json.customer_phone }}" },
+            { "name": "type", "value": "template" },
+            { "name": "template.name", "value": "invoice_reminder_final" },
+            { "name": "template.language.code", "value": "en" }
+          ]
+        }
+      },
+      "id": "n13",
+      "name": "WhatsApp: Final Notice (Day 30)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [3100, 40]
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.OWNER_ALERT_WEBHOOK }}",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "text", "value": "=Invoice for {{ $json.customer_name }} is 30+ days overdue — {{ $json.amount }}. Manual follow-up may be needed." }
+          ]
+        }
+      },
+      "id": "n14",
+      "name": "Alert Owner",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [3340, 40]
+    },
+    {
+      "parameters": {},
+      "id": "n15",
+      "name": "Paid — Stop (Day 7)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [1180, 520]
+    },
+    {
+      "parameters": {},
+      "id": "n16",
+      "name": "Paid — Stop (Day 14)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [2140, 320]
+    },
+    {
+      "parameters": {},
+      "id": "n17",
+      "name": "Paid — Stop (Day 30)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [3100, 220]
+    }
+  ],
+  "connections": {
+    "New Invoice / Booking Created": { "main": [[{ "node": "Wait 7 Days", "type": "main", "index": 0 }]] },
+    "Wait 7 Days": { "main": [[{ "node": "Check Payment Status", "type": "main", "index": 0 }]] },
+    "Check Payment Status": { "main": [[{ "node": "Still Unpaid?", "type": "main", "index": 0 }]] },
+    "Still Unpaid?": {
+      "main": [
+        [{ "node": "WhatsApp: Gentle Reminder (Day 7)", "type": "main", "index": 0 }],
+        [{ "node": "Paid — Stop (Day 7)", "type": "main", "index": 0 }]
+      ]
+    },
+    "WhatsApp: Gentle Reminder (Day 7)": { "main": [[{ "node": "Wait 7 More Days", "type": "main", "index": 0 }]] },
+    "Wait 7 More Days": { "main": [[{ "node": "Check Payment Status (Day 14)", "type": "main", "index": 0 }]] },
+    "Check Payment Status (Day 14)": { "main": [[{ "node": "Still Unpaid? (Day 14)", "type": "main", "index": 0 }]] },
+    "Still Unpaid? (Day 14)": {
+      "main": [
+        [{ "node": "WhatsApp: Firm Reminder (Day 14)", "type": "main", "index": 0 }],
+        [{ "node": "Paid — Stop (Day 14)", "type": "main", "index": 0 }]
+      ]
+    },
+    "WhatsApp: Firm Reminder (Day 14)": { "main": [[{ "node": "Wait 16 More Days", "type": "main", "index": 0 }]] },
+    "Wait 16 More Days": { "main": [[{ "node": "Check Payment Status (Day 30)", "type": "main", "index": 0 }]] },
+    "Check Payment Status (Day 30)": { "main": [[{ "node": "Still Unpaid? (Day 30)", "type": "main", "index": 0 }]] },
+    "Still Unpaid? (Day 30)": {
+      "main": [
+        [{ "node": "WhatsApp: Final Notice (Day 30)", "type": "main", "index": 0 }],
+        [{ "node": "Paid — Stop (Day 30)", "type": "main", "index": 0 }]
+      ]
+    },
+    "WhatsApp: Final Notice (Day 30)": { "main": [[{ "node": "Alert Owner", "type": "main", "index": 0 }]] }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "asli-kaam-invoice-payment-reminder"
+  }
+}

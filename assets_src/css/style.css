@@ -702,3 +702,35 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 @media (max-width: 640px) {
   .flip-card { height: 300px; }
 }
+
+/* ---------- Real n8n workflow diagram — Agentic Use Cases ---------- */
+.n8n-workflow-wrap { margin-top: 20px; }
+.n8n-workflow-scroll {
+  overflow-x: auto; overflow-y: hidden; border: 1px solid var(--border); border-radius: 16px;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(37,211,102,0.06), transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(80,180,255,0.05), transparent 40%),
+    #0a0d11;
+  padding: 8px;
+}
+.n8n-workflow-svg { display: block; min-width: 100%; }
+.n8n-node rect {
+  fill: #10151b; stroke: var(--border); stroke-width: 1.5;
+  transition: stroke .2s;
+}
+.n8n-node-trigger rect { stroke: var(--accent); filter: drop-shadow(0 0 6px rgba(37,211,102,0.45)); }
+.n8n-node-condition rect { stroke: #e6b93d; filter: drop-shadow(0 0 5px rgba(230,185,61,0.35)); }
+.n8n-node-action rect { stroke: #4db8ff; filter: drop-shadow(0 0 5px rgba(77,184,255,0.3)); }
+.n8n-node-wait rect { stroke: var(--muted); stroke-dasharray: 3 3; }
+.n8n-node-done rect { stroke: var(--accent-dim); fill: rgba(37,211,102,0.08); }
+.n8n-node-icon { font-size: 16px; }
+.n8n-node-label { fill: var(--fg); font-size: 9.5px; font-family: inherit; }
+.n8n-edge { fill: none; stroke: var(--border); stroke-width: 1.5; }
+.n8n-edge-alt { stroke-dasharray: 4 4; opacity: 0.6; }
+.n8n-edge-pulse { fill: var(--accent); filter: drop-shadow(0 0 4px rgba(37,211,102,0.8)); }
+.n8n-edge-pulse.n8n-edge-alt { fill: var(--muted); filter: none; }
+.n8n-caption { color: var(--muted); font-size: 0.85rem; margin-top: 12px; max-width: 640px; }
+.n8n-download { margin-top: 12px; }
+@media (prefers-reduced-motion: reduce) {
+  .n8n-edge-pulse animateMotion, .n8n-edge-pulse { display: none; }
+}

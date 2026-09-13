@@ -1420,6 +1420,118 @@ def build_pricing():
     PRICING_SCRIPT_NEEDED = True
 
 
+N8N_NODE_STYLE = {
+    "n8n-nodes-base.webhook": ("⚡", "n8n-node-trigger"),
+    "n8n-nodes-base.wait": ("⏱", "n8n-node-wait"),
+    "n8n-nodes-base.httpRequest": ("🌐", "n8n-node-action"),
+    "n8n-nodes-base.if": ("🔀", "n8n-node-condition"),
+    "n8n-nodes-base.noOp": ("✅", "n8n-node-done"),
+}
+
+
+def render_n8n_workflow(filename, caption=""):
+    """Renders a real n8n workflow export (assets_src/n8n-workflows/*.json)
+    as a node-graph diagram — not a decorative mockup. Node positions and
+    labels come straight from the workflow file itself, so the picture on
+    the page is an accurate rendering of an actual, importable n8n
+    workflow, not a stand-in for one. A visitor can download the exact
+    file and drop it into their own n8n instance."""
+    path = os.path.join(ASSETS_SRC, "n8n-workflows", filename)
+    with open(path, encoding="utf-8") as f:
+        wf = json.load(f)
+
+    nodes = {n["id"]: n for n in wf["nodes"]}
+    name_to_id = {n["name"]: n["id"] for n in wf["nodes"]}
+
+    xs = [n["position"][0] for n in nodes.values()]
+    ys = [n["position"][1] for n in nodes.values()]
+    SCALE = 0.72
+    PAD = 40
+    NODE_W, NODE_H = 150, 50
+    min_x, min_y = min(xs), min(ys)
+
+    def px(x):
+        return round((x - min_x) * SCALE) + PAD
+
+    def py(y):
+        return round((y - min_y) * SCALE) + PAD
+
+    width = px(max(xs)) + NODE_W + PAD
+    height = py(max(ys)) + NODE_H + PAD
+
+    def node_icon_cls(n):
+        icon, cls = N8N_NODE_STYLE.get(n["type"], ("⚙️", "n8n-node-action"))
+        name = n["name"]
+        if "WhatsApp" in name:
+            icon = "💬"
+        elif "Alert" in name:
+            icon = "🔔"
+        elif "Check" in name:
+            icon = "🔍"
+        return icon, cls
+
+    boxes = ""
+    def wrap_two_lines(text, width=17):
+        words = text.split(" ")
+        line1 = ""
+        i = 0
+        while i < len(words) and len(line1) + len(words[i]) + 1 <= width:
+            line1 = (line1 + " " + words[i]).strip()
+            i += 1
+        line2 = " ".join(words[i:])
+        if len(line2) > width:
+            line2 = line2[:width - 1] + "…"
+        return line1, line2
+
+    for n in nodes.values():
+        x, y = px(n["position"][0]), py(n["position"][1])
+        icon, cls = node_icon_cls(n)
+        l1, l2 = wrap_two_lines(n["name"])
+        label_html = f'<tspan x="40" dy="0">{esc(l1)}</tspan>'
+        if l2:
+            label_html += f'<tspan x="40" dy="13">{esc(l2)}</tspan>'
+        boxes += f"""<g class="n8n-node {cls}" transform="translate({x},{y})">
+          <rect width="{NODE_W}" height="{NODE_H}" rx="12"></rect>
+          <text x="14" y="21" class="n8n-node-icon">{icon}</text>
+          <text x="40" y="21" class="n8n-node-label">{label_html}</text>
+        </g>"""
+
+    paths = ""
+    for src_name, out in wf.get("connections", {}).items():
+        src_id = name_to_id.get(src_name)
+        if src_id is None:
+            continue
+        src = nodes[src_id]
+        sx, sy = px(src["position"][0]) + NODE_W, py(src["position"][1]) + NODE_H / 2
+        branches = out.get("main", [])
+        for branch_i, branch in enumerate(branches):
+            for conn in branch:
+                dst = nodes.get(name_to_id.get(conn["node"]))
+                if not dst:
+                    continue
+                dx, dy = px(dst["position"][0]), py(dst["position"][1]) + NODE_H / 2
+                mid = (sx + dx) / 2
+                branch_cls = " n8n-edge-alt" if branch_i == 1 else ""
+                paths += (f'<path class="n8n-edge{branch_cls}" '
+                          f'd="M{sx},{sy} C{mid},{sy} {mid},{dy} {dx},{dy}"></path>'
+                          f'<circle class="n8n-edge-pulse{branch_cls}" r="3">'
+                          f'<animateMotion dur="{2.6 + branch_i * 0.4}s" repeatCount="indefinite" '
+                          f'path="M{sx},{sy} C{mid},{sy} {mid},{dy} {dx},{dy}"></animateMotion></circle>')
+
+    dl_href = f"/assets/n8n-workflows/{filename}"
+    cap_html = f'<p class="n8n-caption">{esc(caption)}</p>' if caption else ""
+    return f"""<div class="n8n-workflow-wrap">
+      <div class="n8n-workflow-scroll">
+        <svg class="n8n-workflow-svg" viewBox="0 0 {width} {height}" width="{width}" height="{height}">
+          {paths}
+          {boxes}
+        </svg>
+      </div>
+      {cap_html}
+      <a class="btn btn-ghost n8n-download" href="{dl_href}" download>⬇ Download real n8n workflow (.json)</a>
+    </div>"""
+
+
 # ---------------------------------------------------------------- AGENTIC USE CASES
 def agentic_brain_terminal():
     """Top-fold interactive: the same agent's chat + 'thinking' box cycles
@@ -1535,6 +1647,16 @@ def build_agentic():
 
 {agentic_brain_terminal()}
 {industry_particle_grid()}
+
+<section class="section-pad-sm">
+  <div class="container">
+    <div class="eyebrow">⚡ Real Workflow, Not a Mockup</div>
+    <h2>This is what actually runs — not a made-up diagram</h2>
+    <p class="lead" style="max-width:680px;">Built in n8n, the open-source workflow engine — no proprietary black box. Download the file below and it opens in any n8n instance, node for node.</p>
+    {render_n8n_workflow("invoice-payment-reminder.json",
+        caption="Invoice + Payment Reminders — the tiered 7/14/30-day WhatsApp follow-up, checking payment status before every send so a paid invoice never gets chased.")}
+  </div>
+</section>
 
 <section class="section-pad-sm">
   <div class="container">
