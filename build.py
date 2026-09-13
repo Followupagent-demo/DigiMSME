@@ -284,9 +284,13 @@ def chat_screen(contact, status, lines):
     </div>"""
 
 
-def search_results_screen(query, results, winner_idx):
+def search_results_screen(query, results, winner_idx, searcher=None):
     """results: list of {name, rating, reviews, distance, complete: bool}.
-    The winner gets tapped/highlighted; incomplete listings read as skipped."""
+    The winner gets tapped/highlighted; incomplete listings read as skipped.
+    Pass searcher= to caption who's actually searching — the same named
+    customer who shows up later asking, quoting, and paying, so it reads
+    as one person's journey rather than four disconnected screens."""
+    searcher_html = f'<div class="search-searcher">{esc(searcher)}</div>' if searcher else ""
     cards = ""
     for i, r in enumerate(results):
         is_winner = i == winner_idx
@@ -313,41 +317,49 @@ def search_results_screen(query, results, winner_idx):
           </div>
         </div>"""
     return f"""<div class="search-screen">
+      {searcher_html}
       <div class="search-bar"><span class="sb-icon">🔍</span> {esc(query)}</div>
       <div class="result-list">{cards}</div>
     </div>"""
 
 
-def rotating_search_screen(presets, use_fixed):
+def rotating_search_screen(presets, use_fixed, searchers=None):
     """Cycles through several industries' search results every ~2.2s (see
     home-rotator.js) so no single visitor sees only a field that isn't
     theirs — each preset has its own realistic names, not a swapped word.
     The broken variant marks no winner at all — a competitor "winning"
     here muddies the point, which is just that the featured business
     itself (shown incomplete, in red) got scrolled past unnoticed. Once
-    fixed, that same business is the one that gets tapped."""
+    fixed, that same business is the one that gets tapped.
+    searchers=, if given, is a same-length list of captions ("Vikram
+    Shah's search:") — the same rotating customer who later asks,
+    quotes, and pays, so the four loss points read as one journey."""
     slides = ""
     for i, p in enumerate(presets):
         results = p["fixed"] if use_fixed else p["broken"]
         winner = p["winner_fixed"] if use_fixed else None
         hidden_attr = "" if i == 0 else " hidden"
+        searcher = searchers[i] if searchers else None
         slides += (f'<div class="rotation-slide" data-rot="{i}"{hidden_attr}>'
-                   f'{search_results_screen(p["query"], results, winner)}</div>')
+                   f'{search_results_screen(p["query"], results, winner, searcher=searcher)}</div>')
     return f'<div class="rotation-wrap">{slides}</div>'
 
 
-def rotating_payment_screen(presets, paid):
+def rotating_payment_screen(presets, paid, payers=None, payer_label="Client"):
     """Same rotation mechanism as rotating_search_screen, and — since
     home-rotator.js tracks one shared index across every .rotation-slide
     on the page — kept in the exact same industry order, so whichever
     business a visitor sees skipped in Loss Point #1 is the same one
     whose payment is on screen here. A single small job (an electrician's
-    ₹6,200) doesn't read as a real stake; a wholesaler's ₹1,40,000 does."""
+    ₹6,200) doesn't read as a real stake; a wholesaler's ₹1,40,000 does.
+    payers=, if given, names the same rotating customer from the search/
+    enquiry/quote scenes as the one this invoice is actually owed by."""
     slides = ""
     for i, (business, amount) in enumerate(presets):
         hidden_attr = "" if i == 0 else " hidden"
+        payer = payers[i] if payers else None
         slides += (f'<div class="rotation-slide" data-rot="{i}"{hidden_attr}>'
-                   f'{payment_screen(business, amount, paid=paid)}</div>')
+                   f'{payment_screen(business, amount, paid=paid, payer=payer, payer_label=payer_label)}</div>')
     return f'<div class="rotation-wrap">{slides}</div>'
 
 
@@ -369,13 +381,15 @@ def lead_notification_screen(source, icon, from_name, meta, message, handled):
     </div>"""
 
 
-def payment_screen(business, amount, paid):
+def payment_screen(business, amount, paid, payer=None, payer_label="Client"):
     status_cls = "is-paid" if paid else "is-pending"
     status_text = "✓ Paid" if paid else "⏳ Pending"
     btn_text = "Paid via UPI ✓" if paid else "Pay via UPI"
+    payer_html = f'<div class="ps-payer">{esc(payer_label)}: {esc(payer)}</div>' if payer else ""
     return f"""<div class="payment-screen {status_cls}">
       <div class="ps-label">Payment request from</div>
       <div class="ps-business">{esc(business)}</div>
+      {payer_html}
       <div class="ps-amount">{esc(amount)}</div>
       <div class="ps-btn">{btn_text}</div>
       <span class="ps-status">{status_text}</span>
@@ -672,6 +686,15 @@ def build_home(lang="en"):
          "Same items as last time, just double the quantity.", "पिछली बार जैसे ही आइटम, बस मात्रा दोगुनी।", "₹1,20,000"),
     ]
 
+    # Same rotating customer named in the search bar and on the invoice
+    # too, not just the chat scenes — so the whole Search -> Enquiry ->
+    # Quote -> Payment sequence reads as one person's journey.
+    searcher_captions = [
+        (f"{p[1]} की सर्च:" if is_hi else f"{p[0]}'s search:") for p in enquiry_personas
+    ]
+    payer_label = "ग्राहक" if is_hi else "Client"
+    payer_names = [p[1] if is_hi else p[0] for p in enquiry_personas]
+
     def enquiry_slides(build_fn):
         out = ""
         for i, p in enumerate(enquiry_personas):
@@ -726,14 +749,14 @@ def build_home(lang="en"):
             "body": "न फोटो, न पोस्ट, न वेबसाइट लिंक — पता ही नहीं चलता कि दुकान असल में चल भी रही है या नहीं। पास में तीन और विकल्प खुले हों तो कोई रुककर पता नहीं करता, आगे बढ़ जाता है।" if is_hi else
                     "No photos, no posts, no website — nothing to show the business is real and actually open. With three other options one tap away, most people don't stop to check. They just move on.",
             "accent": "red",
-        }, "raw", extra_body=rotating_search_screen(search_presets, use_fixed=False), shatter="#ff6b6b"),
+        }, "raw", extra_body=rotating_search_screen(search_presets, use_fixed=False, searchers=searcher_captions), shatter="#ff6b6b"),
         scene({
             "eyebrow": "फिक्स" if is_hi else "Fixed",
             "title": "वही बिज़नेस। अब यही चुना जाता है।" if is_hi else "Same business. Now it's the one they tap.",
             "body": "दुकान में कुछ नहीं बदला — न मालिक, न कीमत, न क्वालिटी। बस वो पंद्रह सेकंड बदले, जिनमें कोई तय करता है कि आप असल में खुले हैं। बस इतना ही फ़र्क़ है। अब देखिए आगे क्या होता है।" if is_hi else
                     "Nothing about the shop changed — not the owner, the price, or the quality. Just the fifteen seconds it takes someone to decide you're actually open. That's it. Here's what happens next.",
             "accent": "green",
-        }, "raw", extra_body=rotating_search_screen(search_presets, use_fixed=True), shatter="#25d366"),
+        }, "raw", extra_body=rotating_search_screen(search_presets, use_fixed=True, searchers=searcher_captions), shatter="#25d366"),
 
         scene({
             "eyebrow": "नुकसान बिंदु #2 — पूछताछ" if is_hi else "Loss Point #2 — Enquiry",
@@ -771,14 +794,14 @@ def build_home(lang="en"):
             "body": "न इनवॉइस, न रिमाइंडर — बस दो हफ्ते तक अजीब से फॉलो-अप मैसेज, उसी पैसे के लिए जो पहले ही कमाया जा चुका है। रकम छोटी हो या बड़ी, बिना मांगे नहीं आता।" if is_hi else
                     "No invoice, no reminder — just awkward follow-up texts for two weeks, chasing money that's already been earned. Small amount or big, it doesn't come in until someone asks.",
             "accent": "red",
-        }, "raw", extra_body=f'<div data-currency-particles>{rotating_payment_screen(payment_presets, paid=False)}</div>', shatter="#ff6b6b"),
+        }, "raw", extra_body=f'<div data-currency-particles>{rotating_payment_screen(payment_presets, paid=False, payers=payer_names, payer_label=payer_label)}</div>', shatter="#ff6b6b"),
         scene({
             "eyebrow": "फिक्स" if is_hi else "Fixed",
             "title": "बिना दोबारा मांगे पैसा आ जाता है" if is_hi else "Paid before anyone has to ask twice",
             "body": "एक पेमेंट लिंक पर टैप, और पैसा आ जाता है — बिना किसी फॉलो-अप मैसेज के, छोटी पेमेंट हो या बड़ी।" if is_hi else
                     "One tap on a payment link, and it's done — no follow-up messages needed, whether it's a small job or a big order.",
             "accent": "green",
-        }, "raw", extra_body=rotating_payment_screen(payment_presets, paid=True), shatter="#25d366"),
+        }, "raw", extra_body=rotating_payment_screen(payment_presets, paid=True, payers=payer_names, payer_label=payer_label), shatter="#25d366"),
     ]
     hero_wa_text = "Hi!%20I'd%20like%20to%20talk%20about%20my%20business." if lang == "en" \
         else "Namaste!%20Mujhe%20apne%20business%20ke%20baare%20mein%20baat%20karni%20hai."
@@ -887,20 +910,6 @@ def build_industries_index(lang="en"):
     canonical = "/hi/industries/" if is_hi else "/industries/"
     alternates = {"en": "/industries/", "hi": "/hi/industries/"}
 
-    bpm_stages = [
-        ("🔍", "खोजा गया" if is_hi else "Discovered"),
-        ("💬", "संपर्क हुआ" if is_hi else "Contacted"),
-        ("📝", "कोटेशन दिया" if is_hi else "Quoted"),
-        ("🤝", "नेगोशिएट हुआ" if is_hi else "Negotiated"),
-        ("💳", "पेमेंट हुई" if is_hi else "Paid"),
-        ("🔄", "रेफरल मिला" if is_hi else "Referred"),
-    ]
-    bpm_steps_html = "".join(
-        f'<div class="bpm-step{" bpm-payment" if icon == "💳" else ""}" style="animation-delay:{0.3 + i * 0.09:.2f}s">'
-        f'<span class="bpm-icon">{icon}</span>{esc(label)}</div>'
-        for i, (icon, label) in enumerate(bpm_stages)
-    )
-    bpm_flow = f'<div class="bpm-flow">{bpm_steps_html}</div>'
     explore_full = "पूरा केस देखें →" if is_hi else "Explore full case →"
 
     cards = ""
@@ -910,6 +919,28 @@ def build_industries_index(lang="en"):
         use_case = ind["use_case_hi"] if is_hi else ind["use_case"]
         explore = "देखें →" if is_hi else "Explore →"
         href = f"{detail_prefix}{ind['slug']}.html"
+
+        # Each industry's own real flow — not a shared generic diagram.
+        # Every label is pulled from that industry's own already-written
+        # pain/fix/growth content in data.py, so no two cards read the
+        # same, and the back face makes the "own the story" promise on
+        # the front face true instead of showing an identical BPM chart
+        # 15 times.
+        ind_stages = [
+            ("🔍", ind["leak_label"]),
+            ("💬", ind["pain"]["title"]),
+            ("📝", ind["solution"]),
+            ("🤝", ind["fix"]["title"]),
+            ("💳", "भुगतान हुआ" if is_hi else "Paid"),
+            ("🔄", f"{ind['growth']['stat_label']}: {ind['growth']['stat_to']}"),
+        ]
+        bpm_steps_html = "".join(
+            f'<div class="bpm-step{" bpm-payment" if icon == "💳" else ""}" style="animation-delay:{0.3 + i * 0.09:.2f}s">'
+            f'<span class="bpm-icon">{icon}</span>{esc(label)}</div>'
+            for i, (icon, label) in enumerate(ind_stages)
+        )
+        bpm_flow = f'<div class="bpm-flow">{bpm_steps_html}</div>'
+
         cards += f"""<div class="flip-card">
           <div class="flip-card-inner">
             <div class="card industry-card flip-card-front">

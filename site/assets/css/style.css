@@ -337,6 +337,7 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
   padding: 9px 14px; margin-bottom: 14px; font-size: 0.85rem; color: var(--fg);
 }
 .search-bar .sb-icon { opacity: 0.6; }
+.search-searcher { font-size: 0.74rem; color: var(--muted); margin-bottom: 8px; }
 .result-list { display: flex; flex-direction: column; gap: 8px; }
 .result-card {
   display: flex; gap: 10px; align-items: flex-start;
@@ -400,7 +401,8 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
   padding: 22px; max-width: 380px; width: 100%; text-align: center;
 }
 .payment-screen .ps-label { font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; }
-.payment-screen .ps-business { font-size: 0.92rem; font-weight: 700; margin-bottom: 14px; }
+.payment-screen .ps-business { font-size: 0.92rem; font-weight: 700; margin-bottom: 2px; }
+.payment-screen .ps-payer { font-size: 0.76rem; color: var(--muted); margin-bottom: 14px; }
 .payment-screen .ps-amount { font-size: 2.1rem; font-weight: 800; margin-bottom: 14px; }
 .payment-screen .ps-btn {
   display: block; width: 100%; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 0.9rem;
