@@ -421,12 +421,23 @@ def scene(stage, kind, extra_body="", contact=None, status="Online", shatter=Non
 
 
 def picker_scene(stage_eyebrow="The Reveal", stage_title="See your own leak, live", stage_body="Pick your industry — the demo adapts to your exact mechanism.", lang="en"):
-    chips = ""
+    is_hi = lang == "hi"
+    explore = "देखें →" if is_hi else "Explore →"
+    cards = ""
     for ind in INDUSTRIES:
-        name = ind["name_hi"] if lang == "hi" else ind["name"]
-        chips += f"""<a class="picker-chip" href="/demos/{ind['slug']}.html">
-          <span class="icon">{ind['icon']}</span>{esc(name)}
-        </a>"""
+        name = ind["name_hi"] if is_hi else ind["name"]
+        href = f"/demos/{ind['slug']}.html"
+        cards += f"""<div class="flip-card picker-flip-card">
+          <div class="flip-card-inner">
+            <div class="picker-chip flip-card-front">
+              <span class="icon">{ind['icon']}</span>{esc(name)}
+            </div>
+            <a class="picker-chip flip-card-back" href="{href}">
+              <span class="picker-leak">{esc(ind['leak_label'])}</span>
+              <span class="picker-explore">{explore}</span>
+            </a>
+          </div>
+        </div>"""
     return f"""<div class="scene" data-accent="reveal">
       <div class="container">
         <div class="scene-copy center" style="margin: 0 auto 32px; max-width:640px;">
@@ -434,7 +445,7 @@ def picker_scene(stage_eyebrow="The Reveal", stage_title="See your own leak, liv
           <h2>{stage_title}</h2>
           <p style="margin:0 auto;">{stage_body}</p>
         </div>
-        <div class="picker-grid">{chips}</div>
+        <div class="picker-grid">{cards}</div>
       </div>
     </div>"""
 
@@ -693,9 +704,9 @@ def build_home(lang="en"):
 
         picker_scene(
             stage_eyebrow="अब आपकी बारी" if is_hi else "Your Turn",
-            stage_title="यह एक कहानी है। 15 इंडस्ट्रीज़ में यही कहानी दोहराई जाती है।" if is_hi else "That's one story. Fifteen industries run the exact same one.",
-            stage_body="सर्च, पूछताछ, कोटेशन, पेमेंट — हर बार नुकसान अलग भेस में आता है, पर मौका हमेशा यही चार पल होते हैं। अपनी इंडस्ट्री चुनें और रोहन की कहानी का अपना वर्जन देखें।" if is_hi else
-                       "Search, enquiry, quote, payment — the leak shows up in a different costume every time, but it's always the same four moments. Pick your industry and watch your version of Rohan's story.",
+            stage_title="वही चार पल। आपका नुकसान रोहन जैसा बिल्कुल नहीं दिखता।" if is_hi else "Same four moments. Your leak looks nothing like Rohan's.",
+            stage_body="हर इंडस्ट्री की अपनी असली, अलग समस्या है — कार्ड पलटें और देखें आपकी इंडस्ट्री में यह ठीक कैसे होता है, फिर पूरा डेमो खोलें।" if is_hi else
+                       "Every industry loses this deal in its own specific way — flip a card to see yours, then open the full demo.",
             lang=lang,
         ),
         payoff_scene(lang),

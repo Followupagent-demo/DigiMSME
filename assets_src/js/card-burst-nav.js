@@ -1,12 +1,11 @@
 /*
  * Shared "pick one, everything falls away" navigation transition — used
- * on Home's industry picker grid and the Agentic Use Cases particle
- * industry grid. On click: every card in the group (the clicked one
- * included) falls intact, like real gravity, to the bottom of the
- * screen and piles up there — then a burst of fine green pixels
- * destroys the pile, and the page navigates to the clicked card's real
- * href. No-op under prefers-reduced-motion — the link just navigates
- * normally.
+ * on the Agentic Use Cases particle industry grid. On click: every card
+ * in the group (the clicked one included) falls intact, like real
+ * gravity, to the bottom of the screen and piles up there — then a
+ * burst of fine green pixels destroys the pile, and the page navigates
+ * to the clicked card's real href. No-op under prefers-reduced-motion —
+ * the link just navigates normally.
  */
 (function () {
   function animate(duration, onUpdate, onDone) {
@@ -129,7 +128,6 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
-    wire(".picker-grid", ".picker-chip", { burstColor: "#25d366" });
     wire(".ind-particle-grid", ".ind-particle-tile", { burstColor: "#25d366" });
   });
 })();
