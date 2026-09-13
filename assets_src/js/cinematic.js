@@ -100,9 +100,31 @@
         var eyebrow = scene.querySelector(".scene-copy .eyebrow");
         var pEl = scene.querySelector(".scene-copy p");
         var isRed = scene.getAttribute("data-accent") === "red";
+        var isGreen = scene.getAttribute("data-accent") === "green";
+        var visualEl = isGreen ? scene.querySelector(".scene-visual") : null;
         var ptxt = (!reduceMotion && h2 && window.ParticleText) ? new window.ParticleText(h2, { stride: stride }) : null;
         var phrases = (!reduceMotion && isRed && pEl) ? splitIntoPhrases(pEl) : null;
-        return { scene: scene, h2: h2, ptxt: ptxt, eyebrow: eyebrow, pEl: pEl, phrases: phrases };
+
+        // Any element inside this scene opting in via data-dissolve gets
+        // the same canvas particle treatment as the heading — e.g. an
+        // unanswered chat bubble "evaporating" (data-dissolve-drift="up")
+        // or a skipped listing's name scattering away like the heading
+        // does. Reuses the same engine, just applied more places.
+        var extraDissolve = [];
+        if (!reduceMotion && window.ParticleText) {
+          Array.prototype.forEach.call(scene.querySelectorAll("[data-dissolve]"), function (el) {
+            extraDissolve.push(new window.ParticleText(el, { stride: stride, drift: el.getAttribute("data-dissolve-drift") || "down" }));
+          });
+        }
+
+        var currencyParticles = [];
+        if (!reduceMotion && window.CurrencyParticles) {
+          Array.prototype.forEach.call(scene.querySelectorAll("[data-currency-particles]"), function (el) {
+            currencyParticles.push(new window.CurrencyParticles(el));
+          });
+        }
+
+        return { scene: scene, h2: h2, ptxt: ptxt, eyebrow: eyebrow, pEl: pEl, phrases: phrases, extraDissolve: extraDissolve, currencyParticles: currencyParticles, visualEl: visualEl };
       });
 
       var HALF_WIDTH = 0.2; // fraction of one scene's slot spent transitioning across each boundary
@@ -133,6 +155,11 @@
 
           if (st.phrases) setPhraseProgress(st.phrases, 1 - dispersion);
           else if (st.pEl) gsap.set(st.pEl, { opacity: 1 - dispersion });
+
+          st.extraDissolve.forEach(function (pt) { pt.setProgress(dispersion); });
+          st.currencyParticles.forEach(function (cp) { cp.setProgress(dispersion); });
+
+          if (st.visualEl) st.visualEl.style.setProperty("--reveal", 1 - dispersion);
         });
         dots.forEach(function (d, i) { d.classList.toggle("is-active", i === activeIdx); });
       }

@@ -27,6 +27,7 @@
     opts = opts || {};
     this.el = el;
     this.stride = opts.stride || 3;
+    this.drift = opts.drift || "down"; // "down" (gravity fall) or "up" (smoke rising)
     this.built = false;
     this._build();
   }
@@ -84,6 +85,7 @@
     }
 
     var stride = Math.max(1, Math.round(Math.max(1, this.stride - 1) * dpr));
+    var driftY = this.drift === "up" ? -1 : 1; // "smoke" targets drift upward instead of falling
     var particles = [];
     for (var y = 0; y < imgH; y += stride) {
       for (var x = 0; x < imgW; x += stride) {
@@ -93,7 +95,7 @@
           particles.push({
             hx: x / dpr, hy: y / dpr,
             tx: x / dpr + Math.cos(angle) * dist,
-            ty: y / dpr + Math.sin(angle) * dist + 40 + Math.random() * 40,
+            ty: y / dpr + Math.sin(angle) * dist + driftY * (40 + Math.random() * 40),
             size: Math.max(1, (stride / dpr) * 0.9),
             jitter: Math.random(),
           });

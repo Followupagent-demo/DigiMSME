@@ -118,6 +118,41 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 .industry-card .starts-at { margin-top: auto; font-size: 0.82rem; color: var(--muted); }
 .industry-card .starts-at b { color: var(--fg); }
 
+/* ---------- Home hero: pattern-interrupt, zero animation on load ---------- */
+.home-hero {
+  position: relative; overflow: hidden;
+  min-height: 90vh; display: flex; align-items: center; justify-content: center;
+  background: #0d0d0d; text-align: center;
+}
+.home-hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(238,241,244,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(238,241,244,0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(600px circle at var(--hx, 50%) var(--hy, 40%), #000 0%, transparent 70%);
+  mask-image: radial-gradient(600px circle at var(--hx, 50%) var(--hy, 40%), #000 0%, transparent 70%);
+}
+.home-hero-inner { position: relative; z-index: 1; }
+.home-hero-title {
+  font-size: clamp(3.2rem, 9vw, 6.5rem); font-weight: 800; letter-spacing: -0.02em;
+  margin: 0 0 20px; line-height: 1;
+}
+.home-hero-sub { font-size: clamp(1.15rem, 2.4vw, 1.5rem); color: var(--fg); max-width: 680px; margin: 0 auto 12px; }
+.home-hero-tag { font-size: 1rem; color: var(--muted); margin: 0; }
+.home-hero-arrow {
+  position: absolute; left: 50%; bottom: 32px; transform: translateX(-50%);
+  font-size: 1.6rem; color: var(--muted);
+  animation: home-hero-pulse 1.8s ease-in-out infinite;
+}
+@keyframes home-hero-pulse {
+  0%, 100% { opacity: 0.4; transform: translate(-50%, 0); }
+  50% { opacity: 1; transform: translate(-50%, 8px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-hero-arrow { animation: none; opacity: 0.7; }
+}
+
 /* ---------- Cinematic scroll engine ---------- */
 .cinematic-wrap { position: relative; background: var(--bg-alt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .cinematic-pin { position: relative; }
@@ -161,6 +196,22 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
    (red-accent) scenes' body copy — only exist once cinematic.js splits
    the paragraph after GSAP loads. */
 .scene-copy p .ph { display: inline-block; will-change: transform, opacity, color; }
+
+/* Currency-particle vacuum wrapper (currency-particles.js): a positioning
+   context around a scene's visual that floating ₹ glyphs get vacuumed
+   into as the scene disperses. The canvas it creates just needs to
+   overlay the wrapper exactly. */
+[data-currency-particles] { position: relative; }
+.cur-particles-canvas { position: absolute; left: 0; top: 0; pointer-events: none; }
+
+/* "X-ray" diagonal wipe reveal for a "fixed" (green-accent) scene's
+   visual as it assembles in — driven by the --reveal custom property
+   cinematic.js sets each scroll frame (1 - dispersion). Defaults to 1
+   (fully revealed, no clipping) so the no-JS/baseline fallback — which
+   never touches this variable — always shows the visual untouched. */
+.js-pin-active .scene[data-accent="green"] .scene-visual {
+  clip-path: polygon(0% 0%, calc(var(--reveal, 1) * 140% - 20%) 0%, calc(var(--reveal, 1) * 140% - 40%) 100%, 0% 100%);
+}
 
 /* chat mock */
 .chat-mock {

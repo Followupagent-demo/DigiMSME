@@ -174,6 +174,7 @@ def foot(lang="en"):
 <script src="/assets/js/config.js"></script>
 <script src="/assets/js/gsap-loader.js"></script>
 <script src="/assets/js/particle-text.js"></script>
+<script src="/assets/js/currency-particles.js"></script>
 <script src="/assets/js/cinematic.js"></script>
 <script src="/assets/js/global-ui.js"></script>
 <script src="/assets/js/use-case-switcher.js"></script>
@@ -230,6 +231,17 @@ def badge(kind, lang="en"):
     if kind == "proven":
         return '<span class="badge badge-proven">Proven</span>'
     return '<span class="badge badge-proposed">Proposed approach</span>'
+
+
+def mark_dissolve(html, target_class, drift=None):
+    """Adds the cinematic engine's data-dissolve marker to the first
+    element carrying target_class within an already-rendered HTML
+    fragment — used to opt one specific instance of a shared component
+    (e.g. one chat bubble) into the canvas particle-dissolve effect
+    without changing that component's signature everywhere else it's
+    used across the site."""
+    drift_attr = f' data-dissolve-drift="{drift}"' if drift else ""
+    return html.replace(f'class="{target_class}"', f'class="{target_class}" data-dissolve{drift_attr}', 1)
 
 
 def chat_mock(lines):
@@ -566,7 +578,7 @@ def build_home(lang="en"):
                     "Rohan Sharma just messaged asking about a panel upgrade — a real job, ready to book today. Two hours pass. No reply. He's not still waiting. He's already asked two more electricians the exact same question.",
             "chat": chat1,
             "accent": "red",
-        }, "raw", extra_body=chat_screen(contact, "2 घंटे पहले देखा गया" if is_hi else "Last seen 2 hours ago", chat1)),
+        }, "raw", extra_body=mark_dissolve(chat_screen(contact, "2 घंटे पहले देखा गया" if is_hi else "Last seen 2 hours ago", chat1), "chat-bubble in", drift="up")),
         scene({
             "eyebrow": "फिक्स" if is_hi else "Fixed",
             "title": "किसी और से पूछने से पहले ही जवाब मिल गया" if is_hi else "Answered before he can ask anyone else",
@@ -596,7 +608,7 @@ def build_home(lang="en"):
             "body": "पैनल अपग्रेड हो गया। काम पूरा। जो पूरा नहीं हुआ वो है — बिना तीन अजीब फॉलो-अप मैसेज के, अगले दो हफ्तों में वो पैसा वसूलना जो पहले ही कमाया जा चुका था।" if is_hi else
                     "The panel's upgraded. The job's done. What's not done is getting paid — without three awkward follow-up texts over the next two weeks, chasing money that was already earned.",
             "accent": "red",
-        }, "raw", extra_body=chat_screen(contact, "ऑनलाइन" if is_hi else "Online", chat5)),
+        }, "raw", extra_body=f'<div data-currency-particles>{chat_screen(contact, "ऑनलाइन" if is_hi else "Online", chat5)}</div>'),
         scene({
             "eyebrow": "फिक्स" if is_hi else "Fixed",
             "title": "वैन के जाने से पहले ही पेमेंट हो गई" if is_hi else "Paid before the van leaves the driveway",
@@ -614,7 +626,17 @@ def build_home(lang="en"):
         ),
         payoff_scene(lang),
     ]
-    body = nav("/hi/" if is_hi else "/", lang) + cinematic_wrap(scenes, len(scenes)) + f"""
+    hero = f"""<section class="home-hero" id="home-hero">
+  <div class="home-hero-grid"></div>
+  <div class="container home-hero-inner">
+    <h1 class="home-hero-title">{BRAND}.</h1>
+    <p class="home-hero-sub">{"आपकी मौजूदा ट्रैफिक में हो रहे नुकसान को हम बंद करते हैं।" if is_hi else "We fix the leaks in the traffic you're already paying for."}</p>
+    <p class="home-hero-tag">{"MSMEs के लिए एक डिजिटल स्टूडियो — कोई और SaaS डैशबोर्ड नहीं।" if is_hi else "A digital studio for MSMEs, not another SaaS dashboard."}</p>
+  </div>
+  <div class="home-hero-arrow" aria-hidden="true">↓</div>
+</section>
+"""
+    body = nav("/hi/" if is_hi else "/", lang) + hero + cinematic_wrap(scenes, len(scenes)) + f"""
 <section class="section-pad">
   <div class="container">
     <div class="eyebrow">{"AsliKaam क्यों" if is_hi else "Why AsliKaam"}</div>
@@ -1521,6 +1543,18 @@ def build_headers_and_redirects():
     write("_headers", headers)
 
 
+def inject_home_hero_script(path):
+    full = os.path.join(SITE, path)
+    with open(full, "r", encoding="utf-8") as f:
+        html = f.read()
+    html = html.replace(
+        '<script src="/assets/js/global-ui.js"></script>',
+        '<script src="/assets/js/global-ui.js"></script>\n<script src="/assets/js/home-hero.js"></script>',
+    )
+    with open(full, "w", encoding="utf-8") as f:
+        f.write(html)
+
+
 def inject_pricing_script():
     path = os.path.join(SITE, "pricing", "index.html")
     with open(path, "r", encoding="utf-8") as f:
@@ -1564,7 +1598,9 @@ def main():
     shutil.copytree(ASSETS_SRC, os.path.join(SITE, "assets"))
 
     build_home()
+    inject_home_hero_script("index.html")
     build_home(lang="hi")
+    inject_home_hero_script("hi/index.html")
     build_industries_index()
     build_industries_index(lang="hi")
     for ind in INDUSTRIES:
