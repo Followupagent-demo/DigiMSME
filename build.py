@@ -468,7 +468,7 @@ def consultation_cta_section(lang="en"):
     return f"""<section class="section-pad" style="background: var(--bg-alt);">
       <div class="container center">
         <div class="eyebrow">{"मुफ़्त कंसल्टेशन" if is_hi else "Free Consultation"}</div>
-        <h2 style="max-width:760px; margin-left:auto; margin-right:auto;">{"रोहन जैसे कई ग्राहक अभी आपको ढूंढ रहे हैं — और आपके प्रतियोगी तक पहुंच रहे हैं।" if is_hi else "Many customers like Rohan are searching for you right now — and landing on your competitor instead."}</h2>
+        <h2 style="max-width:760px; margin-left:auto; margin-right:auto;">{"ऊपर जैसे कई ग्राहक अभी आपको ढूंढ रहे हैं — और आपके प्रतियोगी तक पहुंच रहे हैं।" if is_hi else "Customers just like the ones above are searching for you right now — and landing on your competitor instead."}</h2>
         <p class="lead" style="max-width:600px; margin:0 auto 24px;">{"मुफ़्त कंसल्टेशन लें — हम आपको बिल्कुल बताएंगे कि आप कहां ग्राहक खो रहे हैं, और उसे ठीक करने का पूरा रोडमैप देंगे।" if is_hi else "Get a free consultation — we'll show you exactly where your business is losing customers, and hand you a roadmap to fix it."}</p>
         <div class="row-cta center" style="justify-content:center;">
           <a class="btn btn-primary" href="{wa_href}" target="_blank" rel="noopener">{"मुफ़्त कंसल्टेशन लें" if is_hi else "Get Free Consultation"}</a>
@@ -631,102 +631,152 @@ def build_home(lang="en"):
         ("Ganpati Electricals Wholesale", "₹1,40,000"),       # wholesale-distributor
     ]
 
-    contact = "रोहन शर्मा" if is_hi else "Rohan Sharma"
-    if is_hi:
-        chat1 = [("in", "नमस्ते, क्या आप कमर्शियल इलेक्ट्रिकल पैनल अपग्रेड करते हैं?"), ("meta", "देखा गया · कोई जवाब नहीं · 2 घंटे")]
-        other_attempts = [
-            ("संराइज़ इलेक्ट्रिकल्स", "नमस्ते, क्या आप कमर्शियल पैनल अपग्रेड करते हैं?", "देखा गया · कोई जवाब नहीं · 3 घंटे"),
-            ("ओम इलेक्ट्रिकल वर्क्स", "क्या इस हफ़्ते 40kW अपग्रेड के लिए कोई उपलब्ध है?", "भेजा गया · कोई जवाब नहीं"),
-        ]
-        chat2 = [("in", "आपकी वेबसाइट और रिव्यूज़ देखे — अच्छा लगा।"),
-                 ("in", "नमस्ते, क्या आप कमर्शियल इलेक्ट्रिकल पैनल अपग्रेड करते हैं?"),
-                 ("out", "जी हां! आपके पैनल की मौजूदा कैपेसिटी बता सकते हैं?"),
-                 ("in", "25kW पैनल है, 40kW तक अपग्रेड करना है।")]
-        chat3 = [("in", "तो कीमत क्या होगी?"), ("meta", "कोई स्पष्ट जवाब नहीं मिला"), ("in", "ठीक है, कहीं और देखता हूं।")]
-        chat4 = [("out", "40kW अपग्रेड: ₹58,000 सब कुछ शामिल, दो दिन में पूरा।"),
-                 ("in", "कहीं और ₹48,000 का कोटेशन मिला, मैच कर सकते हैं?"),
-                 ("out", "₹48,000 मैच करेंगे — साथ में 1 साल की वारंटी। बुक करें?"),
-                 ("in", "हां, बुक कर दीजिए।")]
-    else:
-        chat1 = [("in", "Hi, do you do commercial electrical panel upgrades?"), ("meta", "Seen · no reply · 2 hours")]
-        other_attempts = [
-            ("Sunrise Electricals", "Hi, do you do commercial panel upgrades?", "Seen · no reply · 3 hours"),
-            ("Om Electrical Works", "Anyone available for a 40kW upgrade this week?", "Delivered · no reply"),
-        ]
-        chat2 = [("in", "Checked out your website and reviews — looks solid."),
-                 ("in", "Hi, do you do commercial electrical panel upgrades?"),
-                 ("out", "Yes! Could you share your panel's current capacity?"),
-                 ("in", "It's a 25kW panel, want to upgrade to 40kW.")]
-        chat3 = [("in", "So what's the cost?"), ("meta", "No clear answer given"), ("in", "Ok, let me check elsewhere.")]
-        chat4 = [("out", "Upgrade to 40kW: ₹58,000 all-inclusive, done in two days."),
-                 ("in", "Got a quote for ₹48,000 elsewhere, can you match?"),
-                 ("out", "We'll match ₹48,000 — plus a 1-year warranty. Book it?"),
-                 ("in", "Yes, book it.")]
+    # Same industry order as search_presets/payment_presets, on purpose —
+    # one shared rotator index, so the customer asking here is the same
+    # one skipped in Loss Point #1 and paying in Loss Point #4. Fifteen
+    # different real people (not one repeated "Rohan"), a mix of names,
+    # each asking about something specific to their own industry —
+    # answers the "it feels like we just do one thing" complaint applied
+    # to the enquiry/quote scenes, the same way the industry picker cards
+    # already answer it for the reveal section.
+    enquiry_personas = [
+        ("Vikram Shah", "विक्रम शाह", "Hi, can you handle a 500-piece export order?", "नमस्ते, क्या आप 500 पीस के एक्सपोर्ट ऑर्डर को संभाल सकते हैं?",
+         "Need FOB pricing, shipped by month-end.", "FOB प्राइसिंग चाहिए, महीने के आख़िर तक शिप हो जाना चाहिए।", "₹3,60,000"),
+        ("Sunita Patil", "सुनीता पाटिल", "Hi, do you have a full-body check-up package?", "नमस्ते, क्या आपके पास फुल-बॉडी चेकअप पैकेज है?",
+         "Need it done this week, for two of us.", "इस हफ़्ते ही चाहिए, हम दो लोगों के लिए।", "₹6,500"),
+        ("Ananya Reddy", "अनन्या रेड्डी", "Hi, is there a seat left in the NEET batch?", "नमस्ते, क्या NEET बैच में एक सीट बची है?",
+         "My daughter's in 11th, wants to join this month.", "मेरी बेटी 11वीं में है, इसी महीने जॉइन करना चाहती है।", "₹40,000"),
+        ("Karan Mehta", "करण मेहता", "Hi, is the 2BHK on the 4th floor still available?", "नमस्ते, क्या चौथी मंज़िल का 2BHK अब भी उपलब्ध है?",
+         "Want to book a site visit this weekend.", "इस वीकेंड साइट विज़िट बुक करना चाहता हूं।", "₹2,20,000"),
+        ("Divya Agarwal", "दिव्या अग्रवाल", "Hi, can you supply 1,000 units of this component?", "नमस्ते, क्या आप इस कंपोनेंट की 1,000 यूनिट सप्लाई कर सकते हैं?",
+         "Need a sample first, then the full order.", "पहले एक सैंपल चाहिए, फिर पूरा ऑर्डर।", "₹2,70,000"),
+        ("Priya Joshi", "प्रिया जोशी", "Hi, is admission open in Class 3?", "नमस्ते, क्या तीसरी क्लास में एडमिशन खुला है?",
+         "We just shifted here, need it sorted soon.", "हम अभी यहां शिफ्ट हुए हैं, जल्दी चाहिए।", "₹55,000"),
+        ("Rajesh Kulkarni", "राजेश कुलकर्णी", "Hi, do you do home collection for blood tests?", "नमस्ते, क्या आप ब्लड टेस्ट के लिए होम कलेक्शन करते हैं?",
+         "It's for my mother, she can't travel.", "मेरी मां के लिए है, वो ट्रैवल नहीं कर सकतीं।", "₹1,900"),
+        ("Neha Kapoor", "नेहा कपूर", "Hi, is your banquet free on the 14th next month?", "नमस्ते, क्या आपका बैंक्वेट अगले महीने 14 तारीख़ को फ्री है?",
+         "Around 300 guests, need catering too.", "करीब 300 मेहमान होंगे, कैटरिंग भी चाहिए।", "₹1,55,000"),
+        ("Rohit Verma", "रोहित वर्मा", "Hi, do you have a trial before I join?", "नमस्ते, जॉइन करने से पहले क्या ट्रायल मिलता है?",
+         "Looking at a 6-month membership if it's good.", "अच्छा लगा तो 6 महीने की मेंबरशिप लूंगा।", "₹19,000"),
+        ("Meera Malhotra", "मीरा मल्होत्रा", "Hi, can you help file my company's GST returns?", "नमस्ते, क्या आप मेरी कंपनी का GST रिटर्न फाइल कर सकते हैं?",
+         "It's overdue by two months, need it fast.", "दो महीने से पेंडिंग है, जल्दी चाहिए।", "₹11,000"),
+        ("Kavya Iyer", "काव्या अय्यर", "Hi, can you design a 2BHK on a tight budget?", "नमस्ते, क्या आप कम बजट में 2BHK डिज़ाइन कर सकते हैं?",
+         "Want to see a moodboard before we finalize.", "फ़ाइनल करने से पहले एक मूडबोर्ड देखना चाहूंगी।", "₹1,15,000"),
+        ("Ganesh Pawar", "गणेश पवार", "Hi, do you have basmati rice in stock right now?", "नमस्ते, क्या अभी बासमती चावल स्टॉक में है?",
+         "Need 2 bags delivered home today if possible.", "अगर हो सके तो आज ही 2 बैग घर डिलीवर चाहिए।", "₹2,000"),
+        ("Pooja Rao", "पूजा राव", "Hi, can I book a test drive for this weekend?", "नमस्ते, क्या मैं इस वीकेंड टेस्ट ड्राइव बुक कर सकती हूं?",
+         "Also want the on-road price with exchange.", "एक्सचेंज के साथ ऑन-रोड प्राइस भी चाहिए।", "₹1,85,000"),
+        ("Imran Sheikh", "इमरान शेख", "Hi, do you have this tile design in stock?", "नमस्ते, क्या यह टाइल डिज़ाइन स्टॉक में है?",
+         "Need enough for a 600 sq ft floor, with samples.", "600 वर्ग फीट फ़्लोर के लिए चाहिए, सैंपल के साथ।", "₹58,000"),
+        ("Manoj Gupta", "मनोज गुप्ता", "Hi, can you supply my regular order this week?", "नमस्ते, क्या इस हफ़्ते मेरा रेगुलर ऑर्डर सप्लाई हो सकता है?",
+         "Same items as last time, just double the quantity.", "पिछली बार जैसे ही आइटम, बस मात्रा दोगुनी।", "₹1,20,000"),
+    ]
+
+    def enquiry_slides(build_fn):
+        out = ""
+        for i, p in enumerate(enquiry_personas):
+            name, name_hi, ask, ask_hi, detail, detail_hi, price_match = p
+            hidden_attr = "" if i == 0 else " hidden"
+            out += f'<div class="rotation-slide" data-rot="{i}"{hidden_attr}>{build_fn(i, name_hi if is_hi else name, ask_hi if is_hi else ask, detail_hi if is_hi else detail, price_match)}</div>'
+        return f'<div class="rotation-wrap">{out}</div>'
+
+    seen_no_reply = "देखा गया · कोई जवाब नहीं · 2 घंटे" if is_hi else "Seen · no reply · 2 hours"
+    last_seen_2h = "2 घंटे पहले देखा गया" if is_hi else "Last seen 2 hours ago"
+    online_status = "ऑनलाइन" if is_hi else "Online"
+    typing_status = "टाइप कर रहे हैं…" if is_hi else "Typing…"
+    other_attempt_status = ["देखा गया · कोई जवाब नहीं · 3 घंटे" if is_hi else "Seen · no reply · 3 hours",
+                             "भेजा गया · कोई जवाब नहीं" if is_hi else "Delivered · no reply"]
+    checked_reviews = "आपकी वेबसाइट और रिव्यूज़ देखे — अच्छा लगा।" if is_hi else "Checked out your website and reviews — looks solid."
+    reply_prompt = "जी हां! थोड़ा और बताएंगे?" if is_hi else "Yes! Could you tell me a bit more?"
+    cost_q = "तो कीमत क्या होगी?" if is_hi else "So what's the cost?"
+    no_clear_answer = "कोई स्पष्ट जवाब नहीं मिला" if is_hi else "No clear answer given"
+    check_elsewhere = "ठीक है, कहीं और देखता हूं।" if is_hi else "Ok, let me check elsewhere."
+    quote_ready = "यह रहा पूरा कोटेशन, दो दिन में सब सेट।" if is_hi else "Here's the full quote, sorted in two days."
+    match_ask = "कहीं और {p} का कोटेशन मिला, मैच कर सकते हैं?" if is_hi else "Got {p} elsewhere, can you match?"
+    match_yes = "{p} मैच करेंगे — वही क्वालिटी, कोई समझौता नहीं। बुक करूं?" if is_hi else "We'll match {p} — same quality, no compromise. Shall I book it?"
+    book_yes = "हां, बुक कर दीजिए।" if is_hi else "Yes, go ahead."
+
+    def build_stack1(i, name, ask, detail, price_match):
+        biz1 = search_presets[i]["broken"][0]["name"]
+        biz2 = search_presets[i]["broken"][2]["name"]
+        chat1 = [("in", ask), ("meta", seen_no_reply)]
+        attempts = [(biz1, ask, other_attempt_status[0]), (biz2, ask, other_attempt_status[1])]
+        return ('<div class="attempt-stack">'
+                + mark_dissolve(chat_screen(name, last_seen_2h, chat1), "chat-bubble in", drift="up")
+                + "".join(attempt_card(b, m, s) for b, m, s in attempts)
+                + "</div>")
+
+    def build_chat2(i, name, ask, detail, price_match):
+        chat2 = [("in", checked_reviews), ("in", ask), ("out", reply_prompt), ("in", detail)]
+        return chat_screen(name, online_status, chat2)
+
+    def build_chat3(i, name, ask, detail, price_match):
+        chat3 = [("in", cost_q), ("meta", no_clear_answer), ("in", check_elsewhere)]
+        return chat_screen(name, typing_status, chat3)
+
+    def build_chat4(i, name, ask, detail, price_match):
+        chat4 = [("out", quote_ready), ("in", match_ask.format(p=price_match)),
+                  ("out", match_yes.format(p=price_match)), ("in", book_yes)]
+        return chat_screen(name, online_status, chat4)
 
     scenes = [
         scene({
             "eyebrow": "नुकसान बिंदु #1 — सर्च" if is_hi else "Loss Point #1 — Search",
             "title": "मिले, फिर भी नज़रअंदाज़ हो गए" if is_hi else "They found you. Then scrolled right past.",
-            "body": "न फोटो, न पोस्ट, न वेबसाइट लिंक। जिस ग्राहक के पास उसी समय तीन और विकल्प खुले हों, उसके लिए यह छोटा बिज़नेस नहीं — एक जोखिम लगता है, जिसे लेने का उसके पास वक्त नहीं।" if is_hi else
-                    "No photos. No posts. No website link. To a customer with three other options open in the same tab, that's not a small business — it's a risk they don't have time to take a chance on.",
+            "body": "न फोटो, न पोस्ट, न वेबसाइट लिंक — पता ही नहीं चलता कि दुकान असल में चल भी रही है या नहीं। पास में तीन और विकल्प खुले हों तो कोई रुककर पता नहीं करता, आगे बढ़ जाता है।" if is_hi else
+                    "No photos, no posts, no website — nothing to show the business is real and actually open. With three other options one tap away, most people don't stop to check. They just move on.",
             "accent": "red",
         }, "raw", extra_body=rotating_search_screen(search_presets, use_fixed=False), shatter="#ff6b6b"),
         scene({
             "eyebrow": "फिक्स" if is_hi else "Fixed",
             "title": "वही बिज़नेस। अब यही चुना जाता है।" if is_hi else "Same business. Now it's the one they tap.",
-            "body": "दुकान में कुछ नहीं बदला — न मालिक, न कीमत, न क्वालिटी। बस वो पंद्रह सेकंड बदले, जिनमें कोई तय करता है कि आप असल में बिज़नेस के लिए तैयार हैं। यही पूरा फ़र्क़ है। अब देखिए इसके बाद क्या होता है।" if is_hi else
-                    "Nothing about the shop changed — not the owner, not the price, not the quality. Just the fifteen seconds it takes someone to decide you're actually open for business. That's the whole gap. Here's what happens once someone crosses it.",
+            "body": "दुकान में कुछ नहीं बदला — न मालिक, न कीमत, न क्वालिटी। बस वो पंद्रह सेकंड बदले, जिनमें कोई तय करता है कि आप असल में खुले हैं। बस इतना ही फ़र्क़ है। अब देखिए आगे क्या होता है।" if is_hi else
+                    "Nothing about the shop changed — not the owner, the price, or the quality. Just the fifteen seconds it takes someone to decide you're actually open. That's it. Here's what happens next.",
             "accent": "green",
         }, "raw", extra_body=rotating_search_screen(search_presets, use_fixed=True), shatter="#25d366"),
 
         scene({
             "eyebrow": "नुकसान बिंदु #2 — पूछताछ" if is_hi else "Loss Point #2 — Enquiry",
             "title": "एक असली सवाल। बिना जवाब के छोड़ दिया गया।" if is_hi else "A real question. Left on read.",
-            "body": "रोहन शर्मा ने अभी-अभी पैनल अपग्रेड के बारे में मैसेज किया — एक असली काम, आज ही बुक होने को तैयार। दो घंटे बीत जाते हैं। कोई जवाब नहीं। वह इंतज़ार नहीं करता — वह पहले ही दो और इलेक्ट्रिशियन से वही सवाल पूछ चुका है।" if is_hi else
-                    "Rohan Sharma just messaged asking about a panel upgrade — a real job, ready to book today. Two hours pass. No reply. He's not still waiting. He's already asked two more electricians the exact same question.",
-            "chat": chat1,
+            "body": "एक असली ग्राहक ने अभी मैसेज किया — आज ही पैसे देने को तैयार। दो घंटे बीत जाते हैं। कोई जवाब नहीं। वो इंतज़ार नहीं करता — वही सवाल पहले ही दो और दुकानों को भेज चुका है।" if is_hi else
+                    "A real customer just messaged, ready to pay today. Two hours go by. No reply. They're not sitting around waiting — they've already sent the same message to two more shops.",
             "accent": "red",
-        }, "raw",
-            extra_body='<div class="attempt-stack">'
-                       + mark_dissolve(chat_screen(contact, "2 घंटे पहले देखा गया" if is_hi else "Last seen 2 hours ago", chat1), "chat-bubble in", drift="up")
-                       + "".join(attempt_card(b, m, s) for b, m, s in other_attempts)
-                       + "</div>",
-            shatter="#ff6b6b"),
+        }, "raw", extra_body=enquiry_slides(build_stack1), shatter="#ff6b6b"),
         scene({
             "eyebrow": "फिक्स" if is_hi else "Fixed",
-            "title": "किसी और से पूछने से पहले ही जवाब मिल गया" if is_hi else "Answered before he can ask anyone else",
-            "body": "सिर्फ़ \"धन्यवाद\" नहीं — एक असली सवाल वापस, जो इसे \"शायद\" से कोटेशन की तरफ़ ले जाता है। रोहन अभी अपना जवाब टाइप कर रहा है। उसने किसी और को मैसेज करने के बारे में सोचा तक नहीं।" if is_hi else
-                    "Not a canned \"thanks for reaching out\" — a real question back, the one that moves this from a maybe to a quote. Rohan's still typing his reply. He hasn't even thought about messaging anyone else.",
+            "title": "किसी और से पूछने से पहले ही जवाब मिल गया" if is_hi else "Answered before they can ask anyone else",
+            "body": "कोई कॉपी-पेस्ट \"धन्यवाद\" नहीं — एक असली सवाल वापस, जो इसे \"शायद\" से असली ऑर्डर की तरफ़ ले जाता है। जवाब अभी टाइप हो रहा है। किसी और को मैसेज करने का ख़याल तक नहीं आया।" if is_hi else
+                    "Not a copy-paste \"thanks for your message\" — an actual question back, the one that turns this into a real order. They're already typing their reply. Messaging anyone else hasn't even crossed their mind.",
             "accent": "green",
-        }, "raw", extra_body=chat_screen(contact, "ऑनलाइन" if is_hi else "Online", chat2), shatter="#25d366"),
+        }, "raw", extra_body=enquiry_slides(build_chat2), shatter="#25d366"),
 
         scene({
             "eyebrow": "नुकसान बिंदु #3 — कोटेशन" if is_hi else "Loss Point #3 — The Quote",
             "title": "कीमत पूछी। जवाब में कंधे उचकाए गए।" if is_hi else "Asked for a price. Got a shrug.",
-            "body": "\"देखकर बताता हूं\" — ज़्यादातर काम यूं ही चुपचाप खत्म हो जाते हैं। रोहन किसी नंबर का इंतज़ार नहीं करता जो शायद कल आए — उसके दूसरे टैब में पहले से किसी और की कीमत खुली है।" if is_hi else
-                    "\"Let me check and get back to you\" is how most jobs die quietly. Rohan doesn't wait around for a number that might come tomorrow — he's already got someone else's price open in his other tab.",
+            "body": "\"देखकर बताता हूं\" कहा — और बस, यही आख़िरी बार सुना। कोई भी कल आने वाली कीमत का इंतज़ार नहीं करता। सामने वाले के पास पहले से किसी और की कीमत मौजूद है।" if is_hi else
+                    "\"Let me check and get back to you\" — and that's the last you hear from them. Nobody waits around for a price that might come tomorrow. They've already got someone else's number in hand.",
             "accent": "red",
-        }, "raw", extra_body=chat_screen(contact, "टाइप कर रहे हैं…" if is_hi else "Typing…", chat3), shatter="#ff6b6b"),
+        }, "raw", extra_body=enquiry_slides(build_chat3), shatter="#ff6b6b"),
         scene({
             "eyebrow": "फिक्स" if is_hi else "Fixed",
             "title": "एक असली नंबर — और डील बचाने की गुंजाइश" if is_hi else "A real number — and room to save the sale",
-            "body": "₹58,000, दो दिन में पूरा। जब रोहन कहीं और की सस्ती कीमत का ज़िक्र करता है, तो उसे तुरंत मैच किया जाता है, साथ में वारंटी भी — व्हाट्सएप पर पांच मिनट की प्राइस-वॉर में गंवाने की बजाय।" if is_hi else
-                    "₹58,000, done in two days. When Rohan mentions a cheaper quote elsewhere, it gets matched on the spot, with a warranty thrown in — not lost to a five-minute price war on WhatsApp.",
+            "body": "एक साफ़ कीमत, कोई आगे-पीछे नहीं। कहीं और की सस्ती कीमत बताई जाती है, तो व्हाट्सएप पर उसी वक्त मैच हो जाती है — दो दिन की चुप्पी में गंवाने की बजाय।" if is_hi else
+                    "A clear price, no back-and-forth. When a cheaper quote comes up elsewhere, it gets matched right there on WhatsApp — not lost to two days of silence.",
             "accent": "green",
-        }, "raw", extra_body=chat_screen(contact, "ऑनलाइन" if is_hi else "Online", chat4), shatter="#25d366"),
+        }, "raw", extra_body=enquiry_slides(build_chat4), shatter="#25d366"),
 
         scene({
             "eyebrow": "नुकसान बिंदु #4 — पेमेंट" if is_hi else "Loss Point #4 — Payment",
             "title": "काम हो गया। पैसा नहीं आया।" if is_hi else "The work's done. The money isn't.",
-            "body": "न इनवॉइस, न रिमाइंडर — बस अगले दो हफ्तों में वही पैसा वसूलने के लिए तीन अजीब फॉलो-अप मैसेज, जो पहले ही कमाया जा चुका था। छोटी दुकान हो या बड़ा ऑर्डर, रकम चाहे जो हो — बिना मांगे पैसा नहीं आता।" if is_hi else
-                    "No invoice. No reminder. Just three awkward follow-up texts over the next two weeks, chasing money that was already earned. Whether it's a few thousand or a few lakh, it doesn't come in unless someone asks for it.",
+            "body": "न इनवॉइस, न रिमाइंडर — बस दो हफ्ते तक अजीब से फॉलो-अप मैसेज, उसी पैसे के लिए जो पहले ही कमाया जा चुका है। रकम छोटी हो या बड़ी, बिना मांगे नहीं आता।" if is_hi else
+                    "No invoice, no reminder — just awkward follow-up texts for two weeks, chasing money that's already been earned. Small amount or big, it doesn't come in until someone asks.",
             "accent": "red",
         }, "raw", extra_body=f'<div data-currency-particles>{rotating_payment_screen(payment_presets, paid=False)}</div>', shatter="#ff6b6b"),
         scene({
             "eyebrow": "फिक्स" if is_hi else "Fixed",
             "title": "बिना दोबारा मांगे पैसा आ जाता है" if is_hi else "Paid before anyone has to ask twice",
-            "body": "एक पेमेंट लिंक पर टैप ने वो कर दिखाया जो दर्जन भर फॉलो-अप मैसेज नहीं कर पाए — छोटी पेमेंट हो या बड़ी, तरीका वही रहता है।" if is_hi else
-                    "One tap on a payment link does what a dozen follow-up messages couldn't — the same mechanism, whether it's a small job or a six-figure order.",
+            "body": "एक पेमेंट लिंक पर टैप, और पैसा आ जाता है — बिना किसी फॉलो-अप मैसेज के, छोटी पेमेंट हो या बड़ी।" if is_hi else
+                    "One tap on a payment link, and it's done — no follow-up messages needed, whether it's a small job or a big order.",
             "accent": "green",
         }, "raw", extra_body=rotating_payment_screen(payment_presets, paid=True), shatter="#25d366"),
     ]
@@ -751,7 +801,7 @@ def build_home(lang="en"):
   <div class="container">
     <div class="eyebrow">{"अपना नंबर देखें" if is_hi else "See Your Own Number"}</div>
     <h2>{"आप हर महीने कितना गंवा रहे हैं?" if is_hi else "How much are you losing every month, right now?"}</h2>
-    <p class="lead">{"वही गणित जो रोहन की कहानी में था — बस अब आपके अपने नंबरों के साथ।" if is_hi else "Same math as Rohan's story — just with your own numbers instead."}</p>
+    <p class="lead">{"वही गणित जो ऊपर की कहानियों में था — बस अब आपके अपने नंबरों के साथ।" if is_hi else "Same math as the story above — just with your own numbers instead."}</p>
     <div class="tool-layout">
       <form class="tool-form" id="leak-calc-form">
         <div class="tool-field">
@@ -801,7 +851,7 @@ def build_home(lang="en"):
 """
     picker_section = industry_picker_section(
         stage_eyebrow="अब आपकी बारी" if is_hi else "Your Turn",
-        stage_title="वही चार पल। आपका नुकसान रोहन जैसा बिल्कुल नहीं दिखता।" if is_hi else "Same four moments. Your leak looks nothing like Rohan's.",
+        stage_title="वही चार पल। आपका नुकसान ऊपर वाली कहानियों जैसा बिल्कुल नहीं दिखता।" if is_hi else "Same four moments. Your leak looks nothing like the ones above.",
         stage_body="हर इंडस्ट्री की अपनी असली, अलग समस्या है — कार्ड पलटें और देखें आपकी इंडस्ट्री में यह ठीक कैसे होता है, फिर पूरा डेमो खोलें।" if is_hi else
                    "Every industry loses this deal in its own specific way — flip a card to see yours, then open the full demo.",
         lang=lang,
