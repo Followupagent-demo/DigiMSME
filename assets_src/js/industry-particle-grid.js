@@ -1,8 +1,8 @@
 /*
- * Agentic Use Cases page: the 15-industry grid sits as scattered ambient
- * particles at rest and "snaps into focus" — assembles into its crisp
- * icon + name — on hover, focus, or touch. Visualizes one adaptive engine
- * reshaping itself per industry, not 15 separate fixed bots. Reuses
+ * Agentic Use Cases page: the 15-industry grid is fully readable at rest
+ * (a visitor shouldn't have to hover every tile just to find their own
+ * industry) — hovering triggers a quick scatter-and-reassemble pulse as a
+ * decorative flourish on top of a label that's already legible. Reuses
  * ParticleText exactly as-is, just driven by pointer events instead of
  * scroll position.
  */
@@ -12,41 +12,33 @@
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduceMotion) return; // labels are already real, readable DOM text
 
-  function animate(duration, onUpdate) {
+  function animate(duration, onUpdate, onDone) {
     var start = performance.now();
     function frame(now) {
       var t = Math.min(1, (now - start) / duration);
       onUpdate(t);
       if (t < 1) requestAnimationFrame(frame);
+      else if (onDone) onDone();
     }
     requestAnimationFrame(frame);
   }
-
-  // ParticleText's own alpha curve fades to fully invisible at t=1 (it
-  // was built for "dissolve away to nothing"), so a resting scatter needs
-  // a value short of 1 to actually stay visible as a loose, glowing cloud
-  // rather than disappearing entirely.
-  var REST_SCATTER = 0.62;
 
   Array.prototype.forEach.call(tiles, function (tile) {
     var label = tile.querySelector(".ind-particle-label");
     if (!label) return;
     var pt = new window.ParticleText(label, { stride: 2 });
-    pt.setProgress(REST_SCATTER);
-    var current = REST_SCATTER;
+    var pulsing = false;
 
-    function go(target) {
-      var from = current;
-      animate(450, function (t) {
-        current = from + (target - from) * t;
-        pt.setProgress(current);
+    function pulse() {
+      if (pulsing) return;
+      pulsing = true;
+      animate(260, function (t) { pt.setProgress(t); }, function () {
+        animate(380, function (t) { pt.setProgress(1 - t); }, function () { pulsing = false; });
       });
     }
 
-    tile.addEventListener("mouseenter", function () { go(0); });
-    tile.addEventListener("mouseleave", function () { go(REST_SCATTER); });
-    tile.addEventListener("focus", function () { go(0); });
-    tile.addEventListener("blur", function () { go(REST_SCATTER); });
-    tile.addEventListener("touchstart", function () { go(0); }, { passive: true });
+    tile.addEventListener("mouseenter", pulse);
+    tile.addEventListener("focus", pulse);
+    tile.addEventListener("touchstart", pulse, { passive: true });
   });
 })();
