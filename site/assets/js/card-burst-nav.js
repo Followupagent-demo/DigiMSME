@@ -1,12 +1,12 @@
 /*
- * Shared "pick one, everything else falls away" navigation transition —
- * used on Home's industry picker grid and the Agentic Use Cases particle
- * industry grid. On click: every OTHER card in the group dissolves into
- * fine falling pixel dust (reusing ShatterVisual), a burst of particles
- * radiates outward from the clicked card to fill the screen, then the
- * page navigates to that card's real href. No-op under
- * prefers-reduced-motion or without ShatterVisual — the link just
- * navigates normally.
+ * Shared "pick one, everything falls away" navigation transition — used
+ * on Home's industry picker grid and the Agentic Use Cases particle
+ * industry grid. On click: every card in the group (the clicked one
+ * included) falls intact, like real gravity, to the bottom of the
+ * screen and piles up there — then a burst of fine green pixels
+ * destroys the pile, and the page navigates to the clicked card's real
+ * href. No-op under prefers-reduced-motion — the link just navigates
+ * normally.
  */
 (function () {
   function animate(duration, onUpdate, onDone) {
@@ -20,9 +20,41 @@
     requestAnimationFrame(frame);
   }
 
-  function burstFromElement(el, color, onDone) {
-    var rect = el.getBoundingClientRect();
-    var cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+  var FALL_DURATION = 550;
+  var MAX_STAGGER = 180;
+
+  function dropAll(items) {
+    var vh = window.innerHeight;
+    // Read every rect before freezing any element — freezing the first
+    // item would remove it from flow and shift the rects of the ones
+    // still measured after it.
+    var rects = items.map(function (el) { return el.getBoundingClientRect(); });
+    items.forEach(function (el, i) {
+      var rect = rects[i];
+      el.style.position = "fixed";
+      el.style.left = rect.left + "px";
+      el.style.top = rect.top + "px";
+      el.style.width = rect.width + "px";
+      el.style.height = rect.height + "px";
+      el.style.margin = "0";
+      el.style.zIndex = "150";
+      el.style.transition = "none";
+    });
+    // Force layout so the frozen start position above is committed
+    // before the transition target below starts animating from it.
+    void items[0].offsetHeight;
+
+    items.forEach(function (el) {
+      var delay = Math.random() * MAX_STAGGER;
+      el.style.transitionProperty = "top";
+      el.style.transitionDuration = FALL_DURATION + "ms";
+      el.style.transitionDelay = delay + "ms";
+      el.style.transitionTimingFunction = "cubic-bezier(.55,0,1,.45)"; // accelerating, like gravity
+      el.style.top = (vh + 60) + "px";
+    });
+  }
+
+  function burstAtBottom(color, onDone) {
     var vw = window.innerWidth, vh = window.innerHeight;
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
 
@@ -37,26 +69,27 @@
     var ctx = canvas.getContext("2d");
     ctx.scale(dpr, dpr);
 
-    var maxDist = Math.hypot(vw, vh) * 0.75;
     var particles = [];
-    for (var i = 0; i < 260; i++) {
+    for (var i = 0; i < 320; i++) {
       particles.push({
-        angle: Math.random() * Math.PI * 2,
-        dist: maxDist * (0.4 + Math.random() * 0.7),
-        size: 3 + Math.random() * 4,
+        x0: Math.random() * vw,
+        y0: vh - Math.random() * 50,
+        vx: (Math.random() - 0.5) * vw * 0.9,
+        vy: -(vh * 0.5 + Math.random() * vh * 0.9),
+        size: 2 + Math.random() * 3,
         jitter: Math.random(),
       });
     }
 
-    animate(480, function (t) {
+    animate(520, function (t) {
       ctx.clearRect(0, 0, vw, vh);
       ctx.fillStyle = color;
       particles.forEach(function (p) {
         var localT = Math.min(1, t * (0.8 + p.jitter * 0.5));
         var eased = 1 - Math.pow(1 - localT, 2);
-        var x = cx + Math.cos(p.angle) * p.dist * eased;
-        var y = cy + Math.sin(p.angle) * p.dist * eased;
-        ctx.globalAlpha = Math.max(0, 1 - localT * 0.65);
+        var x = p.x0 + p.vx * eased;
+        var y = p.y0 + p.vy * eased;
+        ctx.globalAlpha = Math.max(0, 1 - localT * 0.7);
         ctx.fillRect(x, y, p.size, p.size);
       });
       ctx.globalAlpha = 1;
@@ -68,38 +101,35 @@
 
   function wire(containerSelector, itemSelector, opts) {
     opts = opts || {};
-    var fallColor = opts.fallColor || "#8a95a3";
     var burstColor = opts.burstColor || "#25d366";
     var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     Array.prototype.forEach.call(document.querySelectorAll(containerSelector), function (container) {
       var items = Array.prototype.slice.call(container.querySelectorAll(itemSelector));
-      if (!items.length || reduceMotion || !window.ShatterVisual) return;
+      if (!items.length || reduceMotion) return;
 
       items.forEach(function (item) {
         item.addEventListener("click", function (e) {
-          if (item.dataset.busting) { e.preventDefault(); return; }
+          if (container.dataset.busting) { e.preventDefault(); return; }
           var href = item.getAttribute("href");
           if (!href) return;
           e.preventDefault();
-          item.dataset.busting = "1";
+          container.dataset.busting = "1";
 
-          items.forEach(function (other) {
-            if (other === item) return;
-            var sv = new window.ShatterVisual(other, { color: fallColor, cell: 5 });
-            animate(420, function (t) { sv.setProgress(t); });
-          });
-
-          burstFromElement(item, burstColor, function () {
-            window.location.href = href;
-          });
+          dropAll(items);
+          setTimeout(function () {
+            items.forEach(function (el) { el.style.visibility = "hidden"; });
+            burstAtBottom(burstColor, function () {
+              window.location.href = href;
+            });
+          }, FALL_DURATION + MAX_STAGGER + 40);
         });
       });
     });
   }
 
   document.addEventListener("DOMContentLoaded", function () {
-    wire(".picker-grid", ".picker-chip", { fallColor: "#8a95a3", burstColor: "#25d366" });
-    wire(".ind-particle-grid", ".ind-particle-tile", { fallColor: "#5a6472", burstColor: "#25d366" });
+    wire(".picker-grid", ".picker-chip", { burstColor: "#25d366" });
+    wire(".ind-particle-grid", ".ind-particle-tile", { burstColor: "#25d366" });
   });
 })();
