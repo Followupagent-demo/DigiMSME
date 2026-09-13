@@ -1090,36 +1090,43 @@ def industry_citation(ind):
 </section>"""
 
 
-def industry_workflow_section(ind):
+def as_is_to_be_section(as_is_file, to_be_file, name, leak_label, solution_desc):
     """AS-IS (today's manual process) vs TO-BE (automated) — two real n8n
-    workflows per industry, both rendered with the same tap-to-play /
-    desktop zoom-canvas component used on Home and the demo pages, so
-    the industry page shows the mechanism instead of just describing it.
+    workflows, both rendered with the same tap-to-play / desktop
+    zoom-canvas component (render_workflow_dual) used everywhere else a
+    workflow shows up on the site, so the page shows the mechanism
+    instead of just describing it. Shared by industry pages, industry
+    demo pages, module demo pages, and the negotiation agent demo.
     Silently omits itself if the generated files aren't present."""
-    slug = ind["slug"]
-    as_is_file, to_be_file = f"{slug}-as-is.json", f"{slug}-to-be.json"
     if not (os.path.exists(os.path.join(ASSETS_SRC, "n8n-workflows", as_is_file))
             and os.path.exists(os.path.join(ASSETS_SRC, "n8n-workflows", to_be_file))):
         return ""
+    leak_clause = leak_label.rstrip(".").lower()
     return f"""<section class="section-pad-sm" style="border-top:1px solid var(--border);">
   <div class="container">
     <div class="eyebrow">⚡ Real Workflow, Not a Mockup</div>
     <h2>Why this actually matters — the process, before and after</h2>
-    <p class="lead" style="max-width:720px;">{esc(ind['name'])} doesn't lose this deal on price or quality — it loses it in one specific, fixable gap: {esc(ind['leak_label'].lower())}. Below is that gap as it runs today, and the same process after automation — both real n8n workflows, not a diagram standing in for one.</p>
+    <p class="lead" style="max-width:720px;">{esc(name)} doesn't lose this on price or quality — it loses it in one specific, fixable gap: {esc(leak_clause)}. Below is that gap as it runs today, and the same process after automation — both real n8n workflows, not a diagram standing in for one.</p>
 
     <div style="margin-top:32px;">
       <h3 style="color:var(--danger); font-size:1.1rem;">Today — a manual process</h3>
       <p class="lead" style="font-size:0.9rem;">No system catches the gap until the customer's already gone.</p>
-      {render_workflow_dual(as_is_file, caption=f"{esc(ind['name'])} today — {esc(ind['leak_label'])}, with nothing tracking it until it's too late.")}
+      {render_workflow_dual(as_is_file, caption=f"{esc(name)} today — {esc(leak_label)}, with nothing tracking it until it's too late.")}
     </div>
 
     <div style="margin-top:40px;">
       <h3 style="color:var(--accent); font-size:1.1rem;">After automation</h3>
       <p class="lead" style="font-size:0.9rem;">Tap play — the same customer journey, minus the gap.</p>
-      {render_workflow_dual(to_be_file, caption=f"{esc(ind['name'])} automated — {esc(ind['solution'])}")}
+      {render_workflow_dual(to_be_file, caption=f"{esc(name)} automated — {esc(solution_desc)}")}
     </div>
   </div>
 </section>"""
+
+
+def industry_workflow_section(ind):
+    slug = ind["slug"]
+    return as_is_to_be_section(f"{slug}-as-is.json", f"{slug}-to-be.json",
+        ind["name"], ind["leak_label"], ind["solution"])
 
 
 def industry_case_study_section(ind):
@@ -1310,6 +1317,7 @@ def build_demo_page(ind):
   </div>
 </section>
 {cinematic_wrap(scenes, len(scenes))}
+{industry_workflow_section(ind)}
 <section class="section-pad-sm">
   <div class="container center">
     <a class="btn btn-primary" href="/industries/{ind['slug']}.html">Read the full breakdown</a>
@@ -1363,17 +1371,8 @@ def build_negotiation_agent_demo():
             scenes.append(scene(stage, "stat"))
     scenes.append(payoff_scene())
     na_wf_file = N8N_WORKFLOW_FILE.get(NEGOTIATION_AGENT["id"], f"{NEGOTIATION_AGENT['id']}.json")
-    na_wf_path = os.path.join(ASSETS_SRC, "n8n-workflows", na_wf_file)
-    na_workflow_section = ""
-    if os.path.exists(na_wf_path):
-        na_workflow_section = f"""<section class="section-pad-sm" style="border-top:1px solid var(--border);">
-  <div class="container">
-    <div class="eyebrow">⚡ Real Workflow, Not a Mockup</div>
-    <h2>The story above, as the actual automation that runs it</h2>
-    <p class="lead" style="max-width:680px;">Built in n8n, the open-source workflow engine. Tap play below and watch it run end to end.</p>
-    {render_workflow_dual(na_wf_file, caption=f"{esc(NEGOTIATION_AGENT['name'])} — {esc(NEGOTIATION_AGENT['blurb'])}")}
-  </div>
-</section>"""
+    na_workflow_section = as_is_to_be_section(f"{NEGOTIATION_AGENT['id']}-as-is.json", na_wf_file,
+        NEGOTIATION_AGENT["name"], NEGOTIATION_AGENT["stages"][0]["title"], NEGOTIATION_AGENT["blurb"])
     body = nav("/demos/") + f"""
 <section class="page-hero section-pad-sm">
   <div class="container">
@@ -1404,6 +1403,53 @@ MODULE_CONTACT_NAMES = [
 ]
 
 
+def module_benefits_section(mod):
+    """Real, sourced proof this module's problem — and fix — are real.
+    Reuses the stat already researched and cited in this module's own
+    blog post (if it has one with a stat block), plus a named, sourced
+    case_study where that deeper research has actually been done for
+    this specific module. Silently omits whichever half is missing."""
+    blog = MODULE_BLOG_BY_ID.get(mod["id"])
+    stat_block = None
+    if blog:
+        for b in blog["body"]:
+            if b["type"] == "stat":
+                stat_block = b
+                break
+    cs = mod.get("case_study")
+    if not stat_block and not cs:
+        return ""
+
+    stat_html = ""
+    if stat_block:
+        stat_html = f"""<div class="card" style="border-left:3px solid var(--accent);">
+          <div class="eyebrow">Why This Matters</div>
+          <p class="lead" style="font-size:0.95rem; margin:8px 0 10px;">{esc(stat_block['stat'])}</p>
+          <a href="{stat_block['url']}" target="_blank" rel="noopener" style="font-size:0.8rem; color:var(--accent); font-weight:600;">— {esc(stat_block['source'])} ↗</a>
+        </div>"""
+
+    cs_html = ""
+    if cs:
+        stats_list = cs.get("stats") or []
+        stats_html = "".join(f"<li>{esc(s)}</li>" for s in stats_list)
+        sources_html = " · ".join(
+            f'<a href="{s["url"]}" target="_blank" rel="noopener">{esc(s["label"])} ↗</a>' for s in cs["sources"])
+        cs_html = f"""<div class="card" style="border-left:3px solid var(--accent-dim); margin-top:{'20px' if stat_html else '0'};">
+          <div class="eyebrow">🏆 Already Running at Scale</div>
+          <h3 style="margin-top:8px;">{esc(cs['company'])}</h3>
+          <p class="lead" style="font-size:0.95rem;">{esc(cs['summary'])}</p>
+          {f'<ul class="stack" style="list-style:none; padding:0; margin:14px 0;">{stats_html}</ul>' if stats_html else ''}
+          <p style="font-size:0.8rem; color:var(--muted);">{sources_html}</p>
+        </div>"""
+
+    return f"""<section class="section-pad-sm">
+  <div class="container">
+    {stat_html}
+    {cs_html}
+  </div>
+</section>"""
+
+
 def build_module_demo_page(mod):
     idx = next((i for i, m in enumerate(MODULES) if m["id"] == mod["id"]), 0)
     contact = MODULE_CONTACT_NAMES[idx % len(MODULE_CONTACT_NAMES)]
@@ -1415,17 +1461,8 @@ def build_module_demo_page(mod):
     ]
     applicable = ", ".join(INDUSTRY_BY_SLUG[s]["name"] for s in mod["industries"] if s in INDUSTRY_BY_SLUG)
     wf_file = N8N_WORKFLOW_FILE.get(mod["id"], f"{mod['id']}.json")
-    wf_path = os.path.join(ASSETS_SRC, "n8n-workflows", wf_file)
-    workflow_section = ""
-    if os.path.exists(wf_path):
-        workflow_section = f"""<section class="section-pad-sm" style="border-top:1px solid var(--border);">
-  <div class="container">
-    <div class="eyebrow">⚡ Real Workflow, Not a Mockup</div>
-    <h2>The story above, as the actual automation that runs it</h2>
-    <p class="lead" style="max-width:680px;">Built in n8n, the open-source workflow engine. Tap play below and watch it run end to end — this is what "{esc(mod['name'])}" actually is, not a diagram standing in for one.</p>
-    {render_workflow_dual(wf_file, caption=f"{esc(mod['name'])} — {esc(mod['blurb'])}")}
-  </div>
-</section>"""
+    workflow_section = as_is_to_be_section(f"{mod['id']}-as-is.json", wf_file,
+        mod["name"], mod["pain"]["title"], mod["blurb"])
     blog_post = MODULE_BLOG_BY_ID.get(mod["id"])
     blog_section = ""
     if blog_post:
@@ -1449,6 +1486,7 @@ def build_module_demo_page(mod):
 </section>
 {cinematic_wrap(scenes, len(scenes))}
 {workflow_section}
+{module_benefits_section(mod)}
 {blog_section}
 <section class="section-pad-sm">
   <div class="container center">

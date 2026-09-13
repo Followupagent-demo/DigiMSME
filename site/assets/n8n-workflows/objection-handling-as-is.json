@@ -1,0 +1,129 @@
+{
+  "name": "AsliKaam — FAQ + Objection-Handling Agent (Today, Manual)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1",
+      "name": "Customer Inquiry Comes In",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        300
+      ],
+      "webhookId": "AsliKaam — FAQ + Objection-Handling Agent (Today, Manual)-1"
+    },
+    {
+      "parameters": {},
+      "id": "n2",
+      "name": "Staff Manually Checks / Searches",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        280,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n3",
+      "name": "The same question, for the 20th time today",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        560,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n4",
+      "name": "Days Pass — No Update Sent",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        840,
+        130
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n5",
+      "name": "Lost to a Competitor Who Answered First",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        130
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "n6",
+      "name": "Customer Happens to Wait It Out",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        840,
+        470
+      ]
+    }
+  ],
+  "connections": {
+    "Customer Inquiry Comes In": {
+      "main": [
+        [
+          {
+            "node": "Staff Manually Checks / Searches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Staff Manually Checks / Searches": {
+      "main": [
+        [
+          {
+            "node": "The same question, for the 20th time today",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "The same question, for the 20th time today": {
+      "main": [
+        [
+          {
+            "node": "Days Pass — No Update Sent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Customer Happens to Wait It Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Days Pass — No Update Sent": {
+      "main": [
+        [
+          {
+            "node": "Lost to a Competitor Who Answered First",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

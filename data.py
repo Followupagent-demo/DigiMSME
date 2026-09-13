@@ -929,6 +929,18 @@ MODULES = [
         "growth": {"eyebrow": "The Growth", "title": "A steady stream of fresh, answered reviews",
                     "body": "Review volume and response rate both move — which is what actually moves local search ranking.",
                     "stat_label": "Reviews replied to", "stat_from": "Rarely", "stat_to": "Every one"},
+        "case_study": {
+            "company": "HM Hotels",
+            "summary": "HM Hotels — a 23-property chain across Mallorca, Mexico and the Dominican Republic — rolled out AI-drafted review replies (via Shiji) after a two-month pilot at two hotels, then to the whole chain.",
+            "stats": [
+                "82% of 661 reviews replied to within the first month",
+                "Average reply time: 3 days",
+            ],
+            "sources": [
+                {"label": "Shiji customer case study", "url": "https://www.shijigroup.com/customers/smarter-reviews-happier-guests-unlocking-the-power-of-ai"},
+                {"label": "Hospitality Net coverage", "url": "https://www.hospitalitynet.org/casestudy/4126694/smarter-reviews-happier-guests-unlocking-the-power-of-ai"},
+            ],
+        },
     },
     {
         "id": "stock-check-reserve",
@@ -1148,6 +1160,15 @@ MODULES = [
         "growth": {"eyebrow": "The Growth", "title": "Every missed call, still a live inquiry",
                     "body": "A missed call stops being an automatic loss.",
                     "stat_label": "Missed calls followed up", "stat_from": "Rarely", "stat_to": "Every one, instantly"},
+        "case_study": {
+            "company": "Weatherseal by Asian Paints",
+            "summary": "Weatherseal — Asian Paints' home-waterproofing brand — runs missed-call callbacks and lead follow-up automatically on WhatsApp (via AiSensy), the same mechanism this page describes, at one of India's largest paint companies.",
+            "stats": [],
+            "sources": [
+                {"label": "AiSensy customer case studies", "url": "https://aisensy.com/case-studies"},
+                {"label": "Weatherseal by Asian Paints — official site", "url": "https://weatherseal.com/"},
+            ],
+        },
     },
     {
         "id": "quotation-drafting",
