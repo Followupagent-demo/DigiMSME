@@ -1296,19 +1296,22 @@ NEGOTIATION_AGENT = {
 PRICING_PACKS = [
     {
         "name": "Go Digital Pack",
-        "price": "₹2,999/mo",
+        "price": "₹35,999 one-time",
+        "support_price": "₹8,999/yr support",
         "tag": "Entry",
-        "includes": ["Google Business Profile setup + optimization", "Business website", "Monthly blog content"],
+        "includes": ["Google Business Profile setup + optimization", "Business website", "Ongoing content refresh — covered by annual support"],
     },
     {
         "name": "Growth Pack",
-        "price": "Contact us for a quote",
+        "price": "One-time implementation, quoted",
+        "support_price": "Annual support, quoted",
         "tag": "Most Popular",
         "includes": ["Everything in Go Digital", "Booking Engine (appointments / visits / trials)"],
     },
     {
         "name": "Expansion Pack",
-        "price": "Contact us for a quote",
+        "price": "One-time implementation, quoted",
+        "support_price": "Annual support, quoted",
         "tag": "Scale",
         "includes": ["Everything in Growth", "Automations — invoice generation and more"],
     },

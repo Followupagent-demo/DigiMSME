@@ -768,9 +768,10 @@ def build_home(lang="en"):
     <div class="eyebrow">{"AsliKaam क्यों" if is_hi else "Why AsliKaam"}</div>
     <h2>{"एक स्टूडियो, कोई SaaS नहीं" if is_hi else "A studio, not a SaaS"}</h2>
     <p class="lead">{"कम क्लाइंट्स, पूरा काम शुरू से आख़िर तक — वेबसाइट, गूगल प्रेज़ेंस, व्हाट्सएप-आधारित क्लाइंट हैंडलिंग — हम ख़ुद बनाते और चलाते हैं, किसी डैशबोर्ड के हवाले नहीं करते। हम आपको नया ट्रैफिक नहीं बेच रहे। हम उस ट्रैफिक में हो रहे नुकसान को बंद कर रहे हैं, जिसके लिए आप पहले से पैसे ख़र्च कर रहे हैं।" if is_hi else "A handful of clients at a time, real work delivered end to end — website, Google presence, WhatsApp-run client handling — built and personally run by us, not handed off to a dashboard. We're not selling you new traffic. We're closing the leak in the traffic you're already paying for."}</p>
+    <p class="lead" style="margin-top:6px;">{"और हम इसे किराए पर नहीं देते। एक बार का डेवलपमेंट, फिर सालाना सपोर्ट — कोई महीने-दर-महीने SaaS बिल नहीं।" if is_hi else "And we don't rent it to you. One-time development, then annual support — no month-to-month SaaS bill."}</p>
     <div class="row-cta">
       <a class="btn btn-primary" href="{"/hi/industries/" if is_hi else "/industries/"}">{"अपनी इंडस्ट्री खोजें" if is_hi else "Find your industry"}</a>
-      <a class="btn btn-ghost" href="/agentic-use-cases/">{"क्या AI वाकई बिक्री बढ़ा सकता है?" if is_hi else "Can AI actually increase sales?"}</a>
+      <a class="btn btn-ghost" href="/pricing/">{"प्राइसिंग देखें" if is_hi else "See pricing"}</a>
     </div>
   </div>
 </section>
@@ -1186,6 +1187,7 @@ def build_pricing():
           <span class="tag">{p['tag']}</span>
           <h3>{p['name']}</h3>
           <div class="price">{p['price']}</div>
+          <div class="price-support">+ {p['support_price']}</div>
           <ul>{items}</ul>
         </div>"""
 
@@ -1218,8 +1220,8 @@ def build_pricing():
 <section class="page-hero">
   <div class="container">
     <div class="eyebrow">Pricing</div>
-    <h1>Four packs. One honest starting price.</h1>
-    <p class="lead">Go Digital starts real work moving at ₹2,999/mo. Growth and Expansion scale with you — quoted once we know what you already have.</p>
+    <h1>Pay for one-time development. Not a SaaS subscription.</h1>
+    <p class="lead">Go Digital starts real work moving at ₹35,999, built once for your business — plus ₹8,999/yr for support that keeps it updated, secure and running. Growth and Expansion scale with you the same way — quoted once we know what you already have.</p>
   </div>
 </section>
 
@@ -1227,11 +1229,19 @@ def build_pricing():
   <div class="container"><div class="grid grid-3">{packs_html}</div></div>
 </section>
 
+<section class="section-pad-sm" style="padding-top:0;">
+  <div class="container">
+    <div class="card" style="text-align:center;">
+      <p class="lead" style="margin:0;"><b style="color:var(--fg);">One-time implementation</b> &nbsp;+&nbsp; <b style="color:var(--fg);">annual support</b> &nbsp;=&nbsp; <b style="color:var(--accent);">your business solution.</b> No monthly SaaS bill running in the background whether you use it or not — you own what we build, and you pay us again only for the year we spend keeping it working.</p>
+    </div>
+  </div>
+</section>
+
 <section class="section-pad">
   <div class="container">
     <div class="eyebrow">Custom Pack</div>
     <h2>Build exactly what you need</h2>
-    <p class="lead">Tick what applies — we'll turn it into a WhatsApp message so a real person quotes it, no invented numbers.</p>
+    <p class="lead">Tick what applies — we'll turn it into a WhatsApp message so a real person quotes it as one-time development + annual support, no invented numbers.</p>
 
     <form id="configurator-form" class="configurator mt-32">
       <div>
@@ -1264,7 +1274,7 @@ def build_pricing():
 </section>
 """ + foot()
     write("pricing/index.html", head(f"Pricing — {BRAND}",
-        "Go Digital, Growth, Expansion, or a Custom Pack — build your own quote in one WhatsApp message.", "/pricing/") + body)
+        "One-time development, not a monthly SaaS bill — Go Digital, Growth, Expansion, or a Custom Pack, each with straightforward annual support.", "/pricing/") + body)
     # configurator script only needed on this page
     global PRICING_SCRIPT_NEEDED
     PRICING_SCRIPT_NEEDED = True
