@@ -201,7 +201,10 @@ def foot(lang="en"):
 
 # Paths that currently have a real Hindi translation — used to decide where
 # the nav language switcher can link to vs. falling back to the Hindi home.
-HI_AVAILABLE_PATHS = {"/": "/hi/", "/industries/": "/hi/industries/"}
+HI_AVAILABLE_PATHS = {"/": "/hi/", "/industries/": "/hi/industries/", "/blogs/": "/hi/blogs/"}
+HI_AVAILABLE_PATHS.update({
+    f"/blogs/{p['slug']}.html": f"/hi/blogs/{p['slug']}.html" for p in BLOG_POSTS if p.get("body_hi")
+})
 EN_FROM_HI_PATH = {v: k for k, v in HI_AVAILABLE_PATHS.items()}
 
 
@@ -2267,74 +2270,112 @@ def render_blog_block(block):
     return ""
 
 
-def build_blogs_index():
-    industries_covered = sorted({p["related_industry"] for p in BLOG_POSTS if p.get("related_industry")})
+def build_blogs_index(lang="en"):
+    is_hi = lang == "hi"
+    # Hindi index only lists posts that actually have a real body_hi
+    # translation — same "only translated pages get an /hi/ URL" rule as
+    # everywhere else in the site's i18n rollout.
+    posts = [p for p in BLOG_POSTS if p.get("body_hi")] if is_hi else BLOG_POSTS
+    industries_covered = sorted({p["related_industry"] for p in posts if p.get("related_industry")})
     cards = ""
-    for post in BLOG_POSTS:
+    for post in posts:
+        title = post["title_hi"] if is_hi else post["title"]
+        dek = post["dek_hi"] if is_hi else post["dek"]
+        tag = post["tag_hi"] if is_hi else post["tag"]
+        href = f"/hi/blogs/{post['slug']}.html" if is_hi else f"/blogs/{post['slug']}.html"
         ind_slug = post.get("related_industry") or ""
-        search_text = esc(f"{post['title']} {post['dek']} {post['tag']}".lower())
-        cards += f"""<a class="card blog-card" href="/blogs/{post['slug']}.html"
+        search_text = esc(f"{title} {dek} {tag}".lower())
+        cards += f"""<a class="card blog-card" href="{href}"
              data-search="{search_text}" data-industries="{ind_slug}">
-          <div class="blog-meta"><span>{esc(post['tag'])}</span><span>·</span><span>{esc(post['read_time'])}</span></div>
-          <h3>{esc(post['title'])}</h3>
-          <p>{esc(post['dek'])}</p>
+          <div class="blog-meta"><span>{esc(tag)}</span><span>·</span><span>{esc(post['read_time'])}</span></div>
+          <h3>{esc(title)}</h3>
+          <p>{esc(dek)}</p>
         </a>"""
 
-    filter_chips = '<button class="demos-filter-chip is-active" data-slug="">All</button>'
+    all_label = "सभी" if is_hi else "All"
+    filter_chips = f'<button class="demos-filter-chip is-active" data-slug="">{all_label}</button>'
     for ind in INDUSTRIES:
         if ind["slug"] in industries_covered:
-            filter_chips += f'<button class="demos-filter-chip" data-slug="{ind["slug"]}">{ind["icon"]} {ind["name"]}</button>'
+            ind_name = ind["name_hi"] if is_hi else ind["name"]
+            filter_chips += f'<button class="demos-filter-chip" data-slug="{ind["slug"]}">{ind["icon"]} {ind_name}</button>'
 
-    body = nav("/blogs/") + f"""
+    canonical = "/hi/blogs/" if is_hi else "/blogs/"
+    alternates = {"en": "/blogs/", "hi": "/hi/blogs/"}
+    if is_hi:
+        eyebrow, search_placeholder = "ब्लॉग", "ब्लॉग खोजें… जैसे एक्सपोर्ट, जिम, MSME"
+        h1 = "पिछले महीने आपने जो कस्टमर खोया, वह गया नहीं — आपको उसका मैसेज ही कभी मिला नहीं।"
+        lead = f"{len(posts)} सोर्स्ड डीप-डाइव्स, {len(industries_covered)} इंडस्ट्रीज़ में — हर आंकड़ा साइटेड, हर फिक्स इस बात के हिसाब से सटीक कि वह बिज़नेस आज असल में कैसे पैसा खो रहा है।"
+        title, desc = f"ब्लॉग — {BRAND}", "भारतीय बिज़नेस ऑनलाइन कस्टमर क्यों खो रहे हैं, इस पर असली, सोर्स्ड रिपोर्टिंग — MSME बंद होना, एक्सपोर्ट डेटा, क्विक-कॉमर्स का असर।"
+    else:
+        eyebrow, search_placeholder = "Blogs", "Search blogs… e.g. exports, gym, MSME"
+        h1 = "The customer you lost last month didn't leave. You just never got the message."
+        lead = f"{len(posts)} sourced deep-dives across {len(industries_covered)} industries — every stat cited, every fix specific to how that business actually loses money today."
+        title, desc = f"Blogs — {BRAND}", "Real, sourced reporting on why Indian businesses are losing customers online — MSME closures, export data, quick-commerce impact."
+
+    body = nav(canonical, lang) + f"""
 <section class="page-hero">
   <div class="container">
-    <div class="eyebrow">Blogs</div>
-    <h1>The customer you lost last month didn't leave. You just never got the message.</h1>
-    <p class="lead">{len(BLOG_POSTS)} sourced deep-dives across {len(industries_covered)} industries — every stat cited, every fix specific to how that business actually loses money today.</p>
+    <div class="eyebrow">{eyebrow}</div>
+    <h1>{h1}</h1>
+    <p class="lead">{lead}</p>
   </div>
 </section>
 <section class="section-pad-sm">
   <div class="container">
     <div class="demos-toolbar">
-      <input type="text" class="demos-search" id="blogs-search" placeholder="Search blogs… e.g. exports, gym, MSME">
+      <input type="text" class="demos-search" id="blogs-search" placeholder="{search_placeholder}">
       <div class="demos-filters" id="blogs-filters">{filter_chips}</div>
     </div>
     <div class="grid grid-2" id="blogs-grid">{cards}</div>
   </div>
 </section>
-""" + foot()
-    write("blogs/index.html", head(f"Blogs — {BRAND}",
-        "Real, sourced reporting on why Indian businesses are losing customers online — MSME closures, export data, quick-commerce impact.", "/blogs/") + body)
+""" + foot(lang)
+    write(f"{'hi/' if is_hi else ''}blogs/index.html", head(title, desc, canonical, lang, alternates) + body)
 
 
-def build_blog_post_page(post):
-    blocks = "".join(render_blog_block(b) for b in post["body"])
+def build_blog_post_page(post, lang="en"):
+    is_hi = lang == "hi" and bool(post.get("body_hi"))
+    blocks = "".join(render_blog_block(b) for b in (post["body_hi"] if is_hi else post["body"]))
+    title = post["title_hi"] if is_hi else post["title"]
+    dek = post["dek_hi"] if is_hi else post["dek"]
+    tag = post["tag_hi"] if is_hi else post["tag"]
+    more_blogs_label = "और ब्लॉग देखें" if is_hi else "More Blogs"
+    more_blogs_href = "/hi/blogs/" if is_hi else "/blogs/"
     related = INDUSTRY_BY_SLUG.get(post["related_industry"]) if post.get("related_industry") else None
     related_mod = MODULE_BY_ID.get(post["related_module"]) if post.get("related_module") else None
     if related_mod:
+        watch_label = f"{esc(related_mod['name'])} को एक्शन में देखें" if is_hi else f"Watch {esc(related_mod['name'])} in action"
         cta = f"""<div class="row-cta center" style="justify-content:center;">
-      <a class="btn btn-primary" href="/demos/module-{related_mod['id']}.html">Watch {esc(related_mod['name'])} in action</a>
-      <a class="btn btn-ghost" href="/blogs/">More Blogs</a>
+      <a class="btn btn-primary" href="/demos/module-{related_mod['id']}.html">{watch_label}</a>
+      <a class="btn btn-ghost" href="{more_blogs_href}">{more_blogs_label}</a>
     </div>"""
     elif related:
+        # Industry detail pages aren't translated yet (same as the
+        # Industries index card back-face) — Hindi label, English page.
+        fix_label = f"{esc(related['name_hi'] if is_hi else related['name'])} {'का फिक्स देखें' if is_hi else 'fix'}" \
+            if is_hi else f"See the {esc(related['name'])} fix"
         cta = f"""<div class="row-cta center" style="justify-content:center;">
-      <a class="btn btn-primary" href="/industries/{related['slug']}.html">See the {esc(related['name'])} fix</a>
-      <a class="btn btn-ghost" href="/blogs/">More Blogs</a>
+      <a class="btn btn-primary" href="/industries/{related['slug']}.html">{fix_label}</a>
+      <a class="btn btn-ghost" href="{more_blogs_href}">{more_blogs_label}</a>
     </div>"""
     else:
-        cta = """<div class="row-cta center" style="justify-content:center;">
-      <a class="btn btn-primary" href="/industries/">Explore Industries</a>
-      <a class="btn btn-ghost" href="/blogs/">More Blogs</a>
+        explore_href = "/hi/industries/" if is_hi else "/industries/"
+        explore_label = "इंडस्ट्रीज़ देखें" if is_hi else "Explore Industries"
+        cta = f"""<div class="row-cta center" style="justify-content:center;">
+      <a class="btn btn-primary" href="{explore_href}">{explore_label}</a>
+      <a class="btn btn-ghost" href="{more_blogs_href}">{more_blogs_label}</a>
     </div>"""
-    body = nav("/blogs/") + f"""
+    canonical = f"/hi/blogs/{post['slug']}.html" if is_hi else f"/blogs/{post['slug']}.html"
+    alternates = {"en": f"/blogs/{post['slug']}.html", "hi": f"/hi/blogs/{post['slug']}.html"} if post.get("body_hi") else None
+    body = nav(canonical, lang if is_hi else "en") + f"""
 <section class="page-hero section-pad-sm">
   <div class="container blog-article">
     <div class="blog-meta" style="justify-content:flex-start;">
-      <span class="badge badge-proposed">{esc(post['tag'])}</span>
+      <span class="badge badge-proposed">{esc(tag)}</span>
       <span>{esc(post['read_time'])}</span>
     </div>
-    <h1 style="margin-top:14px;">{esc(post['title'])}</h1>
-    <p class="lead">{esc(post['dek'])}</p>
+    <h1 style="margin-top:14px;">{esc(title)}</h1>
+    <p class="lead">{esc(dek)}</p>
   </div>
 </section>
 <section class="section-pad-sm">
@@ -2345,8 +2386,8 @@ def build_blog_post_page(post):
 <section class="section-pad">
   <div class="container">{cta}</div>
 </section>
-""" + foot()
-    write(f"blogs/{post['slug']}.html", head(f"{post['title']} — {BRAND}", post["dek"], f"/blogs/{post['slug']}.html") + body)
+""" + foot(lang if is_hi else "en")
+    write(f"{'hi/' if is_hi else ''}blogs/{post['slug']}.html", head(f"{title} — {BRAND}", dek, canonical, lang if is_hi else "en", alternates) + body)
 
 
 # ---------------------------------------------------------------- FREE TOOLS
@@ -2537,6 +2578,7 @@ Sitemap: {SITE_URL}/sitemap-market-pulse.xml
 - [Industries (Hindi)]({SITE_URL}/hi/industries/) — सभी 15 इंडस्ट्रीज़, हिंदी में
 - [Demos]({SITE_URL}/demos/) — live interactive demos per industry and automation module
 - [Blogs]({SITE_URL}/blogs/) — sourced, cited reporting on why Indian MSMEs lose customers, by industry
+- [Blogs (Hindi)]({SITE_URL}/hi/blogs/) — 20 पोस्ट हिंदी में, हर आंकड़ा साइटेड
 - [Free Tools]({SITE_URL}/free-tools/) — free calculators (EMI, income tax, margin, and more)
 - [Pricing]({SITE_URL}/pricing/) — packages and a custom-pack configurator
 - [Agentic Use Cases]({SITE_URL}/agentic-use-cases/) — what's AI-judgment-based vs simple rule-based automation
@@ -2648,8 +2690,8 @@ def inject_demos_filter_script():
         f.write(html)
 
 
-def inject_blogs_filter_script():
-    path = os.path.join(SITE, "blogs", "index.html")
+def inject_blogs_filter_script(rel_path="blogs/index.html"):
+    path = os.path.join(SITE, rel_path)
     with open(path, "r", encoding="utf-8") as f:
         html = f.read()
     html = html.replace(
@@ -2691,8 +2733,12 @@ def main():
     inject_agentic_filter_script()
     build_blogs_index()
     inject_blogs_filter_script()
+    build_blogs_index(lang="hi")
+    inject_blogs_filter_script("hi/blogs/index.html")
     for post in BLOG_POSTS:
         build_blog_post_page(post)
+        if post.get("body_hi"):
+            build_blog_post_page(post, lang="hi")
     build_free_tools_index()
     for tool in FREE_TOOLS:
         build_free_tool_page(tool)

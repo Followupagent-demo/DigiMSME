@@ -12,6 +12,7 @@ AsliKaam serves Indian small and medium businesses across 15 industries (export/
 - [Industries (Hindi)](https://tiny-sky-5603.innndemolog.workers.dev/hi/industries/) — सभी 15 इंडस्ट्रीज़, हिंदी में
 - [Demos](https://tiny-sky-5603.innndemolog.workers.dev/demos/) — live interactive demos per industry and automation module
 - [Blogs](https://tiny-sky-5603.innndemolog.workers.dev/blogs/) — sourced, cited reporting on why Indian MSMEs lose customers, by industry
+- [Blogs (Hindi)](https://tiny-sky-5603.innndemolog.workers.dev/hi/blogs/) — 20 पोस्ट हिंदी में, हर आंकड़ा साइटेड
 - [Free Tools](https://tiny-sky-5603.innndemolog.workers.dev/free-tools/) — free calculators (EMI, income tax, margin, and more)
 - [Pricing](https://tiny-sky-5603.innndemolog.workers.dev/pricing/) — packages and a custom-pack configurator
 - [Agentic Use Cases](https://tiny-sky-5603.innndemolog.workers.dev/agentic-use-cases/) — what's AI-judgment-based vs simple rule-based automation
