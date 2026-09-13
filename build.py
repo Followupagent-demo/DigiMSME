@@ -307,14 +307,33 @@ def search_results_screen(query, results, winner_idx):
 def rotating_search_screen(presets, use_fixed):
     """Cycles through several industries' search results every ~2.2s (see
     home-rotator.js) so no single visitor sees only a field that isn't
-    theirs — each preset has its own realistic names, not a swapped word."""
+    theirs — each preset has its own realistic names, not a swapped word.
+    The broken variant marks no winner at all — a competitor "winning"
+    here muddies the point, which is just that the featured business
+    itself (shown incomplete, in red) got scrolled past unnoticed. Once
+    fixed, that same business is the one that gets tapped."""
     slides = ""
     for i, p in enumerate(presets):
         results = p["fixed"] if use_fixed else p["broken"]
-        winner = p["winner_fixed"] if use_fixed else p["winner_broken"]
+        winner = p["winner_fixed"] if use_fixed else None
         hidden_attr = "" if i == 0 else " hidden"
         slides += (f'<div class="rotation-slide" data-rot="{i}"{hidden_attr}>'
                    f'{search_results_screen(p["query"], results, winner)}</div>')
+    return f'<div class="rotation-wrap">{slides}</div>'
+
+
+def rotating_payment_screen(presets, paid):
+    """Same rotation mechanism as rotating_search_screen, and — since
+    home-rotator.js tracks one shared index across every .rotation-slide
+    on the page — kept in the exact same industry order, so whichever
+    business a visitor sees skipped in Loss Point #1 is the same one
+    whose payment is on screen here. A single small job (an electrician's
+    ₹6,200) doesn't read as a real stake; a wholesaler's ₹1,40,000 does."""
+    slides = ""
+    for i, (business, amount) in enumerate(presets):
+        hidden_attr = "" if i == 0 else " hidden"
+        slides += (f'<div class="rotation-slide" data-rot="{i}"{hidden_attr}>'
+                   f'{payment_screen(business, amount, paid=paid)}</div>')
     return f'<div class="rotation-wrap">{slides}</div>'
 
 
@@ -450,11 +469,10 @@ def build_home(lang="en"):
         def build(complete_biz):
             row = {**biz_row, "name": biz, "complete": complete_biz}
             listing = [others[0], row, others[1], others[2]]
-            winner = 0 if not complete_biz else 1
-            return listing, winner
-        broken, w_broken = build(False)
-        fixed, w_fixed = build(True)
-        return {"query": query, "broken": broken, "fixed": fixed, "winner_broken": w_broken, "winner_fixed": w_fixed}
+            return listing
+        broken = build(False)
+        fixed = build(True)
+        return {"query": query, "broken": broken, "fixed": fixed, "winner_fixed": 1}
 
     # One preset per industry we actually target (matches data.py's INDUSTRIES
     # order) — every visitor sees their own field flash by within ~30s,
@@ -537,6 +555,29 @@ def build_home(lang="en"):
             {"rating": 3.8, "reviews": 13, "distance": "0.8 km"}),
     ]
 
+    # Same industry order as search_presets, on purpose — home-rotator.js
+    # tracks one shared index across every .rotation-slide on the page, so
+    # whichever business a visitor just saw skipped in Loss Point #1 is
+    # the same one whose payment is on screen here in Loss Point #4. Real,
+    # industry-scaled amounts, not one flat small number for every business.
+    payment_presets = [
+        ("Sri Balaji Exports", "₹4,20,000"),                 # export-trading
+        ("Hinjewadi Care Hospital", "₹35,000"),               # hospital
+        ("Vidya NEET Academy", "₹48,000"),                    # coaching-institute
+        ("Skyline Residency", "₹2,50,000"),                   # real-estate-developer
+        ("Precision Auto Components", "₹3,10,000"),           # b2b-manufacturer
+        ("Bright Minds CBSE School", "₹65,000"),              # private-school
+        ("Wellness Diagnostics", "₹12,500"),                  # diagnostic-lab
+        ("Forever After Events", "₹1,80,000"),                # wedding-planner-banquet
+        ("Fitzone Gym", "₹24,000"),                           # gym-fitness-chain
+        ("Mehta Tax Consultants", "₹55,000"),                 # ca-legal-firm
+        ("Casa Interiors", "₹1,40,000"),                      # interior-designer
+        ("Patil Kirana", "₹8,400"),                           # retail-store
+        ("Deccan Motors", "₹2,10,000"),                       # automobile-showroom
+        ("Shree Tiles Gallery", "₹68,000"),                   # building-materials-showroom
+        ("Ganpati Electricals Wholesale", "₹1,40,000"),       # wholesale-distributor
+    ]
+
     contact = "रोहन शर्मा" if is_hi else "Rohan Sharma"
     if is_hi:
         chat1 = [("in", "नमस्ते, क्या आप इलेक्ट्रिकल पैनल अपग्रेड करते हैं?"), ("meta", "देखा गया · कोई जवाब नहीं · 2 घंटे")]
@@ -548,7 +589,6 @@ def build_home(lang="en"):
                  ("in", "कहीं और ₹5,000 का कोटेशन मिला, मैच कर सकते हैं?"),
                  ("out", "₹5,000 मैच करेंगे — साथ में 1 साल की वारंटी। बुक करें?"),
                  ("in", "हां, बुक कर दीजिए।")]
-        chat5 = [("in", "काम के बाद कैश में पेमेंट कर दूंगा।"), ("meta", "काम पूरा · पेमेंट \"भूल गए\" · 3 फॉलो-अप ज़रूरी")]
     else:
         chat1 = [("in", "Hi, do you do electrical panel upgrades?"), ("meta", "Seen · no reply · 2 hours")]
         chat2 = [("in", "Hi, do you do electrical panel upgrades?"),
@@ -559,8 +599,6 @@ def build_home(lang="en"):
                  ("in", "Got a quote for ₹5,000 elsewhere, can you match?"),
                  ("out", "We'll match ₹5,000 — plus a 1-year warranty. Book it?"),
                  ("in", "Yes, book it.")]
-        chat5 = [("in", "I'll just pay you in cash after the work."),
-                 ("meta", "Work done · payment \"forgotten\" · 3 follow-ups needed")]
 
     scenes = [
         scene({
@@ -611,18 +649,18 @@ def build_home(lang="en"):
 
         scene({
             "eyebrow": "नुकसान बिंदु #4 — पेमेंट" if is_hi else "Loss Point #4 — Payment",
-            "title": "\"बाद में पेमेंट कर दूंगा\" — फिर नहीं करते" if is_hi else "\"I'll pay after\" — and then he doesn't",
-            "body": "पैनल अपग्रेड हो गया। काम पूरा। जो पूरा नहीं हुआ वो है — बिना तीन अजीब फॉलो-अप मैसेज के, अगले दो हफ्तों में वो पैसा वसूलना जो पहले ही कमाया जा चुका था।" if is_hi else
-                    "The panel's upgraded. The job's done. What's not done is getting paid — without three awkward follow-up texts over the next two weeks, chasing money that was already earned.",
+            "title": "काम हो गया। पैसा नहीं आया।" if is_hi else "The work's done. The money isn't.",
+            "body": "न इनवॉइस, न रिमाइंडर — बस अगले दो हफ्तों में वही पैसा वसूलने के लिए तीन अजीब फॉलो-अप मैसेज, जो पहले ही कमाया जा चुका था। छोटी दुकान हो या बड़ा ऑर्डर, रकम चाहे जो हो — बिना मांगे पैसा नहीं आता।" if is_hi else
+                    "No invoice. No reminder. Just three awkward follow-up texts over the next two weeks, chasing money that was already earned. Whether it's a few thousand or a few lakh, it doesn't come in unless someone asks for it.",
             "accent": "red",
-        }, "raw", extra_body=f'<div data-currency-particles>{chat_screen(contact, "ऑनलाइन" if is_hi else "Online", chat5)}</div>'),
+        }, "raw", extra_body=f'<div data-currency-particles>{rotating_payment_screen(payment_presets, paid=False)}</div>', shatter="#ff6b6b"),
         scene({
             "eyebrow": "फिक्स" if is_hi else "Fixed",
-            "title": "वैन के जाने से पहले ही पेमेंट हो गई" if is_hi else "Paid before the van leaves the driveway",
-            "body": "एक पेमेंट लिंक पर टैप ने वो कर दिखाया जो दर्जन भर फॉलो-अप मैसेज नहीं कर पाए। टेक्नीशियन के वापस निकलने से पहले ही रोहन अगली बार भी आने वाला ग्राहक बन चुका होता है।" if is_hi else
-                    "One tap on a payment link does what a dozen follow-up messages couldn't. Rohan's already a repeat customer before the technician is back on the road.",
+            "title": "बिना दोबारा मांगे पैसा आ जाता है" if is_hi else "Paid before anyone has to ask twice",
+            "body": "एक पेमेंट लिंक पर टैप ने वो कर दिखाया जो दर्जन भर फॉलो-अप मैसेज नहीं कर पाए — छोटी पेमेंट हो या बड़ी, तरीका वही रहता है।" if is_hi else
+                    "One tap on a payment link does what a dozen follow-up messages couldn't — the same mechanism, whether it's a small job or a six-figure order.",
             "accent": "green",
-        }, "raw", extra_body=payment_screen("Patel Electric Works", "₹6,200", paid=True)),
+        }, "raw", extra_body=rotating_payment_screen(payment_presets, paid=True), shatter="#25d366"),
 
         picker_scene(
             stage_eyebrow="अब आपकी बारी" if is_hi else "Your Turn",
