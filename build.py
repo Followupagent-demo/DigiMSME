@@ -791,17 +791,23 @@ def build_industries_index(lang="en"):
     alternates = {"en": "/industries/", "hi": "/hi/industries/"}
 
     cards = ""
+    balloons = ""
     for ind in INDUSTRIES:
         name = ind["name_hi"] if is_hi else ind["name"]
         use_case = ind["use_case_hi"] if is_hi else ind["use_case"]
         explore = "देखें →" if is_hi else "Explore →"
-        cards += f"""<a class="card industry-card" href="{detail_prefix}{ind['slug']}.html">
+        href = f"{detail_prefix}{ind['slug']}.html"
+        cards += f"""<a class="card industry-card" href="{href}">
           <span class="icon" style="font-size:28px;">{ind['icon']}</span>
           {badge(ind['badge'], lang)}
           <h3>{esc(name)}</h3>
           <p>{esc(use_case)}</p>
           <div class="starts-at">{explore}</div>
         </a>"""
+        balloons += f"""<button type="button" class="balloon" data-href="{href}">
+          <span class="balloon-icon">{ind['icon']}</span>
+          <span class="balloon-label">{esc(name)}</span>
+        </button>"""
 
     if is_hi:
         eyebrow, lead = "इंडस्ट्रीज़", f"हर पेज ईमानदारी से लेबल किया गया है: {badge('proven', 'hi')} का मतलब असली पायलट चल चुका है। {badge('proposed', 'hi')} का मतलब यह हमारा डायग्नोज़ किया गया फिक्स है, अभी तक वहां लागू नहीं हुआ।"
@@ -812,12 +818,21 @@ def build_industries_index(lang="en"):
         h1 = f"{len(INDUSTRIES)} businesses. {len(INDUSTRIES)} exact leaks."
         title, desc = f"Industries — {BRAND}", "Fifteen MSME verticals, each with its exact lead-leak mapped and the fix that closes it."
 
+    balloon_hint = "किसी बलून पर टैप करें" if is_hi else "Tap a balloon"
     body = nav(canonical, lang) + f"""
 <section class="page-hero">
   <div class="container">
     <div class="eyebrow">{eyebrow}</div>
     <h1>{h1}</h1>
     <p class="lead">{lead}</p>
+  </div>
+</section>
+<section class="section-pad-sm">
+  <div class="container">
+    <div class="balloon-field" id="balloon-field" aria-hidden="true">
+      <div class="balloon-hint">{balloon_hint} ↴</div>
+      {balloons}
+    </div>
   </div>
 </section>
 <section class="section-pad-sm">
@@ -1770,6 +1785,19 @@ def inject_home_hero_script(path):
         f.write(html)
 
 
+def inject_balloon_script(path):
+    full = os.path.join(SITE, path)
+    with open(full, "r", encoding="utf-8") as f:
+        html = f.read()
+    html = html.replace(
+        '<script src="/assets/js/global-ui.js"></script>',
+        '<script src="/assets/js/global-ui.js"></script>\n'
+        '<script src="/assets/js/balloon-industries.js"></script>',
+    )
+    with open(full, "w", encoding="utf-8") as f:
+        f.write(html)
+
+
 def inject_pricing_script():
     path = os.path.join(SITE, "pricing", "index.html")
     with open(path, "r", encoding="utf-8") as f:
@@ -1817,7 +1845,9 @@ def main():
     build_home(lang="hi")
     inject_home_hero_script("hi/index.html")
     build_industries_index()
+    inject_balloon_script("industries/index.html")
     build_industries_index(lang="hi")
+    inject_balloon_script("hi/industries/index.html")
     for ind in INDUSTRIES:
         build_industry_page(ind)
     build_demos_index()

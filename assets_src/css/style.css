@@ -616,3 +616,45 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0 0 14px; }
 .guardrail-control input[type="range"] { width: 100%; accent-color: var(--accent); }
 .guardrail-value { font-size: 1.6rem; font-weight: 800; color: var(--accent); margin: 6px 0 16px; }
 .guardrail-box .brain-thinking { max-width: none; }
+
+/* ---------- Industries: Balloon Field ---------- */
+.balloon-field {
+  display: none; position: relative; height: 62vh; min-height: 380px; max-height: 560px;
+  overflow: hidden; border-radius: 24px; border: 1px solid var(--border);
+  background: radial-gradient(circle at 50% 0%, #10161f, #05070a 70%);
+}
+.balloon-field.is-active { display: block; }
+.balloon-hint {
+  position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+  font-size: 0.76rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase;
+  z-index: 1; pointer-events: none;
+}
+.balloon {
+  position: absolute; top: -180px; left: 0; display: flex; flex-direction: column; align-items: center;
+  gap: 2px; width: 108px; padding: 16px 8px 22px; border: none; cursor: pointer;
+  background: radial-gradient(circle at 32% 28%, #34e08a, #17924d);
+  border-radius: 50% 50% 48% 48% / 58% 58% 42% 42%;
+  color: #06210f; font-weight: 700; box-shadow: 0 12px 26px rgba(0,0,0,0.4);
+  animation-name: balloon-fall; animation-timing-function: linear; animation-iteration-count: infinite;
+}
+.balloon::after {
+  content: ""; position: absolute; bottom: -16px; left: 50%; width: 2px; height: 16px;
+  background: rgba(255,255,255,0.45); transform: translateX(-50%);
+}
+.balloon-icon { font-size: 1.5rem; line-height: 1; }
+.balloon-label { font-size: 0.7rem; text-align: center; line-height: 1.15; }
+@keyframes balloon-fall {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(1100px); }
+}
+.balloon.is-inflating {
+  position: fixed; z-index: 200; animation: none !important;
+  transition: left 0.6s cubic-bezier(.3,.9,.4,1), top 0.6s cubic-bezier(.3,.9,.4,1),
+              width 0.6s cubic-bezier(.3,.9,.4,1), height 0.6s cubic-bezier(.3,.9,.4,1),
+              border-radius 0.6s ease;
+}
+.balloon.is-bursting { transition: opacity 0.22s ease, transform 0.22s ease; opacity: 0; transform: scale(1.15); }
+@media (prefers-reduced-motion: reduce) {
+  .balloon { animation: none; position: static; display: inline-flex; margin: 6px; }
+  .balloon-field { height: auto; padding: 40px 16px 16px; display: block; }
+}
